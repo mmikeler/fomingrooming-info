@@ -9,12 +9,11 @@ import { cleanMarkdown } from "@/lib/markdown";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ postID: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { postID } = await params;
-  const id = parseInt(postID);
+  const { slug } = await params;
   const post = await prisma.post.findUnique({
-    where: { id },
+    where: { slug },
     include: { author: { select: { id: true, name: true } } },
   });
 
@@ -39,16 +38,15 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: Promise<{ postID: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { postID } = await params;
-  const id = parseInt(postID);
+  const { slug } = await params;
   const post = await prisma.post.findUnique({
-    where: { id },
+    where: { slug },
     include: { author: { select: { id: true, name: true } } },
   });
 
-  if (!post) notFound();
+  if (!post || post.status !== "PUBLISHED") notFound();
 
   return (
     <div className="container mx-auto min-h-[calc(100dvh-130px)] p-6">

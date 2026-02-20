@@ -52,7 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Post: 'Post'
+  Post: 'Post',
+  Notification: 'Notification',
+  ModerationLog: 'ModerationLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -72,7 +74,10 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  name: 'name'
+  name: 'name',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -81,13 +86,43 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  slug: 'slug',
   content: 'content',
   created: 'created',
-  published: 'published',
-  authorId: 'authorId'
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  authorId: 'authorId',
+  moderatedAt: 'moderatedAt',
+  moderatedBy: 'moderatedBy'
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  message: 'message',
+  isRead: 'isRead',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const ModerationLogScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  moderatorId: 'moderatorId',
+  oldStatus: 'oldStatus',
+  newStatus: 'newStatus',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type ModerationLogScalarFieldEnum = (typeof ModerationLogScalarFieldEnum)[keyof typeof ModerationLogScalarFieldEnum]
 
 
 export const SortOrder = {

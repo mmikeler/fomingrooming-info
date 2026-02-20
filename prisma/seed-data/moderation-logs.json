@@ -1,0 +1,44 @@
+[
+  {
+    "postIndex": 2,
+    "moderatorId": 3,
+    "oldStatus": "DRAFT",
+    "newStatus": "PUBLISHED",
+    "reason": null
+  },
+  {
+    "postIndex": 3,
+    "moderatorId": 3,
+    "oldStatus": "DRAFT",
+    "newStatus": "PUBLISHED",
+    "reason": null
+  },
+  {
+    "postIndex": 4,
+    "moderatorId": 2,
+    "oldStatus": "DRAFT",
+    "newStatus": "PUBLISHED",
+    "reason": null
+  },
+  {
+    "postIndex": 7,
+    "moderatorId": 3,
+    "oldStatus": "DRAFT",
+    "newStatus": "PUBLISHED",
+    "reason": null
+  },
+  {
+    "postIndex": 8,
+    "moderatorId": 3,
+    "oldStatus": "PENDING",
+    "newStatus": "REJECTED",
+    "reason": "Слишком короткий текст"
+  },
+  {
+    "postIndex": 6,
+    "moderatorId": 2,
+    "oldStatus": "DRAFT",
+    "newStatus": "PENDING",
+    "reason": null
+  }
+]

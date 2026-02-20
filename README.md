@@ -1,14 +1,604 @@
 # Информационный портал от грумеров для грумеров
 
-## **Планируется**
+## Оглавление
 
-1. Блог;
-2. Разделение пользователей по ролям;
-3. Каталог производителей;
-4. Календарь событий;
-5. Собственные рекламные баннеры на всём портале;
+- [Установка и запуск](#установка-и-запуск)
+- [База данных](#база-данных)
+  - [Основные сущности и связи](#основные-сущности-и-связи)
+  - [Сиды для разработки](#сиды-для-разработки)
+  - [Тестовые пользователи](#тестовые-пользователи)
+  - [Добавление новых данных в сид](#добавление-новых-данных-в-сид)
+- [Тестирование](#тестирование)
+  - [Запуск тестов](#запуск-тестов)
+  - [Структура тестов](#структура-тестов)
+  - [Требования для тестов](#требования-для-тестов)
+  - [Просмотр отчёта](#просмотр-отчёта)
+- [Правила кодирования и линтинга](#правила-кодирования-и-линтинга)
+  - [Технологический стек](#технологический-стек)
+  - [Команды линтинга](#команды-линтинга)
+  - [Конфигурация TypeScript](#конфигурация-typescript)
+  - [Правила ESLint](#правила-eslint)
+  - [Стиль кодирования](#стиль-кодирования)
+  - [Рекомендации для редактора](#рекомендации-для-редактора)
+  - [Структура проекта](#структура-проекта)
+- [Правила отображения даты](#правила-отображения-даты)
+- [История версий](#история-версий)
+
+## **Установка и запуск**
+
+```
+npm install -save
+npm run dev
+```
+
+Установка на сервер описана в Dockerfile.
+
+## **База данных**
+
+### Основные сущности и связи
+
+Проект использует Prisma ORM с базой данных SQLite. Ниже описаны основные сущности и их связи.
+
+#### Диаграмма связей (ERD)
+
+```
+┌─────────────────────┐       ┌─────────────────────┐
+│        User         │       │        Post         │
+├─────────────────────┤       ├─────────────────────┤
+│ id (PK)             │◄──────│ authorId (FK)       │
+│ email (unique)      │       │ moderatedBy (FK)    │──┐
+│ password            │       │ id (PK)             │  │
+│ name                │       │ title               │  │
+│ role                │       │ content             │  │
+│ createdAt           │       │ status              │  │
+│ updatedAt           │       │ rejectionReason     │  │
+└─────────────────────┘       │ created             │  │
+        │                     │ moderatedAt         │  │
+        │                     └─────────────────────┘  │
+        │                              │               │
+        │                              │               │
+        │                     ┌─────────────────────┐  │
+        │                     │   ModerationLog     │  │
+        │                     ├─────────────────────┤  │
+        │                     │ id (PK)             │  │
+        │                     │ postId (FK)         │◄─┘
+        │                     │ moderatorId (FK)    │◄─────┘
+        │                     │ oldStatus           │
+        │                     │ newStatus           │
+        │                     │ reason              │
+        │                     │ createdAt           │
+        │                     └─────────────────────┘
+        │
+        │
+┌─────────────────────┐
+│    Notification     │
+├─────────────────────┤
+│ id (PK)             │
+│ userId (FK)         │◄─────┘
+│ title               │
+│ message             │
+│ isRead              │
+│ type                │
+│ createdAt           │
+└─────────────────────┘
+```
+
+#### Сущности
+
+##### User (Пользователь)
+
+| Поле      | Тип      | Описание                      |
+| --------- | -------- | ----------------------------- |
+| id        | Int      | Уникальный идентификатор (PK) |
+| email     | String   | Email (уникальный)            |
+| password  | String   | Хешированный пароль           |
+| name      | String   | Отображаемое имя              |
+| role      | UserRole | Роль пользователя             |
+| createdAt | DateTime | Дата создания                 |
+| updatedAt | DateTime | Дата последнего обновления    |
+
+**Роли пользователей (UserRole):**
+
+| Роль       | Описание                                                           |
+| ---------- | ------------------------------------------------------------------ |
+| USER       | Обычный пользователь (чтение блога, написание постов с модерацией) |
+| AUTHOR     | Автор (может создавать и редактировать посты без модерации)        |
+| MODERATOR  | Модератор (проверка и модерация постов)                            |
+| ADMIN      | Администратор (управление пользователями)                          |
+| SUPERADMIN | Суперадминистратор (полный доступ)                                 |
+
+##### Post (Пост блога)
+
+| Поле            | Тип        | Описание                      |
+| --------------- | ---------- | ----------------------------- |
+| id              | Int        | Уникальный идентификатор (PK) |
+| title           | String     | Заголовок поста               |
+| content         | String?    | Содержимое в Markdown         |
+| created         | DateTime   | Дата создания                 |
+| status          | PostStatus | Статус публикации             |
+| rejectionReason | String?    | Причина отклонения            |
+| authorId        | Int        | ID автора (FK → User)         |
+| moderatedBy     | Int?       | ID модератора (FK → User)     |
+| moderatedAt     | DateTime?  | Дата модерации                |
+
+**Статусы поста (PostStatus):**
+
+| Статус    | Описание                                  |
+| --------- | ----------------------------------------- |
+| DRAFT     | Черновик (редактируется автором)          |
+| PENDING   | На модерации (ожидает проверки)           |
+| PUBLISHED | Опубликован (доступен в блоге)            |
+| REJECTED  | Отклонён модератором                      |
+| ARCHIVED  | Архивирован (скрыт из публичного доступа) |
+
+##### Notification (Уведомление)
+
+| Поле      | Тип      | Описание                      |
+| --------- | -------- | ----------------------------- |
+| id        | Int      | Уникальный идентификатор (PK) |
+| userId    | Int      | ID пользователя (FK → User)   |
+| title     | String   | Заголовок уведомления         |
+| message   | String   | Текст уведомления             |
+| isRead    | Boolean  | Прочитано ли уведомление      |
+| type      | String   | Тип уведомления               |
+| createdAt | DateTime | Дата создания                 |
+
+##### ModerationLog (Лог модерации)
+
+| Поле        | Тип        | Описание                      |
+| ----------- | ---------- | ----------------------------- |
+| id          | Int        | Уникальный идентификатор (PK) |
+| postId      | Int        | ID поста (FK → Post)          |
+| moderatorId | Int        | ID модератора (FK → User)     |
+| oldStatus   | PostStatus | Предыдущий статус             |
+| newStatus   | PostStatus | Новый статус                  |
+| reason      | String?    | Причина изменения статуса     |
+| createdAt   | DateTime   | Дата записи                   |
+
+#### Связи между сущностями
+
+| Связь                   | Тип         | Описание                                    |
+| ----------------------- | ----------- | ------------------------------------------- |
+| User → Post (author)    | One-to-Many | Один автор может иметь много постов         |
+| User → Post (moderator) | One-to-Many | Один модератор может проверять много постов |
+| User → Notification     | One-to-Many | Один пользователь имеет много уведомлений   |
+| User → ModerationLog    | One-to-Many | Один модератор имеет много записей в логе   |
+| Post → ModerationLog    | One-to-Many | Один пост имеет много записей модерации     |
+
+#### Жизненный цикл поста
+
+```
+┌─────────┐    Отправить на        ┌─────────┐    Одобрить      ┌───────────┐
+│  DRAFT  │ ────────────────────► │ PENDING │ ───────────────► │ PUBLISHED │
+└─────────┘    модерацию          └─────────┘                  └───────────┘
+     ▲                                  │                            │
+     │                                  │ Отклонить                  │
+     │                                  ▼                            │
+     │                            ┌──────────┐                       │
+     │                            │ REJECTED │                       │
+     │                            └──────────┘                       │
+     │                                  │                            │
+     │         Вернуть на               │         Архивировать       │
+     └──────────────────────────────────┴──────────────────────────►│
+                                                                   ▼
+                                                             ┌──────────┐
+                                                             │ ARCHIVED │
+                                                             └──────────┘
+```
+
+### Сиды для разработки
+
+Для заполнения базы тестовыми данными:
+
+```bash
+npm run db:seed
+```
+
+Для сброса базы и заполнения сидами:
+
+```bash
+npm run db:reset
+```
+
+### Тестовые пользователи
+
+| Email              | Пароль    | Описание             |
+| ------------------ | --------- | -------------------- |
+| admin@example.com  | admin123  | Администратор        |
+| user@example.com   | user123   | Обычный пользователь |
+| author@example.com | author123 | Автор блога          |
+
+### Добавление новых данных в сид
+
+Seed-данные хранятся в отдельных JSON-файлах в директории `prisma/seed-data/`:
+
+```
+prisma/seed-data/
+├── types.ts    # TypeScript типы
+├── users.json  # Пользователи
+└── posts.json  # Посты блога
+```
+
+#### Чтобы добавить нового пользователя:
+
+1. Откройте [`prisma/seed-data/users.json`](prisma/seed-data/users.json)
+2. Добавьте новый объект в массив:
+
+```json
+{
+  "id": "user_new",
+  "email": "new@example.com",
+  "name": "New User",
+  "password": "password123"
+}
+```
+
+#### Чтобы добавить новый пост:
+
+1. Откройте [`prisma/seed-data/posts.json`](prisma/seed-data/posts.json)
+2. Добавьте новый объект, указав `authorId` существующего пользователя:
+
+```json
+{
+  "title": "Заголовок поста",
+  "content": "# Markdown контент\n\nТекст поста...",
+  "published": true,
+  "authorId": "user_admin"
+}
+```
+
+#### Чтобы добавить новый тип данных:
+
+1. Добавьте интерфейс в [`prisma/seed-data/types.ts`](prisma/seed-data/types.ts):
+
+```typescript
+export interface SeedCategory {
+  id: string;
+  name: string;
+  slug: string;
+}
+```
+
+2. Создайте JSON-файл `prisma/seed-data/categories.json`
+
+3. Добавьте загрузку в [`prisma/seed.ts`](prisma/seed.ts):
+
+```typescript
+// В функции loadSeedData()
+const categories: SeedCategory[] = JSON.parse(
+  fs.readFileSync(path.join(seedDataDir, "categories.json"), "utf-8"),
+);
+
+// В функции main()
+for (const category of categories) {
+  await prisma.category.create({ data: category });
+}
+```
+
+## **Тестирование**
+
+Проект использует Playwright для E2E-тестирования.
+
+### Запуск тестов
+
+```bash
+# Запуск тестов с UI-интерфейсом
+npm run test:e2e:ui
+
+# Запуск тестов в режиме отладки
+npm run test:e2e:debug
+
+# Последовательный запуск (рекомендуется для тестов с аутентификацией)
+npm run test:e2e --workers=1
+```
+
+### Структура тестов
+
+```
+e2e/
+├── auth.spec.ts  # Тесты аутентификации (вход, регистрация)
+└── posts.spec.ts # Тесты постов блога (просмотр, создание, защита)
+```
+
+### Требования для тестов
+
+1. База данных должна быть заполнена сидами: `npm run db:seed`
+2. Тестовые пользователи должны существовать (см. раздел "Тестовые пользователи")
+
+### Просмотр отчёта
+
+После выполнения тестов откройте `playwright-report/index.html` для просмотра детального отчёта.
+
+## **Правила кодирования и линтинга**
+
+### Технологический стек
+
+- **Next.js 16** (App Router) — фреймворк
+- **React 19** — UI библиотека
+- **TypeScript 5** — типизация
+- **ESLint 9** — статический анализ кода
+- **Prettier** — форматирование кода
+- **Tailwind CSS 4** — стилизация
+
+### Команды линтинга
+
+```bash
+# Проверка кода линтером
+npm run lint
+
+# Форматирование кода (если установлен Prettier в редакторе)
+npx prettier --write .
+```
+
+### Конфигурация TypeScript
+
+Проект использует строгий режим TypeScript ([`tsconfig.json`](tsconfig.json)):
+
+- `strict: true` — строгая проверка типов
+- `target: es2023` — современный JavaScript
+- `noEmit: true` — только проверка типов, без генерации файлов
+- Алиас путей: `@/*` → `src/*`
+
+### Правила ESLint
+
+Конфигурация находится в [`eslint.config.mjs`](eslint.config.mjs):
+
+- `eslint-config-next/core-web-vitals` — правила производительности Next.js
+- `eslint-config-next/typescript` — правила TypeScript
+
+Игнорируемые директории: `.next/`, `out/`, `build/`, `next-env.d.ts`
+
+### Стиль кодирования
+
+#### Импорты
+
+Порядок импортов (сверху вниз):
+
+1. Внешние библиотеки (React, Next.js, Ant Design)
+2. Внутренние модули (через алиас `@/`)
+3. Относительные импорты
+
+```typescript
+// Внешние библиотеки
+import { Button } from "antd";
+import { useSession } from "next-auth/react";
+
+// Внутренние модули
+import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
+
+// Относительные импорты
+import { RoleGuard } from "./role-guard";
+```
+
+#### Директивы модулей
+
+- `"use client"` — клиентские компоненты (первая строка файла)
+- `"use server"` — server actions (первая строка файла)
+
+#### Именование
+
+| Сущность           | Стиль            | Пример                        |
+| ------------------ | ---------------- | ----------------------------- |
+| Компоненты         | PascalCase       | `Header`, `PostsTable`        |
+| Функции/переменные | camelCase        | `createPost`, `userMenuItems` |
+| Константы          | UPPER_SNAKE_CASE | `PostStatus`                  |
+| Файлы компонентов  | PascalCase       | `Header.tsx`                  |
+| Файлы actions      | camelCase        | `createPost.ts`               |
+| Типы/интерфейсы    | PascalCase       | `CreatedPost`, `ActionResult` |
+
+#### Документация кода
+
+JSDoc комментарии для публичных функций:
+
+```typescript
+/**
+ * Создание нового поста
+ * Пост создаётся как черновик (DRAFT)
+ */
+export async function createPost(): Promise<ActionResult<CreatedPost>> {
+  // ...
+}
+```
+
+#### Обработка ошибок
+
+Использовать иерархию классов ошибок из [`src/lib/errors/`](src/lib/errors/):
+
+- `AppError` — базовый класс
+- `ValidationError` — ошибка валидации
+- `UnauthorizedError` — не аутентифицирован
+- `ForbiddenError` — нет прав доступа
+- `NotFoundError` — ресурс не найден
+- `ConflictError` — конфликт (дубликат и т.д.)
+- `DatabaseError` — ошибка БД
+- `BadRequestError` — некорректный запрос
+
+#### Server Actions
+
+- Использовать обёртку `action()` из [`src/lib/errors/`](src/lib/errors/wrapper.ts)
+- Возвращать тип `ActionResult<T>`
+- Проверять авторизацию через `getServerSession(authOptions)`
+
+```typescript
+"use server";
+
+export async function myAction(): Promise<ActionResult<ResultType>> {
+  return action(async () => {
+    // Логика
+  });
+}
+```
+
+#### Логирование
+
+Использовать Winston logger из [`src/lib/logger.ts`](src/lib/logger.ts):
+
+```typescript
+logger.info("Сообщение", { context: "данные" });
+logger.warn("Предупреждение", { userId: "123" });
+logger.error("Ошибка", error);
+```
+
+### Рекомендации для редактора
+
+#### VS Code
+
+Рекомендуемые расширения:
+
+- ESLint
+- Prettier
+- Tailwind CSS IntelliSense
+
+Автоматическое форматирование при сохранении:
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
+```
+
+### Структура проекта
+
+```
+src/
+├── app/                    # App Router страницы и layouts
+│   ├── components/         # Общие компоненты
+│   ├── api/               # API routes
+│   └── [route]/           # Страницы
+│       ├── page.tsx       # Компонент страницы
+│       └── actions/       # Server actions
+├── components/            # Глобальные компоненты
+├── lib/                   # Утилиты и библиотеки
+│   ├── auth.ts           # Конфигурация NextAuth
+│   ├── prisma.ts         # Prisma клиент
+│   ├── logger.ts         # Winston логгер
+│   └── errors/           # Классы ошибок
+├── types/                 # TypeScript типы
+└── generated/            # Сгенерированный код Prisma
+```
+
+---
+
+## Правила отображения даты
+
+Проект использует стандартный JavaScript API [`Date.toLocaleDateString()`](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString) для форматирования дат. Локаль по умолчанию — `"ru-RU"`.
+
+### Принципы форматирования
+
+#### 1. Относительный формат (для уведомлений)
+
+Для недавних событий используется относительный формат времени:
+
+| Условие    | Формат         | Пример        |
+| ---------- | -------------- | ------------- |
+| < 1 минуты | "Только что"   | Только что    |
+| < 60 минут | "X мин. назад" | 15 мин. назад |
+| < 24 часов | "X ч. назад"   | 3 ч. назад    |
+| < 7 дней   | "X дн. назад"  | 2 дн. назад   |
+| ≥ 7 дней   | Полная дата    | 15.02.2026    |
+
+**Реализация:** [`src/app/components/notification-bell.tsx`](src/app/components/notification-bell.tsx:78)
+
+```typescript
+const formatDate = (date: Date) => {
+  const d = new Date(date);
+  const now = new Date();
+  const diff = now.getTime() - d.getTime();
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+
+  if (minutes < 1) return "Только что";
+  if (minutes < 60) return `${minutes} мин. назад`;
+  if (hours < 24) return `${hours} ч. назад`;
+  if (days < 7) return `${days} дн. назад`;
+  return d.toLocaleDateString("ru-RU");
+};
+```
+
+#### 2. Полная дата с временем (для модерации)
+
+Используется для отображения даты создания поста в очереди модерации:
+
+```typescript
+new Date(date).toLocaleDateString("ru-RU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+// Пример: "19 февраля 2026 г., 15:30"
+```
+
+**Использование:** [`src/app/moderation/components/ModerationQueue.tsx`](src/app/moderation/components/ModerationQueue.tsx:69)
+
+#### 3. Краткая дата (для таблиц)
+
+Используется в таблицах администрирования:
+
+```typescript
+new Date(date).toLocaleDateString("ru-RU", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+// Пример: "19 февр. 2026 г."
+```
+
+**Использование:** [`src/app/admin/components/UsersTable.tsx`](src/app/admin/components/UsersTable.tsx:140)
+
+#### 4. Простая дата (по умолчанию)
+
+Используется для отображения дат в таблицах постов и виджетах блога:
+
+```typescript
+new Date(date).toLocaleDateString();
+// Пример: "19.02.2026"
+```
+
+**Использование:**
+
+- [`src/app/profile/posts/components/PostsTable.tsx`](src/app/profile/posts/components/PostsTable.tsx:172)
+- [`src/app/components/blog-widget.tsx`](src/app/components/blog-widget.tsx:54)
+- [`src/app/blog/[slug]/page.tsx`](src/app/blog/[slug]/page.tsx:61)
+
+### Рекомендации
+
+1. **Всегда используйте локаль `"ru-RU"`** для явного указания формата.
+2. **Для новых компонентов** выбирайте формат в зависимости от контекста:
+   - Уведомления → относительный формат
+   - Таблицы → краткая или простая дата
+   - Детальные страницы → полная дата с временем
+3. **Не используйте сторонние библиотеки** (date-fns, dayjs, moment) — проект использует нативный JavaScript API.
+
+---
 
 ## История версий
+
+### **0.5.0** 21.02.26
+
+- Доработка главной страницы;
+- Изменены и добавлены роли пользователей;
+- Добавлена модерация постов;
+
+### **0.4.0** 19.02.26
+
+- Добавлено e2e тестирование;
+
+### **0.3.0** 17.02.2026
+
+- Добавлены тесты для авторизации;
+- Добавлены тесты для работы с постами блога;
+- Добавлена функция удаления поста;
+
+### **0.2.0** 13.02.26
+
+- Добавлено логирование;
+- Существующие API roots заменены на server actions;
+- Добавлена глобальная обработка ошибок;
 
 ### **0.1.0** 21.12.25
 

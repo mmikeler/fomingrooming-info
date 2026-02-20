@@ -1,11 +1,10 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
+import { logger } from "./logger";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },
@@ -18,6 +17,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          logger.warn("Login attempt without credentials");
           return null;
         }
 
@@ -28,6 +28,9 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user.password) {
+          logger.warn("Login attempt with non-existent email", {
+            email: credentials.email,
+          });
           return null;
         }
 
@@ -37,13 +40,24 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isPasswordValid) {
+          logger.warn("Login attempt with invalid password", {
+            email: credentials.email,
+            userId: user.id,
+          });
           return null;
         }
+
+        logger.info("User logged in successfully", {
+          userId: user.id,
+          email: user.email,
+          role: user.role,
+        });
 
         return {
           id: user.id.toString(),
           email: user.email,
           name: user.name,
+          role: user.role,
         };
       },
     }),
@@ -52,12 +66,19 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
+        session.user.role = token.role as
+          | "USER"
+          | "AUTHOR"
+          | "MODERATOR"
+          | "ADMIN"
+          | "SUPERADMIN";
       }
       return session;
     },

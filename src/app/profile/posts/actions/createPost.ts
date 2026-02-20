@@ -4,29 +4,61 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { action, UnauthorizedError } from "@/lib/errors";
+import type { ActionResult } from "@/lib/errors";
+import { canPublishDirectly } from "@/lib/permissions";
+import { PostStatus } from "@/generated/prisma/enums";
+import { generateUniqueSlug } from "./checkSlug";
 
-export async function createPost() {
-  const session = await getServerSession(authOptions);
+interface CreatedPost {
+  id: number;
+  title: string;
+  slug: string;
+  content: string | null;
+  status: PostStatus;
+  authorId: number;
+}
 
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
+/**
+ * Создание нового поста
+ * Пост создаётся как черновик (DRAFT)
+ */
+export async function createPost(): Promise<ActionResult<CreatedPost>> {
+  return action(async () => {
+    // Проверка авторизации
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      throw new UnauthorizedError("Необходима авторизация для создания поста");
+    }
 
-  try {
+    // Генерация уникального slug
+    const slugResult = await generateUniqueSlug("Новый пост");
+    if (!slugResult.success) {
+      throw new Error("Ошибка при генерации slug");
+    }
+
+    // Создание поста как черновика
     const post = await prisma.post.create({
       data: {
         title: "Новый пост",
+        slug: slugResult.data,
         content: null,
-        published: false,
+        status: PostStatus.DRAFT,
         authorId: parseInt(session.user.id),
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        content: true,
+        status: true,
+        authorId: true,
       },
     });
 
+    // Обновление кэша
     revalidatePath("/profile/posts");
 
     return post;
-  } catch (error) {
-    console.error("Error creating post:", error);
-    throw new Error("Failed to create post");
-  }
+  });
 }

@@ -12,6 +12,9 @@
 
 # testing
 /coverage
+/playwright*
+/test-results/
+/e2e
 
 # next.js
 /.next/
@@ -39,5 +42,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# logs
+/logs
+
+# plans
+/plans
 
 #/src/generated/prisma

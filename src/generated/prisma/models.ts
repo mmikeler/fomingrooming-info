@@ -10,4 +10,6 @@
  */
 export type * from './models/User.ts'
 export type * from './models/Post.ts'
+export type * from './models/Notification.ts'
+export type * from './models/ModerationLog.ts'
 export type * from './commonInputTypes.ts'

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Noto_Serif } from "next/font/google";
+import { Jost } from "next/font/google";
 import "./globals.css";
-import { ConfigProvider, Layout } from "antd";
+import { ConfigProvider } from "antd";
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 import { Providers } from "../components/providers";
 import App from "antd/es/app/App";
 
-const titleFont = Noto_Serif({
-  variable: "--font-notoserif-sans",
+const titleFont = Jost({
+  variable: "--font-goo-sans",
   subsets: ["latin", "cyrillic"],
   weight: ["400", "700"],
   display: "swap",
@@ -31,6 +31,7 @@ export default function RootLayout({
       theme={{
         token: {
           fontFamily: "var(--font-notoserif-sans)",
+          colorText: "var(--foreground)",
         },
         components: {
           Button: {
@@ -38,6 +39,8 @@ export default function RootLayout({
           },
           Typography: {
             colorText: "var(--foreground)",
+            colorTextHeading: "var(--foreground)",
+            fontSizeHeading2: 35,
           },
         },
       }}
@@ -46,9 +49,11 @@ export default function RootLayout({
         <body className={`${titleFont.variable} antialiased`}>
           <Providers>
             <App>
-              <Header />
-              {children}
-              <Footer />
+              <div className="m-auto max-w-360 bg-white lg:rounded-xl">
+                <Header />
+                {children}
+                <Footer />
+              </div>
             </App>
           </Providers>
         </body>

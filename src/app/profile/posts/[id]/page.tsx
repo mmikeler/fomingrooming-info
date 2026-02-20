@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PostEditor } from "./components/PostEditor";
+import { PostStatus } from "@/generated/prisma/enums";
 
 interface EditPostPageProps {
   params: Promise<{
@@ -44,9 +45,21 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
     );
   }
 
+  // Показываем предупреждение для постов, которые нельзя редактировать
+  const canEdit =
+    post.status === PostStatus.DRAFT || post.status === PostStatus.REJECTED;
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="mb-4 text-2xl font-bold">Редактирование поста</h1>
+      {!canEdit && (
+        <div className="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+          <p className="text-yellow-800">
+            Этот пост нельзя редактировать в текущем статусе. Вы можете только
+            просмотреть его содержимое.
+          </p>
+        </div>
+      )}
       <PostEditor post={post} />
     </div>
   );

@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Form, Input, message, Card, Typography } from "antd";
+import { Button, Form, Input, Card, Typography, App } from "antd";
 import Link from "next/link";
+import { register } from "./actions/register";
 
 const { Title } = Typography;
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { message } = App.useApp();
 
   const onFinish = async (values: {
     name: string;
@@ -24,29 +26,21 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          password: values.password,
-        }),
+      const result = await register({
+        name: values.name,
+        email: values.email,
+        password: values.password,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (result.success) {
         message.success(
           "Регистрация прошла успешно! Теперь войдите в систему.",
         );
         router.push("/auth/signin");
       } else {
-        message.error(data.error || "Ошибка при регистрации");
+        message.error(result.error.message || "Ошибка при регистрации");
       }
-    } catch (error) {
+    } catch {
       message.error("Произошла ошибка при регистрации");
     } finally {
       setLoading(false);

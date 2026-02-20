@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button, Form, Input, message, Card, Typography } from "antd";
+import { Button, Form, Input, Card, Typography, App } from "antd";
 import Link from "next/link";
 
 const { Title } = Typography;
@@ -11,6 +11,7 @@ const { Title } = Typography;
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { message } = App.useApp();
 
   const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true);
@@ -25,7 +26,7 @@ export default function SignIn() {
         message.error("Неверный email или пароль");
       } else {
         message.success("Вход выполнен успешно");
-        router.push("/");
+        router.push("/profile");
       }
     } catch (error) {
       message.error("Произошла ошибка при входе");

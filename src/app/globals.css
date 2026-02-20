@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1c1d1f;
-  --foreground: #e1e5cd;
+  --background: #ffffff;
+  --foreground: #486284;
+  --accent: #F83758;
 }
 
 body {
@@ -18,4 +19,19 @@ body .w-md-editor-text-input {
 /* Post Editor Display Config */
 body .wmde-markdown {
   font-size: 18px !important;
+}
+/* Button */
+.btn{
+  background-color: var(--accent);
+  border-radius: 100px;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 20px 30px;
+  color: white;
+  line-height: 0;
+  cursor: pointer;
+  transition: background-color 0.3s linear;
+  &:hover{
+    background-color: #da304c;
+  }
 }

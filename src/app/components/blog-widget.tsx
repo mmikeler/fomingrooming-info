@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export default async function BlogWidget() {
   const posts = await prisma.post.findMany({
-    where: { published: true },
+    where: { status: "PUBLISHED" },
     orderBy: { created: "desc" },
     take: 3,
     include: { author: true },
@@ -37,7 +37,7 @@ export default async function BlogWidget() {
             <EyeOutlined style={{ color: "#4ecdc4" }} />
             <span>1040</span>
           </Space>,
-          <Link key="permalink" href={`/blog/` + post.id}>
+          <Link key="permalink" href={`/blog/${post.slug}`}>
             <ArrowRightOutlined style={{ color: "#45b7d1" }} />
           </Link>,
         ];

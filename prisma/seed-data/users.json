@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "email": "superadmin@e.com",
+    "name": "Superadmin",
+    "password": "superadmin123"
+  },
+  {
+    "id": 2,
+    "email": "admin@e.com",
+    "name": "Admin User",
+    "password": "admin123"
+  },
+  {
+    "id": 3,
+    "email": "moderator@e.com",
+    "name": "Moderator",
+    "password": "moderator123"
+  },
+  {
+    "id": 4,
+    "email": "author@e.com",
+    "name": "Author User",
+    "password": "author123"
+  },
+  {
+    "id": 5,
+    "email": "user@e.com",
+    "name": "User",
+    "password": "user123"
+  }
+]
