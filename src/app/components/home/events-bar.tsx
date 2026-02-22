@@ -24,8 +24,10 @@ export default function EVENT_BAR() {
           style={{ width: "100%" }}
           variant="borderless"
           cover={
-            <img
+            <Image
               draggable={false}
+              width={400}
+              height={200}
               alt="example"
               src="https://picsum.dev/400/200?seed=12"
             />
@@ -41,10 +43,12 @@ export default function EVENT_BAR() {
           style={{ width: "100%" }}
           variant="borderless"
           cover={
-            <img
+            <Image
               draggable={false}
+              width={400}
+              height={200}
               alt="example"
-              src="https://picsum.dev/400/200?seed=12"
+              src="https://picsum.dev/400/200?seed=13"
             />
           }
         >
