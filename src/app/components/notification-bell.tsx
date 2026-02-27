@@ -106,7 +106,7 @@ export function NotificationBell() {
           </Button>
         )}
       </div>
-      <div className="max-h-72 overflow-y-auto">
+      <div className="max-h-72 overflow-y-auto p-2">
         {loading ? (
           <div className="flex justify-center py-8">
             <Spin />
@@ -175,7 +175,7 @@ export function NotificationBell() {
     >
       <Button type="text" className="relative p-2">
         <Badge count={unreadCount} size="small" offset={[-2, 2]}>
-          <Bell size={20} className="text-gray-600" />
+          <Bell size={20} className="text-white lg:text-(--foreground)" />
         </Badge>
       </Button>
     </Dropdown>

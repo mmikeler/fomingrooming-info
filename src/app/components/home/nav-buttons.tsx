@@ -3,13 +3,15 @@ import Button from "../ui/button";
 
 export default function NavButtonsBlock() {
   return (
-    <Flex gap="middle" style={{ marginTop: "0px" }}>
-      <Button style={{ width: "100%" }}>Работа</Button>
-      <Button style={{ width: "100%" }}>События</Button>
-      <Button style={{ width: "100%" }}>Новости</Button>
-      <Button style={{ width: "100%" }}>Эксперты</Button>
-      <Button style={{ width: "100%" }}>Маркет</Button>
-      <Button style={{ width: "100%" }}>Обзоры</Button>
-    </Flex>
+    <div className="w-full overflow-x-auto p-2 pt-0">
+      <div className="grid grid-cols-3 gap-2 lg:grid-cols-6 lg:gap-5">
+        <Button style={{ minWidth: "100px" }}>Работа</Button>
+        <Button style={{ minWidth: "100px" }}>События</Button>
+        <Button style={{ minWidth: "100px" }}>Новости</Button>
+        <Button style={{ minWidth: "100px" }}>Эксперты</Button>
+        <Button style={{ minWidth: "100px" }}>Маркет</Button>
+        <Button style={{ minWidth: "100px" }}>Обзоры</Button>
+      </div>
+    </div>
   );
 }

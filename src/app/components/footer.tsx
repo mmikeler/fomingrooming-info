@@ -9,8 +9,8 @@ const navLinkStyle = "text-white! uppercase hover:underline! tracking-[2px]";
 export function Footer() {
   return (
     <AntFooter>
-      <div className="mx-auto mb-10 w-full overflow-hidden rounded-b-2xl bg-(--foreground) px-5 py-15 text-[10px] text-white">
-        <Flex justify="space-between">
+      <div className="mx-auto my-10 w-full overflow-hidden rounded-b-2xl bg-(--foreground) px-5 py-15 text-[10px] text-white">
+        <div className="flex flex-col items-center justify-between gap-6 text-center lg:flex-row lg:text-left">
           <Link href="/" className="relative flex h-13 w-33 items-center">
             <Image
               fill
@@ -73,8 +73,10 @@ export function Footer() {
             <div className={navLinkStyle}>+7 999 999 99 99</div>
             <div className={navLinkStyle}>г.Москва</div>
           </Flex>
-        </Flex>
-        <Copyright />
+        </div>
+        <div className="mt-10 lg:mt-0">
+          <Copyright />
+        </div>
       </div>
     </AntFooter>
   );

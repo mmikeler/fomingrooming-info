@@ -7,6 +7,13 @@ import VACANCY_BAR from "./components/home/vacancy-bar";
 import EVENT_BAR from "./components/home/events-bar";
 import ExpertOpinion from "./components/home/expert-opinion";
 import MARKET_BAR from "./components/home/market-bar";
+import Button from "./components/ui/button";
+import { ArrowRightOutlined } from "@ant-design/icons";
+import ACTUAL_POSTS from "./components/home/actual_posts";
+import NOTES_POSTS from "./components/home/notes";
+import USEFUL_POSTS from "./components/home/useful_posts";
+
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
@@ -15,43 +22,88 @@ export default function Home() {
         backgroundColor: "var(--background)",
       }}
     >
-      <main className="relative w-full p-2 py-6 lg:px-6">
+      <main className="relative w-full py-6 lg:p-2 lg:px-6">
         <div className="w-full">
           <NavButtonsBlock />
         </div>
-        <div className="wrap mt-7 flex gap-8">
-          <div className="max-w-50">
+        <div className="mt-7 flex gap-8 lg:flex-row">
+          {/* Сайдбар - скрывается на мобильных */}
+          <div className="hidden w-full max-w-50 shrink-0 lg:block">
             <div className="mb-5 h-75 w-full">
-              <ADS place="HOMEPAGE_NEWSBAR" />
+              <ADS place="HOMEPAGE_SIDEBAR_1" />
             </div>
             <Title level={2}>Новости</Title>
             <NEWS_BAR />
+            <div className="my-5 h-75 w-full">
+              <ADS place="HOMEPAGE_SIDEBAR_2" />
+            </div>
+            <Title level={2}>Статьи</Title>
+            <NEWS_BAR />
+            <div className="my-5 h-75 w-full">
+              <ADS place="HOMEPAGE_SIDEBAR_3" />
+            </div>
           </div>
-          <div className="w-full">
-            <div className="wrap flex gap-8">
-              <div className="rounded-2xl bg-[#EDF4FF80] p-5">
-                <Title level={2}>Вакансии</Title>
+          {/* Основной контент */}
+          <div className="w-full min-w-0">
+            <section className="flex flex-col gap-8 lg:flex-row">
+              {/* Виджет вакансий */}
+              <div className="order-2 rounded-2xl bg-[#EDF4FF80] p-2 py-5 lg:order-1">
+                <Title level={2} className="text-center lg:text-left">
+                  Вакансии
+                </Title>
                 <VACANCY_BAR />
               </div>
-              <div className="w-full max-w-175">
+              {/* События и экспертиза */}
+              <div className="order-1 w-full min-w-0 p-2 lg:order-2 lg:max-w-175 lg:p-0">
                 <EVENT_BAR />
-                <Title className="mt-10" level={2}>
+                <Title className="mt-10 text-center lg:text-left" level={2}>
                   Экспертиза
                 </Title>
                 <div className="mt-4">
                   <ExpertOpinion />
                 </div>
               </div>
-            </div>
-            <div className="my-8 h-40 w-full">
-              <ADS place="HOMEPAGE_MAIN" />
-            </div>
-            <div className="mt-10">
-              <Title level={2}>Маркет</Title>
+            </section>
+            <section className="my-8 h-40 w-full">
+              <ADS place="HOMEPAGE_CONTENT_1" />
+            </section>
+            <section className="mt-10 p-2 lg:p-0">
+              <Title level={2} className="text-center lg:text-left">
+                Маркет
+              </Title>
               <div className="mt-8">
                 <MARKET_BAR />
+                <div className="ms-auto mt-6 w-fit">
+                  <Button href="/">
+                    Все объявления <ArrowRightOutlined />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </section>
+            <section className="mt-10 p-2 lg:p-0">
+              <Title level={2} className="text-center lg:text-left">
+                Актуальное
+              </Title>
+              <div className="mt-8">
+                <ACTUAL_POSTS />
+              </div>
+            </section>
+            <section className="mt-10 p-2 lg:p-0">
+              <Title level={2} className="text-center lg:text-left">
+                Заметки
+              </Title>
+              <div className="mt-8">
+                <NOTES_POSTS />
+              </div>
+            </section>
+            <section className="mt-10 p-2 lg:p-0">
+              <Title level={2} className="text-center lg:text-left">
+                Полезное
+              </Title>
+              <div className="mt-8">
+                <USEFUL_POSTS />
+              </div>
+            </section>
           </div>
         </div>
       </main>

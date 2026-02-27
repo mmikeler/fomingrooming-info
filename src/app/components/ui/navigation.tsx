@@ -1,15 +1,23 @@
-import { CheckSquareOutlined, DownOutlined } from "@ant-design/icons";
-import { Dropdown, Flex, MenuProps, Space } from "antd";
-import Image from "next/image";
+"use client";
 
-type navItem = {
-  label: string;
-  children: MenuProps["items"];
+import { CheckSquareOutlined, DownOutlined } from "@ant-design/icons";
+import { Divider, Drawer, Dropdown, Flex, MenuProps, Space } from "antd";
+import Image from "next/image";
+import { ReactElement, useState } from "react";
+
+type MenuItem = {
+  key: string;
+  label: ReactElement | string;
+  icon?: ReactElement;
+  children?: MenuItem[];
 };
 
 export default function Navigation() {
-  const navItems: navItem[] = [
+  const [visible, setVisible] = useState(false);
+
+  const navItems: MenuItem[] = [
     {
+      key: "l1",
       label: "Найти мероприятие",
       children: [
         {
@@ -30,6 +38,7 @@ export default function Navigation() {
       ],
     },
     {
+      key: "l2",
       label: "Найти работу",
       children: [
         {
@@ -50,6 +59,7 @@ export default function Navigation() {
       ],
     },
     {
+      key: "l3",
       label: "Продать инструмент",
       children: [
         {
@@ -65,6 +75,7 @@ export default function Navigation() {
       ],
     },
     {
+      key: "l4",
       label: "Найти бренд",
       children: [
         {
@@ -86,23 +97,86 @@ export default function Navigation() {
     },
   ];
 
+  const extNavItems: MenuItem[] = [
+    {
+      key: "l5",
+      label: "О проекте",
+    },
+    {
+      key: "l6",
+      label: "Реклама на сайте",
+    },
+    {
+      key: "l7",
+      label: "Техподдержка",
+    },
+  ];
+
   return (
-    <Space size="large">
-      <Flex gap="large">
-        {navItems.map((item, index: number) => {
-          return (
-            <div key={index} className="cursor-pointer text-[16px] text-white">
-              <Dropdown menu={{ items: item.children }}>
-                <Space>
+    <>
+      {/* Меню */}
+      <Space size="large">
+        <div className="hidden gap-8 lg:flex">
+          {navItems.map((item, index: number) => {
+            return (
+              <div
+                key={index}
+                className="cursor-pointer text-[16px] text-white"
+              >
+                <Dropdown menu={{ items: item.children }}>
+                  <Space>
+                    {item.label}
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  </Space>
+                </Dropdown>
+              </div>
+            );
+          })}
+        </div>
+        <div className="cursor-pointer" onClick={() => setVisible(true)}>
+          <Image
+            src="/menu-bar.png"
+            width={40}
+            height={40}
+            alt="fomin-gruming-info"
+          />
+        </div>
+      </Space>
+
+      {/* Мобильное меню */}
+      <Drawer closable open={visible} onClose={() => setVisible(false)}>
+        <Flex vertical gap="large">
+          {navItems.map((item, index: number) => {
+            return (
+              <div key={index} className="text-[16px]">
+                <div className="mt-1 mb-1 font-bold">{item.label}</div>
+                {item.children &&
+                  item.children.length > 0 &&
+                  item.children.map((item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="mt-2 cursor-pointer ps-4 hover:underline"
+                      >
+                        {item.label}
+                      </div>
+                    );
+                  })}
+              </div>
+            );
+          })}
+          <Divider />
+          <div>
+            {extNavItems.map((item, index) => {
+              return (
+                <div key={index} className="mt-2">
                   {item.label}
-                  <DownOutlined style={{ fontSize: "12px" }} />
-                </Space>
-              </Dropdown>
-            </div>
-          );
-        })}
-      </Flex>
-      <Image src="/menu-bar.png" width={40} height={40} alt="menu bar" />
-    </Space>
+                </div>
+              );
+            })}
+          </div>
+        </Flex>
+      </Drawer>
+    </>
   );
 }

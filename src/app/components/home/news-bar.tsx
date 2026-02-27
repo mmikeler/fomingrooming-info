@@ -1,5 +1,4 @@
-import { Post } from "@/generated/prisma/client";
-import { ArrowRightOutlined, ArrowUpOutlined } from "@ant-design/icons";
+import { ArrowUpOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
 type NewsItem = {

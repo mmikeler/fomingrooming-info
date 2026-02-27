@@ -8,7 +8,7 @@ export default function MARKET_BAR() {
   const products = [
     {
       image: "https://picsum.dev/300/300?seed=98",
-      name: "Ножницы грумерские профессиональные",
+      name: "Professional grooming scissors",
       price: 4500,
       inFavorite: false,
       vews: 3420,
@@ -16,7 +16,7 @@ export default function MARKET_BAR() {
     },
     {
       image: "https://picsum.dev/300/300?seed=99",
-      name: "Фурминатор для собак средний",
+      name: "Furminator for dogs medium",
       price: 2800,
       inFavorite: true,
       vews: 5100,
@@ -24,7 +24,7 @@ export default function MARKET_BAR() {
     },
     {
       image: "https://picsum.dev/300/300?seed=100",
-      name: "Колтунорез с вращающимися лезвиями",
+      name: "Mat breaker with rotating blades",
       price: 950,
       inFavorite: false,
       vews: 1890,
@@ -32,7 +32,7 @@ export default function MARKET_BAR() {
     },
     {
       image: "https://picsum.dev/300/300?seed=101",
-      name: "Набор расчесок для груминга (5 шт)",
+      name: "Grooming comb set (5 pcs)",
       price: 1650,
       inFavorite: false,
       vews: 2780,
@@ -40,7 +40,7 @@ export default function MARKET_BAR() {
     },
     {
       image: "https://picsum.dev/300/300?seed=102",
-      name: "Стол для груминга складной",
+      name: "Folding grooming table",
       price: 12500,
       inFavorite: true,
       vews: 890,
@@ -48,7 +48,7 @@ export default function MARKET_BAR() {
     },
     {
       image: "https://picsum.dev/300/300?seed=103",
-      name: "Фен профессиональный для сушки животных",
+      name: "Professional pet hair dryer",
       price: 7800,
       inFavorite: false,
       vews: 4560,
@@ -57,20 +57,21 @@ export default function MARKET_BAR() {
   ];
 
   return (
-    <div className="grid grid-cols-6 gap-4">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {products.map((p, i) => {
         return (
           <Card
             variant="borderless"
             key={i}
             cover={
-              <div className="overflow-hidden">
+              <div className="relative overflow-hidden">
                 <Image
                   src={p.image}
                   draggable={false}
                   width={400}
                   height={400}
                   alt="example"
+                  className="h-auto w-full object-cover"
                 />
                 <div className="absolute top-2 right-2 cursor-pointer">
                   {!p.inFavorite ? (
@@ -82,13 +83,13 @@ export default function MARKET_BAR() {
               </div>
             }
             actions={[
-              <div key={1} className="text-[12px]">
+              <div key={1} className="text-[10px] sm:text-[12px]">
                 {formatPrice(p.price)}
               </div>,
-              <div key={1} className="text-[12px]">
+              <div key={2} className="text-[10px] sm:text-[12px]">
                 <EyeOutlined /> {p.vews}
               </div>,
-              <div key={2} className="text-[12px]">
+              <div key={3} className="text-[10px] sm:text-[12px]">
                 <HeartOutlined /> {p.favorites}
               </div>,
             ]}

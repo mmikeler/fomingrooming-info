@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
-import { ConfigProvider } from "antd";
+import { App, ConfigProvider } from "antd";
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 import { Providers } from "../components/providers";
-import App from "antd/es/app/App";
 
 const titleFont = Jost({
   variable: "--font-goo-sans",
