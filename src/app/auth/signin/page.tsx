@@ -23,7 +23,13 @@ export default function SignIn() {
       });
 
       if (result?.error) {
-        message.error("Неверный email или пароль");
+        if (result.error === "EMAIL_NOT_VERIFIED") {
+          message.warning(
+            "Пожалуйста, подтвердите ваш email. Проверьте почту для подтверждения.",
+          );
+        } else {
+          message.error("Неверный email или пароль");
+        }
       } else {
         message.success("Вход выполнен успешно");
         router.push("/profile");
@@ -60,6 +66,17 @@ export default function SignIn() {
             rules={[{ required: true, message: "Пожалуйста, введите пароль" }]}
           >
             <Input.Password placeholder="Пароль" />
+          </Form.Item>
+
+          <Form.Item>
+            <div className="flex justify-end">
+              <Link
+                href="/auth/forgot-password"
+                className="text-sm text-blue-600 hover:text-blue-500"
+              >
+                Забыли пароль?
+              </Link>
+            </div>
           </Form.Item>
 
           <Form.Item>

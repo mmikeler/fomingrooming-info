@@ -47,6 +47,15 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        // Проверка верификации email
+        if (!user.emailVerified) {
+          logger.warn("Login attempt with unverified email", {
+            email: credentials.email,
+            userId: user.id,
+          });
+          throw new Error("EMAIL_NOT_VERIFIED");
+        }
+
         logger.info("User logged in successfully", {
           userId: user.id,
           email: user.email,
@@ -58,6 +67,9 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           role: user.role,
+          city: user.city || null,
+          phone: user.phone || null,
+          image: user.avatar || null,
         };
       },
     }),
@@ -67,6 +79,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.city = user.city || null;
+        token.phone = user.phone || null;
+        token.image = user.image || null;
       }
       return token;
     },
@@ -79,6 +94,9 @@ export const authOptions: NextAuthOptions = {
           | "MODERATOR"
           | "ADMIN"
           | "SUPERADMIN";
+        session.user.city = token.city as string | null;
+        session.user.phone = token.phone as string | null;
+        session.user.image = token.image as string | null;
       }
       return session;
     },

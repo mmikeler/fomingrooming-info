@@ -744,7 +744,13 @@ export const UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   name: 'name',
+  city: 'city',
+  phone: 'phone',
+  avatar: 'avatar',
   role: 'role',
+  emailVerified: 'emailVerified',
+  verificationToken: 'verificationToken',
+  verificationTokenExpires: 'verificationTokenExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -757,6 +763,7 @@ export const PostScalarFieldEnum = {
   title: 'title',
   slug: 'slug',
   content: 'content',
+  coverImage: 'coverImage',
   created: 'created',
   status: 'status',
   rejectionReason: 'rejectionReason',

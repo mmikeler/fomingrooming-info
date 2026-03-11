@@ -27,17 +27,23 @@ enum PostStatus {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
-  email          String          @unique
-  password       String
-  name           String
-  role           UserRole        @default(USER)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  posts          Post[]          @relation("AuthoredPosts")
-  notifications  Notification[]
-  moderationLogs ModerationLog[]
-  moderatedPosts Post[]          @relation("ModeratedPosts")
+  id                       Int             @id @default(autoincrement())
+  email                    String          @unique
+  password                 String
+  name                     String
+  city                     String?
+  phone                    String?
+  avatar                   String?
+  role                     UserRole        @default(USER)
+  emailVerified            DateTime?
+  verificationToken        String?
+  verificationTokenExpires DateTime?
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
+  posts                    Post[]          @relation("AuthoredPosts")
+  notifications            Notification[]
+  moderationLogs           ModerationLog[]
+  moderatedPosts           Post[]          @relation("ModeratedPosts")
 }
 
 model Post {
@@ -45,6 +51,7 @@ model Post {
   title           String
   slug            String          @unique
   content         String?
+  coverImage      String?
   created         DateTime        @default(now())
   status          PostStatus      @default(DRAFT)
   rejectionReason String?

@@ -3,11 +3,10 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Space, Spin } from "antd";
-import Avatar from "antd/es/avatar/Avatar";
-import Title from "antd/es/typography/Title";
+import { Spin } from "antd";
+import { UserProfileForm } from "./components/UserProfileForm";
 
-export default function Profile() {
+export default function Page() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -18,7 +17,7 @@ export default function Profile() {
 
   if (status === "loading") {
     return (
-      <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
+      <div className="flex h-full w-full items-center justify-center">
         <Spin size="large" />
       </div>
     );
@@ -29,20 +28,8 @@ export default function Profile() {
   }
 
   return (
-    <div className="mx-auto">
-      <Space orientation="vertical" size={"large"}>
-        <Avatar size={100} style={{ backgroundColor: "var(--foreground)" }}>
-          <Title
-            style={{
-              margin: 0,
-              color: "var(--background)",
-            }}
-          >
-            {session.user.name && session.user.name[0]}
-          </Title>
-        </Avatar>
-        <Title editable={true}>{session.user.name}</Title>
-      </Space>
+    <div className="mx-auto max-w-150">
+      <UserProfileForm />
     </div>
   );
 }

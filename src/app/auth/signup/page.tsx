@@ -34,7 +34,8 @@ export default function SignUp() {
 
       if (result.success) {
         message.success(
-          "Регистрация прошла успешно! Теперь войдите в систему.",
+          "Регистрация прошла успешно! На ваш email отправлена ссылка для подтверждения. Пожалуйста, проверьте почту.",
+          5,
         );
         router.push("/auth/signin");
       } else {

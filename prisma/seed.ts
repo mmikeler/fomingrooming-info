@@ -86,6 +86,7 @@ async function main() {
         name: userData.name,
         password: await hash(userData.password, 10),
         role: role as "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN",
+        emailVerified: new Date(),
       },
     });
     userIdMap.set(userData.id.toString(), user.id);

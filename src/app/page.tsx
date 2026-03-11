@@ -47,7 +47,7 @@ export default function Home() {
           <div className="w-full min-w-0">
             <section className="flex flex-col gap-8 lg:flex-row">
               {/* Виджет вакансий */}
-              <div className="order-2 rounded-2xl bg-[#EDF4FF80] p-2 py-5 lg:order-1">
+              <div className="order-2 rounded-2xl bg-[#EDF4FF80] p-2 py-5 lg:order-1 lg:p-5">
                 <Title level={2} className="text-center lg:text-left">
                   Вакансии
                 </Title>

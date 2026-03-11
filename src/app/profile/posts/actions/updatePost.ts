@@ -20,6 +20,7 @@ interface UpdatePostData {
   title?: string;
   slug?: string;
   content?: string;
+  coverImage?: string | null;
 }
 
 interface UpdatedPost {
@@ -27,6 +28,7 @@ interface UpdatedPost {
   title: string;
   slug: string;
   content: string | null;
+  coverImage: string | null;
   status: PostStatus;
 }
 
@@ -101,6 +103,7 @@ export async function updatePost(
         title: data.title ?? existingPost.title,
         slug: newSlug,
         content: data.content ?? existingPost.content,
+        ...(data.coverImage !== undefined && { coverImage: data.coverImage }),
       },
       select: {
         id: true,
@@ -108,6 +111,7 @@ export async function updatePost(
         slug: true,
         content: true,
         status: true,
+        coverImage: true,
       },
     });
 
@@ -182,6 +186,7 @@ export async function submitPost(
         slug: true,
         content: true,
         status: true,
+        coverImage: true,
       },
     });
 
@@ -230,6 +235,7 @@ export async function archivePost(
         slug: true,
         content: true,
         status: true,
+        coverImage: true,
       },
     });
 
@@ -284,6 +290,7 @@ export async function restorePost(
         slug: true,
         content: true,
         status: true,
+        coverImage: true,
       },
     });
 

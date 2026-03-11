@@ -8,12 +8,17 @@ declare module "next-auth" {
       name?: string | null;
       image?: string | null;
       role: "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN";
+      city?: string | null;
+      phone?: string | null;
     };
   }
 
   interface JWT {
     id: string;
     role: "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN";
+    city?: string | null;
+    phone?: string | null;
+    image?: string | null;
   }
 
   interface User {
@@ -21,5 +26,8 @@ declare module "next-auth" {
     email: string;
     name: string;
     role: "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN";
+    city?: string | null;
+    phone?: string | null;
+    image?: string | null;
   }
 }

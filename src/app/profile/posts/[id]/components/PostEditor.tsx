@@ -10,12 +10,14 @@ import { debounce } from "lodash";
 import rehypeSanitize from "rehype-sanitize";
 import { PostStatus } from "@/generated/prisma/enums";
 import { slugify } from "@/lib/slug";
+import { PostCoverUploader } from "../../components/PostCoverUploader";
 
 interface Post {
   id: number;
   title: string;
   slug: string;
   content: string | null;
+  coverImage: string | null;
   status: PostStatus;
   rejectionReason: string | null;
 }
@@ -50,6 +52,7 @@ export function PostEditor({ post }: PostEditorProps) {
   const [value, setValue] = useState<string>(post.content || "");
   const [slug, setSlug] = useState<string>(post.slug);
   const [slugError, setSlugError] = useState<string | null>(null);
+  const [coverImage, setCoverImage] = useState<string | null>(post.coverImage);
   const router = useRouter();
   const [form] = Form.useForm();
 
@@ -82,6 +85,7 @@ export function PostEditor({ post }: PostEditorProps) {
         title: values.title,
         slug: values.slug || slug,
         content: value,
+        coverImage: coverImage,
       });
       if (result.success) {
         message.success("Пост сохранён");
@@ -94,6 +98,10 @@ export function PostEditor({ post }: PostEditorProps) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCoverChange = (newCover: string | null) => {
+    setCoverImage(newCover);
   };
 
   const handleSubmit = async () => {
@@ -226,6 +234,16 @@ export function PostEditor({ post }: PostEditorProps) {
           />
         </Form.Item>
       </Form>
+
+      <div className="mt-4">
+        <h3 className="mb-2 text-lg font-semibold">Обложка поста</h3>
+        <PostCoverUploader
+          currentCover={coverImage}
+          onCoverChange={handleCoverChange}
+          disabled={!canEdit}
+        />
+      </div>
+
       <div className="container">
         <MDEditor
           value={value}
