@@ -46,6 +46,10 @@ next-env.d.ts
 # logs
 /logs
 
+# database
+db/dev.db
+db/*.db
+
 # plans
 /plans
 

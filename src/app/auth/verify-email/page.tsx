@@ -74,12 +74,36 @@ export default function VerifyEmailPage() {
 
         <p className="mb-6 text-gray-600">{result?.message}</p>
 
-        <Link
-          href="/auth/signin"
-          className="inline-block rounded-lg bg-blue-500 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-600"
-        >
-          Войти в систему
-        </Link>
+        {result?.success ? (
+          <Link
+            href="/auth/signin"
+            className="inline-block rounded-lg bg-blue-500 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-600"
+          >
+            Войти в систему
+          </Link>
+        ) : (
+          <div className="space-y-3">
+            <Link
+              href="/auth/signin"
+              className="inline-block rounded-lg bg-blue-500 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-600"
+            >
+              Войти в систему
+            </Link>
+            {result?.message?.includes("истекла") && (
+              <div className="mt-4">
+                <p className="mb-2 text-sm text-gray-500">
+                  Срок действия ссылки истёк?
+                </p>
+                <Link
+                  href="/auth/resend-verification"
+                  className="text-sm text-blue-600 hover:text-blue-500"
+                >
+                  Отправить письмо повторно
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import {
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { sendVerificationEmail, generateVerificationToken } from "@/lib/email";
+import { checkPublicRateLimit } from "@/lib/rate-limit";
 
 interface RegisterData {
   name: string;
@@ -31,6 +32,20 @@ interface RegisteredUser {
 export async function register(
   data: RegisterData,
 ): Promise<ActionResult<RegisteredUser>> {
+  // Применяем rate limiting для защиты от спам-регистраций
+  const rateLimit = await checkPublicRateLimit("register");
+
+  if (rateLimit.success === false) {
+    return {
+      success: false,
+      error: {
+        code: "RATE_LIMITED",
+        message: rateLimit.error.message,
+        details: rateLimit.error.details,
+      },
+    };
+  }
+
   const { name, email, password } = data;
 
   // Валидация обязательных полей

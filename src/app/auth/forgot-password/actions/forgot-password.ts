@@ -7,6 +7,7 @@ import {
   sendPasswordResetLinkEmail,
   generatePasswordResetToken,
 } from "@/lib/email";
+import { checkPublicRateLimit } from "@/lib/rate-limit";
 
 export interface ForgotPasswordResult {
   success: boolean;
@@ -17,6 +18,13 @@ export interface ForgotPasswordResult {
 export async function forgotPassword(
   email: string,
 ): Promise<ForgotPasswordResult> {
+  // Применяем rate limiting для защиты от флуда email-рассылками
+  const rateLimit = await checkPublicRateLimit("forgotPassword");
+
+  if (rateLimit.success === false) {
+    return { success: false, error: rateLimit.error.message };
+  }
+
   try {
     if (!email || typeof email !== "string") {
       return { success: false, error: "Email обязателен" };

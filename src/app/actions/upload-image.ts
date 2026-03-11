@@ -7,6 +7,7 @@ import { saveImage, deleteImage } from "@/lib/upload/image-processor";
 import { validateImageFile } from "@/lib/upload/image-validator";
 import { canDeleteFile } from "@/lib/upload/file-storage";
 import { UploadType } from "@/lib/upload/file-storage";
+import { checkAuthRateLimit } from "@/lib/rate-limit";
 
 export interface UploadImageResult {
   success: boolean;
@@ -26,6 +27,13 @@ export async function uploadImage(
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return { success: false, error: "Требуется авторизация" };
+  }
+
+  // Применяем rate limiting для защиты от злоупотреблений хранилищем
+  const rateLimit = await checkAuthRateLimit("uploadImage");
+
+  if (rateLimit.success === false) {
+    return { success: false, error: rateLimit.error.message };
   }
 
   const userId = parseInt(session.user.id, 10);

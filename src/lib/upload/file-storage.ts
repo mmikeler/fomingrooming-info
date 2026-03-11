@@ -50,9 +50,9 @@ export function canDeleteFile(
     return true;
   }
 
-  // Проверяем, принадлежит ли файл пользователю
-  // Формат: uploads/{userId}/... или uploads/shared/...
-  const pathParts = filePath.split("/");
+  // Извлекаем путь из URL, если это URL
+  const path = extractPathFromUrl(filePath) || filePath;
+  const pathParts = path.split("/");
 
   if (pathParts[1] === "shared") {
     return false; // Пользователь не может удалять файлы из shared

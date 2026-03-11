@@ -25,6 +25,7 @@ export function UserProfileForm() {
   const [initialLoading, setInitialLoading] = useState(true);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [avatar, setAvatar] = useState<string | null>(null);
+  const [isAvatarSaving, setIsAvatarSaving] = useState(false);
 
   useEffect(() => {
     async function fetchUser() {
@@ -93,8 +94,50 @@ export function UserProfileForm() {
     }
   };
 
-  const handleAvatarChange = (newAvatar: string | null) => {
+  const handleAvatarChange = async (newAvatar: string | null) => {
+    // Блокируем повторные вызовы во время сохранения
+    if (isAvatarSaving) return;
+
     setAvatar(newAvatar);
+
+    // Автоматически сохраняем изменение аватарки в базе данных
+    if (newAvatar !== userData?.avatar) {
+      setIsAvatarSaving(true);
+      try {
+        const result = await updateProfile({
+          name: userData?.name || "",
+          city: userData?.city || undefined,
+          phone: userData?.phone || undefined,
+          avatar: newAvatar,
+        });
+
+        if (result.success) {
+          message.success(
+            newAvatar ? "Аватарка обновлена" : "Аватарка удалена",
+          );
+          // Обновляем данные сессии
+          await updateSession({
+            ...session,
+            user: {
+              ...session?.user,
+              image: newAvatar,
+            },
+          });
+        } else {
+          message.error(
+            result.error?.message || "Ошибка при обновлении аватарки",
+          );
+          // Откатываем локальное состояние при ошибке
+          setAvatar(userData?.avatar || null);
+        }
+      } catch (error) {
+        message.error("Ошибка при обновлении аватарки");
+        // Откатываем локальное состояние при ошибке
+        setAvatar(userData?.avatar || null);
+      } finally {
+        setIsAvatarSaving(false);
+      }
+    }
   };
 
   if (initialLoading || !userData) {

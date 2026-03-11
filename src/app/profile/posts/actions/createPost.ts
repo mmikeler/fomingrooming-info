@@ -9,6 +9,7 @@ import type { ActionResult } from "@/lib/errors";
 import { canPublishDirectly } from "@/lib/permissions";
 import { PostStatus } from "@/generated/prisma/enums";
 import { generateUniqueSlug } from "./checkSlug";
+import { checkAuthRateLimit } from "@/lib/rate-limit";
 
 interface CreatedPost {
   id: number;
@@ -24,6 +25,20 @@ interface CreatedPost {
  * Пост создаётся как черновик (DRAFT)
  */
 export async function createPost(): Promise<ActionResult<CreatedPost>> {
+  // Применяем rate limiting для защиты от спама
+  const rateLimit = await checkAuthRateLimit("createPost");
+
+  if (rateLimit.success === false) {
+    return {
+      success: false,
+      error: {
+        code: "RATE_LIMITED",
+        message: rateLimit.error.message,
+        details: {},
+      },
+    };
+  }
+
   return action(async () => {
     // Проверка авторизации
     const session = await getServerSession(authOptions);
