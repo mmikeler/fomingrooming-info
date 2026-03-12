@@ -78,6 +78,7 @@ export const UserScalarFieldEnum = {
   slug: 'slug',
   city: 'city',
   phone: 'phone',
+  showContacts: 'showContacts',
   avatar: 'avatar',
   role: 'role',
   emailVerified: 'emailVerified',

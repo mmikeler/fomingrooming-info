@@ -450,10 +450,6 @@ export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.NotificationScalarWhereInput | Prisma.NotificationScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type NotificationCreateWithoutUserInput = {
   title: string
   message: string

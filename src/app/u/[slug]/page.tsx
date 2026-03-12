@@ -9,6 +9,7 @@ import {
   EnvironmentOutlined,
 } from "@ant-design/icons";
 import Image from "next/image";
+import { ContactButton } from "./components/ContactButton";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -58,7 +59,15 @@ export default async function UserProfilePage({ params }: Props) {
 
   const user = await prisma.user.findUnique({
     where: { slug },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      city: true,
+      phone: true,
+      avatar: true,
+      slug: true,
+      createdAt: true,
+      showContacts: true,
       posts: {
         where: { status: "PUBLISHED" },
         orderBy: { created: "desc" },
@@ -125,6 +134,12 @@ export default async function UserProfilePage({ params }: Props) {
                   @{user.slug}
                 </span>
               </div>
+
+              {/* Блок контактов */}
+              <ContactButton
+                slug={user.slug}
+                showContacts={user.showContacts}
+              />
             </div>
           </div>
         </div>

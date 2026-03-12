@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Spin, Form, Input, message } from "antd";
+import { Spin, Form, Input, message, Switch } from "antd";
 import { updateProfile } from "../actions/updateProfile";
 import { getUser } from "../actions/getUser";
 import { checkUserSlug } from "../actions/checkUserSlug";
@@ -19,6 +19,7 @@ interface UserData {
   phone: string | null;
   avatar: string | null;
   slug: string;
+  showContacts: boolean;
 }
 
 export function UserProfileForm() {
@@ -50,6 +51,7 @@ export function UserProfileForm() {
         phone: user.phone,
         avatar: user.avatar,
         slug: user.slug || "",
+        showContacts: user.showContacts ?? false,
       });
       setAvatar(user.avatar);
       setInitialLoading(false);
@@ -67,6 +69,7 @@ export function UserProfileForm() {
         phone: values.phone || undefined,
         avatar: avatar,
         slug: values.slug || "",
+        showContacts: values.showContacts ?? false,
       });
 
       if (result.success) {
@@ -92,6 +95,7 @@ export function UserProfileForm() {
           phone: values.phone || null,
           avatar: avatar,
           slug: values.slug || "",
+          showContacts: values.showContacts ?? false,
         }));
       } else {
         message.error(result.error?.message || "Ошибка при обновлении профиля");
@@ -119,6 +123,7 @@ export function UserProfileForm() {
           phone: userData?.phone || undefined,
           avatar: newAvatar,
           slug: userData?.slug || "",
+          showContacts: userData?.showContacts ?? false,
         });
 
         if (result.success) {
@@ -280,6 +285,15 @@ export function UserProfileForm() {
               placeholder="+7 999 123-45-67"
               className="py-2 text-xl! font-semibold"
             />
+          </Form.Item>
+
+          <Form.Item
+            label="Показывать контакты"
+            name="showContacts"
+            valuePropName="checked"
+            extra="Разрешить другим пользователям видеть ваши контакты в профиле"
+          >
+            <Switch />
           </Form.Item>
 
           <Form.Item>

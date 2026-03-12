@@ -26,6 +26,7 @@ export async function getUser() {
         role: true,
         avatar: true,
         slug: true,
+        showContacts: true,
       },
     });
 

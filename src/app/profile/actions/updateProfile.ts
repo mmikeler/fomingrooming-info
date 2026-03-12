@@ -14,6 +14,7 @@ interface UpdatedUser {
   phone: string | null;
   avatar: string | null;
   slug: string | null;
+  showContacts: boolean;
 }
 
 interface ProfileData {
@@ -22,6 +23,7 @@ interface ProfileData {
   phone?: string;
   avatar?: string | null;
   slug: string;
+  showContacts?: boolean;
 }
 
 /**
@@ -152,6 +154,9 @@ export async function updateProfile(
         phone: validatedPhone,
         ...(data.avatar !== undefined && { avatar: data.avatar }),
         slug: validatedSlug,
+        ...(data.showContacts !== undefined && {
+          showContacts: data.showContacts,
+        }),
       },
       select: {
         id: true,
@@ -161,6 +166,7 @@ export async function updateProfile(
         phone: true,
         avatar: true,
         slug: true,
+        showContacts: true,
       },
     });
 
