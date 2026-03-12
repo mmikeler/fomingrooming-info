@@ -3,6 +3,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
+import { slugify } from "@/lib/slug";
 import {
   action,
   ValidationError,
@@ -90,6 +91,28 @@ export async function register(
     };
   }
 
+  // Генерация уникального slug из имени
+  const baseSlug = slugify(name);
+
+  // Проверка минимальной длины slug
+  const finalBaseSlug = baseSlug.length >= 3 ? baseSlug : `user-${baseSlug}`;
+
+  // Проверка уникальности slug
+  let slug = finalBaseSlug;
+  let counter = 1;
+  const maxAttempts = 10000;
+  while (counter <= maxAttempts) {
+    const existing = await prisma.user.findFirst({ where: { slug } });
+    if (!existing) break;
+    slug = `${finalBaseSlug}-${counter}`;
+    counter++;
+  }
+
+  // Если все попытки исчерпаны, используем slug с timestamp
+  if (counter > maxAttempts) {
+    slug = `${finalBaseSlug}-${Date.now()}`;
+  }
+
   // Генерация токена верификации
   const verificationToken = generateVerificationToken();
   const verificationTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 часа
@@ -98,47 +121,76 @@ export async function register(
   const hashedPassword = await bcrypt.hash(password, 12);
 
   // Создание пользователя с обработкой ошибок
+  // Используем цикл для обработки race conditions при создании slug
   return action(async () => {
-    try {
-      const user = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: hashedPassword,
-          verificationToken,
-          verificationTokenExpires,
-        },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          emailVerified: true,
-        },
-      });
+    let user;
+    let attempts = 0;
+    const maxCreateAttempts = 5;
 
-      // Отправка письма с подтверждением email
-      const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-      const verificationUrl = `${baseUrl}/auth/verify-email?token=${verificationToken}`;
-
-      // Отправляем email асинхронно, не блокируя регистрацию
-      // Но логируем ошибку для админов
+    while (attempts < maxCreateAttempts) {
       try {
-        await sendVerificationEmail(email, name, verificationUrl);
-      } catch (err) {
-        logger.error("Failed to send verification email", {
-          email,
-          error: err instanceof Error ? err.message : String(err),
+        user = await prisma.user.create({
+          data: {
+            name,
+            slug,
+            email,
+            password: hashedPassword,
+            verificationToken,
+            verificationTokenExpires,
+          },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            emailVerified: true,
+          },
         });
+        break; // Успешно создано, выходим из цикла
+      } catch (error) {
+        // Обработка ошибки уникальности slug (race condition)
+        if (isUniqueConstraintError(error, "slug")) {
+          attempts++;
+          // Генерируем новый slug с timestamp
+          slug = `${finalBaseSlug}-${Date.now()}-${attempts}`;
+          logger.warn(
+            "Slug collision during registration, retrying with new slug",
+            {
+              originalSlug: finalBaseSlug,
+              newSlug: slug,
+              attempt: attempts,
+            },
+          );
+          continue;
+        }
+        // Обработка ошибки уникальности email
+        if (isUniqueConstraintError(error, "email")) {
+          throw new ConflictError("Пользователь с таким email уже существует");
+        }
+        throw error;
       }
-
-      return user;
-    } catch (error) {
-      // Обработка ошибки уникальности email
-      if (isUniqueConstraintError(error, "email")) {
-        throw new ConflictError("Пользователь с таким email уже существует");
-      }
-      throw error;
     }
+
+    if (!user) {
+      throw new Error(
+        "Не удалось создать пользователя после нескольких попыток",
+      );
+    }
+
+    // Отправка письма с подтверждением email
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const verificationUrl = `${baseUrl}/auth/verify-email?token=${verificationToken}`;
+
+    // Отправляем email асинхронно, не блокируя регистрацию
+    // Но логируем ошибку для админов
+    try {
+      await sendVerificationEmail(email, name, verificationUrl);
+    } catch (err) {
+      logger.error("Failed to send verification email", {
+        email,
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    return user;
   });
 }

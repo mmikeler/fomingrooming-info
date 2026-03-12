@@ -25,6 +25,7 @@ export async function getUser() {
         phone: true,
         role: true,
         avatar: true,
+        slug: true,
       },
     });
 

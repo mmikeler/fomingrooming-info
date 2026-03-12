@@ -31,6 +31,7 @@ model User {
   email                    String          @unique
   password                 String
   name                     String
+  slug                     String          @unique
   city                     String?
   phone                    String?
   avatar                   String?
@@ -44,6 +45,8 @@ model User {
   notifications            Notification[]
   moderationLogs           ModerationLog[]
   moderatedPosts           Post[]          @relation("ModeratedPosts")
+
+  @@index([slug])
 }
 
 model Post {

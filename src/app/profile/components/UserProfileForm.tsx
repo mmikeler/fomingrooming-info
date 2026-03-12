@@ -7,15 +7,18 @@ import { useEffect } from "react";
 import { Spin, Form, Input, message } from "antd";
 import { updateProfile } from "../actions/updateProfile";
 import { getUser } from "../actions/getUser";
+import { checkUserSlug } from "../actions/checkUserSlug";
 import { AvatarUploader } from "./AvatarUploader";
 import { ChangePasswordForm } from "./ChangePasswordForm";
 
 interface UserData {
+  id: number;
   name: string;
   email: string;
   city: string | null;
   phone: string | null;
   avatar: string | null;
+  slug: string;
 }
 
 export function UserProfileForm() {
@@ -26,6 +29,7 @@ export function UserProfileForm() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [avatar, setAvatar] = useState<string | null>(null);
   const [isAvatarSaving, setIsAvatarSaving] = useState(false);
+  const [slugChecking, setSlugChecking] = useState(false);
 
   useEffect(() => {
     async function fetchUser() {
@@ -39,11 +43,13 @@ export function UserProfileForm() {
       }
 
       setUserData({
+        id: user.id,
         name: user.name,
         email: user.email,
         city: user.city,
         phone: user.phone,
         avatar: user.avatar,
+        slug: user.slug || "",
       });
       setAvatar(user.avatar);
       setInitialLoading(false);
@@ -60,6 +66,7 @@ export function UserProfileForm() {
         city: values.city || undefined,
         phone: values.phone || undefined,
         avatar: avatar,
+        slug: values.slug || "",
       });
 
       if (result.success) {
@@ -77,13 +84,15 @@ export function UserProfileForm() {
         });
 
         // Обновляем локальные данные
-        setUserData({
+        setUserData((prev) => ({
+          ...prev!,
           name: values.name,
           email: values.email,
           city: values.city || null,
           phone: values.phone || null,
           avatar: avatar,
-        });
+          slug: values.slug || "",
+        }));
       } else {
         message.error(result.error?.message || "Ошибка при обновлении профиля");
       }
@@ -109,6 +118,7 @@ export function UserProfileForm() {
           city: userData?.city || undefined,
           phone: userData?.phone || undefined,
           avatar: newAvatar,
+          slug: userData?.slug || "",
         });
 
         if (result.success) {
@@ -179,6 +189,51 @@ export function UserProfileForm() {
               size="large"
               placeholder="Ваше имя"
               className="py-2 text-xl! font-semibold"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Slug"
+            name="slug"
+            rules={[
+              { required: true, message: "Пожалуйста, введите slug" },
+              {
+                pattern: /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
+                message: "Только латинские буквы, цифры и дефисы",
+              },
+              { min: 3, message: "Минимум 3 символа" },
+              { max: 200, message: "Максимум 200 символов" },
+            ]}
+            extra="Уникальный идентификатор профиля (например, ivan-ivanov)"
+          >
+            <Input
+              size="large"
+              placeholder="your-slug"
+              className="py-2 text-xl! font-semibold"
+              prefix={<span className="text-gray-400">u/</span>}
+              suffix={slugChecking ? <Spin size="small" /> : null}
+              onBlur={async (e) => {
+                const slugValue = e.target.value;
+                if (slugValue && slugValue.length >= 3) {
+                  setSlugChecking(true);
+                  try {
+                    const result = await checkUserSlug(slugValue, userData?.id);
+                    if (
+                      result.success &&
+                      result.data &&
+                      !result.data.isUnique
+                    ) {
+                      message.warning(
+                        `Slug занят. Предложен: ${result.data.suggestedSlug}`,
+                      );
+                    }
+                  } catch (error) {
+                    // Игнорируем ошибки валидации
+                  } finally {
+                    setSlugChecking(false);
+                  }
+                }
+              }}
             />
           </Form.Item>
 

@@ -1,6 +1,7 @@
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { hash } from "bcryptjs";
+import { slugify } from "../src/lib/slug";
 import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
@@ -84,6 +85,7 @@ async function main() {
       data: {
         email: userData.email,
         name: userData.name,
+        slug: slugify(userData.name),
         password: await hash(userData.password, 10),
         role: role as "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN",
         emailVerified: new Date(),

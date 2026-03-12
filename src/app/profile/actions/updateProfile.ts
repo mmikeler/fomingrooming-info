@@ -13,6 +13,7 @@ interface UpdatedUser {
   city: string | null;
   phone: string | null;
   avatar: string | null;
+  slug: string | null;
 }
 
 interface ProfileData {
@@ -20,6 +21,7 @@ interface ProfileData {
   city?: string;
   phone?: string;
   avatar?: string | null;
+  slug: string;
 }
 
 /**
@@ -80,6 +82,33 @@ function validatePhone(phone?: string): string | undefined {
 }
 
 /**
+ * Валидация slug
+ */
+function validateSlug(slug: string): string {
+  const trimmed = slug.trim().toLowerCase();
+
+  if (!trimmed) {
+    throw new ValidationError("Slug обязателен", {
+      slug: "Обязательное поле",
+    });
+  }
+
+  // Проверка формата slug
+  const slugRegex = /^[a-z0-9][a-z0-9-]*[a-z0-9]$/;
+  if (!slugRegex.test(trimmed)) {
+    throw new ValidationError("Неверный формат slug", {
+      slug: "Только латинские буквы, цифры и дефисы. Не должен начинаться или заканчиваться дефисом",
+    });
+  }
+  if (trimmed.length < 3 || trimmed.length > 200) {
+    throw new ValidationError("Slug слишком короткий или длинный", {
+      slug: "От 3 до 200 символов",
+    });
+  }
+  return trimmed;
+}
+
+/**
  * Обновление профиля пользователя
  */
 export async function updateProfile(
@@ -92,19 +121,37 @@ export async function updateProfile(
       throw new UnauthorizedError("Необходима авторизация");
     }
 
+    const userId = parseInt(session.user.id);
+
     // Валидация данных
     const validatedName = validateName(data.name);
     const validatedCity = validateCity(data.city);
     const validatedPhone = validatePhone(data.phone);
+    const validatedSlug = validateSlug(data.slug);
+
+    // Проверка уникальности slug
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        slug: validatedSlug,
+        NOT: { id: userId },
+      },
+      select: { id: true },
+    });
+    if (existingUser) {
+      throw new ValidationError("Этот slug уже занят", {
+        slug: "Slug уже используется другим пользователем",
+      });
+    }
 
     // Обновление пользователя
     const updatedUser = await prisma.user.update({
-      where: { id: parseInt(session.user.id) },
+      where: { id: userId },
       data: {
         name: validatedName,
         city: validatedCity,
         phone: validatedPhone,
         ...(data.avatar !== undefined && { avatar: data.avatar }),
+        slug: validatedSlug,
       },
       select: {
         id: true,
@@ -113,6 +160,7 @@ export async function updateProfile(
         city: true,
         phone: true,
         avatar: true,
+        slug: true,
       },
     });
 
