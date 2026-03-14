@@ -91,6 +91,8 @@ export default async function EventPage({ params }: PageProps) {
 
   const formatLabel = event.format === "ONLINE" ? "Онлайн" : "Оффлайн";
 
+  const isEnded = new Date() > event.endDate;
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
@@ -150,7 +152,7 @@ export default async function EventPage({ params }: PageProps) {
             isAuthor={Boolean(
               session?.user?.id && parseInt(session.user.id) === event.authorId,
             )}
-            isEnded={new Date() > event.endDate}
+            isEnded={isEnded}
           />
         </div>
 

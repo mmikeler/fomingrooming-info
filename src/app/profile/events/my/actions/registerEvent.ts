@@ -34,9 +34,23 @@ export async function registerForEvent(
       throw new UnauthorizedError("Необходима авторизация для регистрации");
     }
 
-    const userId = parseInt(session.user.id);
+    const userId = parseInt(session.user.id, 10);
+    if (isNaN(userId)) {
+      throw new BadRequestError("Неверный идентификатор пользователя");
+    }
 
-    // Поиск мероприятия
+    // Проверка существования пользователя в БД
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+    if (!user) {
+      throw new BadRequestError(
+        "Пользователь не найден. Возможно, аккаунт был удалён.",
+      );
+    }
+
+    // Проверка существования мероприятия
     const event = await prisma.event.findUnique({
       where: { id: eventId },
     });
@@ -79,21 +93,42 @@ export async function registerForEvent(
     }
 
     // Создание регистрации
-    const registration = await prisma.eventRegistration.create({
-      data: {
-        eventId,
-        userId,
-      },
-      select: {
-        id: true,
-        eventId: true,
-        userId: true,
-        registeredAt: true,
-      },
-    });
+    let registration;
+    try {
+      registration = await prisma.eventRegistration.create({
+        data: {
+          eventId,
+          userId,
+        },
+        select: {
+          id: true,
+          eventId: true,
+          userId: true,
+          registeredAt: true,
+        },
+      });
+    } catch (error: unknown) {
+      // Prisma ошибки имеют свойства code, message, meta
+      const prismaError = error as {
+        code?: string;
+        message?: string;
+        meta?: unknown;
+      };
+      // Логирование ошибки для отладки (только в development)
+      if (process.env.NODE_ENV === "development") {
+        console.error("[registerForEvent] DB Error:", {
+          eventId,
+          userId,
+          errorCode: prismaError.code,
+          errorMessage: prismaError.message,
+          errorMeta: prismaError.meta,
+        });
+      }
+      throw error;
+    }
 
     // Обновление кэша
-    revalidatePath(`/events/${eventId}`);
+    revalidatePath(`/events/${event.slug}`);
 
     return registration;
   });
@@ -114,7 +149,10 @@ export async function unregisterFromEvent(
       );
     }
 
-    const userId = parseInt(session.user.id);
+    const userId = parseInt(session.user.id, 10);
+    if (isNaN(userId)) {
+      throw new BadRequestError("Неверный идентификатор пользователя");
+    }
 
     // Поиск регистрации
     const registration = await prisma.eventRegistration.findUnique({
@@ -122,6 +160,11 @@ export async function unregisterFromEvent(
         eventId_userId: {
           eventId,
           userId,
+        },
+      },
+      include: {
+        event: {
+          select: { slug: true },
         },
       },
     });
@@ -138,7 +181,7 @@ export async function unregisterFromEvent(
     });
 
     // Обновление кэша
-    revalidatePath(`/events/${eventId}`);
+    revalidatePath(`/events/${registration.event.slug}`);
 
     return { success: true };
   });
@@ -171,9 +214,14 @@ export async function getUserEventRegistrations(): Promise<
       throw new UnauthorizedError("Необходима авторизация");
     }
 
+    const userId = parseInt(session.user.id, 10);
+    if (isNaN(userId)) {
+      throw new UnauthorizedError("Неверный идентификатор пользователя");
+    }
+
     const registrations = await prisma.eventRegistration.findMany({
       where: {
-        userId: parseInt(session.user.id),
+        userId,
       },
       include: {
         event: {
@@ -235,12 +283,17 @@ export async function getEventRegistrations(eventId: number): Promise<
       throw new NotFoundError("Мероприятие", eventId);
     }
 
+    const currentUserId = parseInt(session.user.id, 10);
+    if (isNaN(currentUserId)) {
+      throw new UnauthorizedError("Неверный идентификатор пользователя");
+    }
+
     const user = await prisma.user.findUnique({
-      where: { id: parseInt(session.user.id) },
+      where: { id: currentUserId },
     });
 
     // Автор мероприятия или модератор может видеть список регистраций
-    const isAuthor = event.authorId === parseInt(session.user.id);
+    const isAuthor = event.authorId === currentUserId;
     const { canModerate } = await import("@/lib/permissions");
     const isModerator = user && canModerate(user.role);
 
@@ -284,11 +337,16 @@ export async function checkUserRegistration(
       return { isRegistered: false };
     }
 
+    const userId = parseInt(session.user.id, 10);
+    if (isNaN(userId)) {
+      return { isRegistered: false };
+    }
+
     const registration = await prisma.eventRegistration.findUnique({
       where: {
         eventId_userId: {
           eventId,
-          userId: parseInt(session.user.id),
+          userId,
         },
       },
     });

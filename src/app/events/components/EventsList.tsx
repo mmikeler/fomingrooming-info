@@ -370,6 +370,7 @@ export default function EventsList() {
         loadEvents(cursor, filters);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [hasMore, loading, cursor, filters],
   );
 

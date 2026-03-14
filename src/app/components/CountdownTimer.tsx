@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React from "react";
 
 interface CountdownTimerProps {
   targetDate: Date | string;
@@ -15,7 +15,9 @@ interface TimeLeft {
 }
 
 function calculateTimeLeft(targetDate: Date | string): TimeLeft | null {
-  const difference = new Date(targetDate).getTime() - new Date().getTime();
+  const now = Date.now();
+  const target = new Date(targetDate).getTime();
+  const difference = target - now;
 
   if (difference <= 0) {
     return null;
@@ -33,11 +35,16 @@ export function CountdownTimer({
   targetDate,
   className = "",
 }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(() =>
-    calculateTimeLeft(targetDate),
-  );
+  // Маркер для отслеживания гидратации
+  const [hydrated, setHydrated] = React.useState(false);
 
-  useEffect(() => {
+  // Вычисляем время на клиенте после монтирования
+  const [timeLeft, setTimeLeft] = React.useState<TimeLeft | null>(null);
+
+  React.useEffect(() => {
+    setHydrated(true);
+    setTimeLeft(calculateTimeLeft(targetDate));
+
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft(targetDate));
     }, 1000);
@@ -45,10 +52,15 @@ export function CountdownTimer({
     return () => clearInterval(timer);
   }, [targetDate]);
 
-  if (!timeLeft) {
+  // Показываем одинаковый контент на сервере и до гидратации на клиенте
+  // Это предотвращает ошибку гидратации
+  if (!hydrated || !timeLeft) {
     return (
-      <span className={`font-medium text-green-600 ${className}`}>
-        Мероприятие началось!
+      <span
+        className={`font-medium text-gray-400 ${className}`}
+        suppressHydrationWarning
+      >
+        ⏱️ Загрузка...
       </span>
     );
   }

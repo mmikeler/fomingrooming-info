@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, message } from "antd";
+import { App, Button } from "antd";
 import { useRouter } from "next/navigation";
 import {
   registerForEvent,
@@ -26,6 +26,7 @@ export function RegisterButton({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [registered, setRegistered] = useState(isRegistered);
+  const { message } = App.useApp();
 
   const handleRegister = async () => {
     if (!isLoggedIn) {
