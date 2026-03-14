@@ -11,6 +11,7 @@ import {
   SeedPost,
   SeedNotification,
   SeedModerationLog,
+  SeedEvent,
 } from "./seed-data/types";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +35,10 @@ function loadSeedData() {
     fs.readFileSync(path.join(seedDataDir, "posts.json"), "utf-8"),
   );
 
+  const events: SeedEvent[] = JSON.parse(
+    fs.readFileSync(path.join(seedDataDir, "events.json"), "utf-8"),
+  );
+
   const notifications: SeedNotification[] = JSON.parse(
     fs.readFileSync(path.join(seedDataDir, "notifications.json"), "utf-8"),
   );
@@ -42,7 +47,7 @@ function loadSeedData() {
     fs.readFileSync(path.join(seedDataDir, "moderation-logs.json"), "utf-8"),
   );
 
-  return { users, posts, notifications, moderationLogs };
+  return { users, posts, events, notifications, moderationLogs };
 }
 
 /**
@@ -54,13 +59,16 @@ async function main() {
 
   // Load data from JSON files
   console.log("Loading seed data from JSON files...");
-  const { users, posts, notifications, moderationLogs } = loadSeedData();
+  const { users, posts, events, notifications, moderationLogs } =
+    loadSeedData();
   console.log(
-    `Loaded ${users.length} users, ${posts.length} posts, ${notifications.length} notifications, ${moderationLogs.length} moderation logs`,
+    `Loaded ${users.length} users, ${posts.length} posts, ${events.length} events, ${notifications.length} notifications, ${moderationLogs.length} moderation logs`,
   );
 
   // Clear existing data
   console.log("Clearing existing data...");
+  await prisma.eventRegistration.deleteMany();
+  await prisma.event.deleteMany();
   await prisma.moderationLog.deleteMany();
   await prisma.notification.deleteMany();
   await prisma.post.deleteMany();
@@ -136,6 +144,52 @@ async function main() {
     });
     postIdMap.set(i + 1, createdPost.id); // 1-based index for JSON reference
     console.log(`  Created post: ${post.title} (status: ${status})`);
+  }
+
+  // Create events
+  console.log("Creating events...");
+  const eventIdMap = new Map<number, number>(); // seed index -> real ID
+
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    const authorId = userIdMap.get(String(event.authorId));
+    if (!authorId) {
+      console.warn(
+        `  Warning: Author not found for event "${event.title}", skipping...`,
+      );
+      continue;
+    }
+
+    const status = event.status || "DRAFT";
+
+    const createdEvent = await prisma.event.create({
+      data: {
+        title: event.title,
+        slug: event.slug,
+        description: event.description || null,
+        format: event.format,
+        city: event.city || null,
+        location: event.location || null,
+        startDate: new Date(event.startDate),
+        endDate: new Date(event.endDate),
+        status: status as
+          | "DRAFT"
+          | "PENDING"
+          | "PUBLISHED"
+          | "REJECTED"
+          | "ARCHIVED",
+        authorId,
+        rejectionReason: event.rejectionReason || null,
+        moderatedAt: event.moderatedAt
+          ? new Date(event.moderatedAt)
+          : undefined,
+        moderatedBy: event.moderatedBy
+          ? userIdMap.get(String(event.moderatedBy))
+          : undefined,
+      },
+    });
+    eventIdMap.set(i + 1, createdEvent.id);
+    console.log(`  Created event: ${event.title} (status: ${status})`);
   }
 
   // Create notifications

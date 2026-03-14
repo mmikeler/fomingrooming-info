@@ -29,21 +29,24 @@ export type AggregateModerationLog = {
 export type ModerationLogAvgAggregateOutputType = {
   id: number | null
   postId: number | null
+  eventId: number | null
   moderatorId: number | null
 }
 
 export type ModerationLogSumAggregateOutputType = {
   id: number | null
   postId: number | null
+  eventId: number | null
   moderatorId: number | null
 }
 
 export type ModerationLogMinAggregateOutputType = {
   id: number | null
   postId: number | null
+  eventId: number | null
   moderatorId: number | null
-  oldStatus: $Enums.PostStatus | null
-  newStatus: $Enums.PostStatus | null
+  oldStatus: string | null
+  newStatus: string | null
   reason: string | null
   createdAt: Date | null
 }
@@ -51,9 +54,10 @@ export type ModerationLogMinAggregateOutputType = {
 export type ModerationLogMaxAggregateOutputType = {
   id: number | null
   postId: number | null
+  eventId: number | null
   moderatorId: number | null
-  oldStatus: $Enums.PostStatus | null
-  newStatus: $Enums.PostStatus | null
+  oldStatus: string | null
+  newStatus: string | null
   reason: string | null
   createdAt: Date | null
 }
@@ -61,6 +65,7 @@ export type ModerationLogMaxAggregateOutputType = {
 export type ModerationLogCountAggregateOutputType = {
   id: number
   postId: number
+  eventId: number
   moderatorId: number
   oldStatus: number
   newStatus: number
@@ -73,18 +78,21 @@ export type ModerationLogCountAggregateOutputType = {
 export type ModerationLogAvgAggregateInputType = {
   id?: true
   postId?: true
+  eventId?: true
   moderatorId?: true
 }
 
 export type ModerationLogSumAggregateInputType = {
   id?: true
   postId?: true
+  eventId?: true
   moderatorId?: true
 }
 
 export type ModerationLogMinAggregateInputType = {
   id?: true
   postId?: true
+  eventId?: true
   moderatorId?: true
   oldStatus?: true
   newStatus?: true
@@ -95,6 +103,7 @@ export type ModerationLogMinAggregateInputType = {
 export type ModerationLogMaxAggregateInputType = {
   id?: true
   postId?: true
+  eventId?: true
   moderatorId?: true
   oldStatus?: true
   newStatus?: true
@@ -105,6 +114,7 @@ export type ModerationLogMaxAggregateInputType = {
 export type ModerationLogCountAggregateInputType = {
   id?: true
   postId?: true
+  eventId?: true
   moderatorId?: true
   oldStatus?: true
   newStatus?: true
@@ -201,10 +211,11 @@ export type ModerationLogGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type ModerationLogGroupByOutputType = {
   id: number
-  postId: number
+  postId: number | null
+  eventId: number | null
   moderatorId: number
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  oldStatus: string | null
+  newStatus: string | null
   reason: string | null
   createdAt: Date
   _count: ModerationLogCountAggregateOutputType | null
@@ -234,25 +245,29 @@ export type ModerationLogWhereInput = {
   OR?: Prisma.ModerationLogWhereInput[]
   NOT?: Prisma.ModerationLogWhereInput | Prisma.ModerationLogWhereInput[]
   id?: Prisma.IntFilter<"ModerationLog"> | number
-  postId?: Prisma.IntFilter<"ModerationLog"> | number
+  postId?: Prisma.IntNullableFilter<"ModerationLog"> | number | null
+  eventId?: Prisma.IntNullableFilter<"ModerationLog"> | number | null
   moderatorId?: Prisma.IntFilter<"ModerationLog"> | number
-  oldStatus?: Prisma.EnumPostStatusFilter<"ModerationLog"> | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFilter<"ModerationLog"> | $Enums.PostStatus
+  oldStatus?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
+  newStatus?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
   reason?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ModerationLog"> | Date | string
-  post?: Prisma.XOR<Prisma.PostScalarRelationFilter, Prisma.PostWhereInput>
+  post?: Prisma.XOR<Prisma.PostNullableScalarRelationFilter, Prisma.PostWhereInput> | null
+  event?: Prisma.XOR<Prisma.EventNullableScalarRelationFilter, Prisma.EventWhereInput> | null
   moderator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type ModerationLogOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  postId?: Prisma.SortOrder
+  postId?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventId?: Prisma.SortOrderInput | Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
-  oldStatus?: Prisma.SortOrder
-  newStatus?: Prisma.SortOrder
+  oldStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  newStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   post?: Prisma.PostOrderByWithRelationInput
+  event?: Prisma.EventOrderByWithRelationInput
   moderator?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -261,22 +276,25 @@ export type ModerationLogWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ModerationLogWhereInput | Prisma.ModerationLogWhereInput[]
   OR?: Prisma.ModerationLogWhereInput[]
   NOT?: Prisma.ModerationLogWhereInput | Prisma.ModerationLogWhereInput[]
-  postId?: Prisma.IntFilter<"ModerationLog"> | number
+  postId?: Prisma.IntNullableFilter<"ModerationLog"> | number | null
+  eventId?: Prisma.IntNullableFilter<"ModerationLog"> | number | null
   moderatorId?: Prisma.IntFilter<"ModerationLog"> | number
-  oldStatus?: Prisma.EnumPostStatusFilter<"ModerationLog"> | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFilter<"ModerationLog"> | $Enums.PostStatus
+  oldStatus?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
+  newStatus?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
   reason?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ModerationLog"> | Date | string
-  post?: Prisma.XOR<Prisma.PostScalarRelationFilter, Prisma.PostWhereInput>
+  post?: Prisma.XOR<Prisma.PostNullableScalarRelationFilter, Prisma.PostWhereInput> | null
+  event?: Prisma.XOR<Prisma.EventNullableScalarRelationFilter, Prisma.EventWhereInput> | null
   moderator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type ModerationLogOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  postId?: Prisma.SortOrder
+  postId?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventId?: Prisma.SortOrderInput | Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
-  oldStatus?: Prisma.SortOrder
-  newStatus?: Prisma.SortOrder
+  oldStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  newStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ModerationLogCountOrderByAggregateInput
@@ -291,75 +309,82 @@ export type ModerationLogScalarWhereWithAggregatesInput = {
   OR?: Prisma.ModerationLogScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ModerationLogScalarWhereWithAggregatesInput | Prisma.ModerationLogScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"ModerationLog"> | number
-  postId?: Prisma.IntWithAggregatesFilter<"ModerationLog"> | number
+  postId?: Prisma.IntNullableWithAggregatesFilter<"ModerationLog"> | number | null
+  eventId?: Prisma.IntNullableWithAggregatesFilter<"ModerationLog"> | number | null
   moderatorId?: Prisma.IntWithAggregatesFilter<"ModerationLog"> | number
-  oldStatus?: Prisma.EnumPostStatusWithAggregatesFilter<"ModerationLog"> | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusWithAggregatesFilter<"ModerationLog"> | $Enums.PostStatus
+  oldStatus?: Prisma.StringNullableWithAggregatesFilter<"ModerationLog"> | string | null
+  newStatus?: Prisma.StringNullableWithAggregatesFilter<"ModerationLog"> | string | null
   reason?: Prisma.StringNullableWithAggregatesFilter<"ModerationLog"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ModerationLog"> | Date | string
 }
 
 export type ModerationLogCreateInput = {
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
-  post: Prisma.PostCreateNestedOneWithoutModerationLogsInput
+  post?: Prisma.PostCreateNestedOneWithoutModerationLogsInput
+  event?: Prisma.EventCreateNestedOneWithoutModerationLogsInput
   moderator: Prisma.UserCreateNestedOneWithoutModerationLogsInput
 }
 
 export type ModerationLogUncheckedCreateInput = {
   id?: number
-  postId: number
+  postId?: number | null
+  eventId?: number | null
   moderatorId: number
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
 }
 
 export type ModerationLogUpdateInput = {
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  post?: Prisma.PostUpdateOneRequiredWithoutModerationLogsNestedInput
+  post?: Prisma.PostUpdateOneWithoutModerationLogsNestedInput
+  event?: Prisma.EventUpdateOneWithoutModerationLogsNestedInput
   moderator?: Prisma.UserUpdateOneRequiredWithoutModerationLogsNestedInput
 }
 
 export type ModerationLogUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   moderatorId?: Prisma.IntFieldUpdateOperationsInput | number
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModerationLogCreateManyInput = {
   id?: number
-  postId: number
+  postId?: number | null
+  eventId?: number | null
   moderatorId: number
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
 }
 
 export type ModerationLogUpdateManyMutationInput = {
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModerationLogUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   moderatorId?: Prisma.IntFieldUpdateOperationsInput | number
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -377,6 +402,7 @@ export type ModerationLogOrderByRelationAggregateInput = {
 export type ModerationLogCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
+  eventId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
   oldStatus?: Prisma.SortOrder
   newStatus?: Prisma.SortOrder
@@ -387,12 +413,14 @@ export type ModerationLogCountOrderByAggregateInput = {
 export type ModerationLogAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
+  eventId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
 }
 
 export type ModerationLogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
+  eventId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
   oldStatus?: Prisma.SortOrder
   newStatus?: Prisma.SortOrder
@@ -403,6 +431,7 @@ export type ModerationLogMaxOrderByAggregateInput = {
 export type ModerationLogMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
+  eventId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
   oldStatus?: Prisma.SortOrder
   newStatus?: Prisma.SortOrder
@@ -413,6 +442,7 @@ export type ModerationLogMinOrderByAggregateInput = {
 export type ModerationLogSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
+  eventId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
 }
 
@@ -455,6 +485,48 @@ export type ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput = {
   connect?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
   update?: Prisma.ModerationLogUpdateWithWhereUniqueWithoutModeratorInput | Prisma.ModerationLogUpdateWithWhereUniqueWithoutModeratorInput[]
   updateMany?: Prisma.ModerationLogUpdateManyWithWhereWithoutModeratorInput | Prisma.ModerationLogUpdateManyWithWhereWithoutModeratorInput[]
+  deleteMany?: Prisma.ModerationLogScalarWhereInput | Prisma.ModerationLogScalarWhereInput[]
+}
+
+export type ModerationLogCreateNestedManyWithoutEventInput = {
+  create?: Prisma.XOR<Prisma.ModerationLogCreateWithoutEventInput, Prisma.ModerationLogUncheckedCreateWithoutEventInput> | Prisma.ModerationLogCreateWithoutEventInput[] | Prisma.ModerationLogUncheckedCreateWithoutEventInput[]
+  connectOrCreate?: Prisma.ModerationLogCreateOrConnectWithoutEventInput | Prisma.ModerationLogCreateOrConnectWithoutEventInput[]
+  createMany?: Prisma.ModerationLogCreateManyEventInputEnvelope
+  connect?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+}
+
+export type ModerationLogUncheckedCreateNestedManyWithoutEventInput = {
+  create?: Prisma.XOR<Prisma.ModerationLogCreateWithoutEventInput, Prisma.ModerationLogUncheckedCreateWithoutEventInput> | Prisma.ModerationLogCreateWithoutEventInput[] | Prisma.ModerationLogUncheckedCreateWithoutEventInput[]
+  connectOrCreate?: Prisma.ModerationLogCreateOrConnectWithoutEventInput | Prisma.ModerationLogCreateOrConnectWithoutEventInput[]
+  createMany?: Prisma.ModerationLogCreateManyEventInputEnvelope
+  connect?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+}
+
+export type ModerationLogUpdateManyWithoutEventNestedInput = {
+  create?: Prisma.XOR<Prisma.ModerationLogCreateWithoutEventInput, Prisma.ModerationLogUncheckedCreateWithoutEventInput> | Prisma.ModerationLogCreateWithoutEventInput[] | Prisma.ModerationLogUncheckedCreateWithoutEventInput[]
+  connectOrCreate?: Prisma.ModerationLogCreateOrConnectWithoutEventInput | Prisma.ModerationLogCreateOrConnectWithoutEventInput[]
+  upsert?: Prisma.ModerationLogUpsertWithWhereUniqueWithoutEventInput | Prisma.ModerationLogUpsertWithWhereUniqueWithoutEventInput[]
+  createMany?: Prisma.ModerationLogCreateManyEventInputEnvelope
+  set?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  disconnect?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  delete?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  connect?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  update?: Prisma.ModerationLogUpdateWithWhereUniqueWithoutEventInput | Prisma.ModerationLogUpdateWithWhereUniqueWithoutEventInput[]
+  updateMany?: Prisma.ModerationLogUpdateManyWithWhereWithoutEventInput | Prisma.ModerationLogUpdateManyWithWhereWithoutEventInput[]
+  deleteMany?: Prisma.ModerationLogScalarWhereInput | Prisma.ModerationLogScalarWhereInput[]
+}
+
+export type ModerationLogUncheckedUpdateManyWithoutEventNestedInput = {
+  create?: Prisma.XOR<Prisma.ModerationLogCreateWithoutEventInput, Prisma.ModerationLogUncheckedCreateWithoutEventInput> | Prisma.ModerationLogCreateWithoutEventInput[] | Prisma.ModerationLogUncheckedCreateWithoutEventInput[]
+  connectOrCreate?: Prisma.ModerationLogCreateOrConnectWithoutEventInput | Prisma.ModerationLogCreateOrConnectWithoutEventInput[]
+  upsert?: Prisma.ModerationLogUpsertWithWhereUniqueWithoutEventInput | Prisma.ModerationLogUpsertWithWhereUniqueWithoutEventInput[]
+  createMany?: Prisma.ModerationLogCreateManyEventInputEnvelope
+  set?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  disconnect?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  delete?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  connect?: Prisma.ModerationLogWhereUniqueInput | Prisma.ModerationLogWhereUniqueInput[]
+  update?: Prisma.ModerationLogUpdateWithWhereUniqueWithoutEventInput | Prisma.ModerationLogUpdateWithWhereUniqueWithoutEventInput[]
+  updateMany?: Prisma.ModerationLogUpdateManyWithWhereWithoutEventInput | Prisma.ModerationLogUpdateManyWithWhereWithoutEventInput[]
   deleteMany?: Prisma.ModerationLogScalarWhereInput | Prisma.ModerationLogScalarWhereInput[]
 }
 
@@ -501,18 +573,20 @@ export type ModerationLogUncheckedUpdateManyWithoutPostNestedInput = {
 }
 
 export type ModerationLogCreateWithoutModeratorInput = {
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
-  post: Prisma.PostCreateNestedOneWithoutModerationLogsInput
+  post?: Prisma.PostCreateNestedOneWithoutModerationLogsInput
+  event?: Prisma.EventCreateNestedOneWithoutModerationLogsInput
 }
 
 export type ModerationLogUncheckedCreateWithoutModeratorInput = {
   id?: number
-  postId: number
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  postId?: number | null
+  eventId?: number | null
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
 }
@@ -547,27 +621,74 @@ export type ModerationLogScalarWhereInput = {
   OR?: Prisma.ModerationLogScalarWhereInput[]
   NOT?: Prisma.ModerationLogScalarWhereInput | Prisma.ModerationLogScalarWhereInput[]
   id?: Prisma.IntFilter<"ModerationLog"> | number
-  postId?: Prisma.IntFilter<"ModerationLog"> | number
+  postId?: Prisma.IntNullableFilter<"ModerationLog"> | number | null
+  eventId?: Prisma.IntNullableFilter<"ModerationLog"> | number | null
   moderatorId?: Prisma.IntFilter<"ModerationLog"> | number
-  oldStatus?: Prisma.EnumPostStatusFilter<"ModerationLog"> | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFilter<"ModerationLog"> | $Enums.PostStatus
+  oldStatus?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
+  newStatus?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
   reason?: Prisma.StringNullableFilter<"ModerationLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ModerationLog"> | Date | string
 }
 
-export type ModerationLogCreateWithoutPostInput = {
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+export type ModerationLogCreateWithoutEventInput = {
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
+  post?: Prisma.PostCreateNestedOneWithoutModerationLogsInput
+  moderator: Prisma.UserCreateNestedOneWithoutModerationLogsInput
+}
+
+export type ModerationLogUncheckedCreateWithoutEventInput = {
+  id?: number
+  postId?: number | null
+  moderatorId: number
+  oldStatus?: string | null
+  newStatus?: string | null
+  reason?: string | null
+  createdAt?: Date | string
+}
+
+export type ModerationLogCreateOrConnectWithoutEventInput = {
+  where: Prisma.ModerationLogWhereUniqueInput
+  create: Prisma.XOR<Prisma.ModerationLogCreateWithoutEventInput, Prisma.ModerationLogUncheckedCreateWithoutEventInput>
+}
+
+export type ModerationLogCreateManyEventInputEnvelope = {
+  data: Prisma.ModerationLogCreateManyEventInput | Prisma.ModerationLogCreateManyEventInput[]
+}
+
+export type ModerationLogUpsertWithWhereUniqueWithoutEventInput = {
+  where: Prisma.ModerationLogWhereUniqueInput
+  update: Prisma.XOR<Prisma.ModerationLogUpdateWithoutEventInput, Prisma.ModerationLogUncheckedUpdateWithoutEventInput>
+  create: Prisma.XOR<Prisma.ModerationLogCreateWithoutEventInput, Prisma.ModerationLogUncheckedCreateWithoutEventInput>
+}
+
+export type ModerationLogUpdateWithWhereUniqueWithoutEventInput = {
+  where: Prisma.ModerationLogWhereUniqueInput
+  data: Prisma.XOR<Prisma.ModerationLogUpdateWithoutEventInput, Prisma.ModerationLogUncheckedUpdateWithoutEventInput>
+}
+
+export type ModerationLogUpdateManyWithWhereWithoutEventInput = {
+  where: Prisma.ModerationLogScalarWhereInput
+  data: Prisma.XOR<Prisma.ModerationLogUpdateManyMutationInput, Prisma.ModerationLogUncheckedUpdateManyWithoutEventInput>
+}
+
+export type ModerationLogCreateWithoutPostInput = {
+  oldStatus?: string | null
+  newStatus?: string | null
+  reason?: string | null
+  createdAt?: Date | string
+  event?: Prisma.EventCreateNestedOneWithoutModerationLogsInput
   moderator: Prisma.UserCreateNestedOneWithoutModerationLogsInput
 }
 
 export type ModerationLogUncheckedCreateWithoutPostInput = {
   id?: number
+  eventId?: number | null
   moderatorId: number
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
 }
@@ -599,70 +720,117 @@ export type ModerationLogUpdateManyWithWhereWithoutPostInput = {
 
 export type ModerationLogCreateManyModeratorInput = {
   id?: number
-  postId: number
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  postId?: number | null
+  eventId?: number | null
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
 }
 
 export type ModerationLogUpdateWithoutModeratorInput = {
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  post?: Prisma.PostUpdateOneRequiredWithoutModerationLogsNestedInput
+  post?: Prisma.PostUpdateOneWithoutModerationLogsNestedInput
+  event?: Prisma.EventUpdateOneWithoutModerationLogsNestedInput
 }
 
 export type ModerationLogUncheckedUpdateWithoutModeratorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  postId?: Prisma.IntFieldUpdateOperationsInput | number
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModerationLogUncheckedUpdateManyWithoutModeratorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  postId?: Prisma.IntFieldUpdateOperationsInput | number
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ModerationLogCreateManyEventInput = {
+  id?: number
+  postId?: number | null
+  moderatorId: number
+  oldStatus?: string | null
+  newStatus?: string | null
+  reason?: string | null
+  createdAt?: Date | string
+}
+
+export type ModerationLogUpdateWithoutEventInput = {
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.PostUpdateOneWithoutModerationLogsNestedInput
+  moderator?: Prisma.UserUpdateOneRequiredWithoutModerationLogsNestedInput
+}
+
+export type ModerationLogUncheckedUpdateWithoutEventInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  moderatorId?: Prisma.IntFieldUpdateOperationsInput | number
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ModerationLogUncheckedUpdateManyWithoutEventInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  moderatorId?: Prisma.IntFieldUpdateOperationsInput | number
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModerationLogCreateManyPostInput = {
   id?: number
+  eventId?: number | null
   moderatorId: number
-  oldStatus: $Enums.PostStatus
-  newStatus: $Enums.PostStatus
+  oldStatus?: string | null
+  newStatus?: string | null
   reason?: string | null
   createdAt?: Date | string
 }
 
 export type ModerationLogUpdateWithoutPostInput = {
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  event?: Prisma.EventUpdateOneWithoutModerationLogsNestedInput
   moderator?: Prisma.UserUpdateOneRequiredWithoutModerationLogsNestedInput
 }
 
 export type ModerationLogUncheckedUpdateWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   moderatorId?: Prisma.IntFieldUpdateOperationsInput | number
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModerationLogUncheckedUpdateManyWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   moderatorId?: Prisma.IntFieldUpdateOperationsInput | number
-  oldStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-  newStatus?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  oldStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  newStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -672,42 +840,49 @@ export type ModerationLogUncheckedUpdateManyWithoutPostInput = {
 export type ModerationLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   postId?: boolean
+  eventId?: boolean
   moderatorId?: boolean
   oldStatus?: boolean
   newStatus?: boolean
   reason?: boolean
   createdAt?: boolean
-  post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.ModerationLog$postArgs<ExtArgs>
+  event?: boolean | Prisma.ModerationLog$eventArgs<ExtArgs>
   moderator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["moderationLog"]>
 
 export type ModerationLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   postId?: boolean
+  eventId?: boolean
   moderatorId?: boolean
   oldStatus?: boolean
   newStatus?: boolean
   reason?: boolean
   createdAt?: boolean
-  post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.ModerationLog$postArgs<ExtArgs>
+  event?: boolean | Prisma.ModerationLog$eventArgs<ExtArgs>
   moderator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["moderationLog"]>
 
 export type ModerationLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   postId?: boolean
+  eventId?: boolean
   moderatorId?: boolean
   oldStatus?: boolean
   newStatus?: boolean
   reason?: boolean
   createdAt?: boolean
-  post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.ModerationLog$postArgs<ExtArgs>
+  event?: boolean | Prisma.ModerationLog$eventArgs<ExtArgs>
   moderator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["moderationLog"]>
 
 export type ModerationLogSelectScalar = {
   id?: boolean
   postId?: boolean
+  eventId?: boolean
   moderatorId?: boolean
   oldStatus?: boolean
   newStatus?: boolean
@@ -715,32 +890,37 @@ export type ModerationLogSelectScalar = {
   createdAt?: boolean
 }
 
-export type ModerationLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "moderatorId" | "oldStatus" | "newStatus" | "reason" | "createdAt", ExtArgs["result"]["moderationLog"]>
+export type ModerationLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "eventId" | "moderatorId" | "oldStatus" | "newStatus" | "reason" | "createdAt", ExtArgs["result"]["moderationLog"]>
 export type ModerationLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.ModerationLog$postArgs<ExtArgs>
+  event?: boolean | Prisma.ModerationLog$eventArgs<ExtArgs>
   moderator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ModerationLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.ModerationLog$postArgs<ExtArgs>
+  event?: boolean | Prisma.ModerationLog$eventArgs<ExtArgs>
   moderator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ModerationLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.ModerationLog$postArgs<ExtArgs>
+  event?: boolean | Prisma.ModerationLog$eventArgs<ExtArgs>
   moderator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ModerationLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ModerationLog"
   objects: {
-    post: Prisma.$PostPayload<ExtArgs>
+    post: Prisma.$PostPayload<ExtArgs> | null
+    event: Prisma.$EventPayload<ExtArgs> | null
     moderator: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    postId: number
+    postId: number | null
+    eventId: number | null
     moderatorId: number
-    oldStatus: $Enums.PostStatus
-    newStatus: $Enums.PostStatus
+    oldStatus: string | null
+    newStatus: string | null
     reason: string | null
     createdAt: Date
   }, ExtArgs["result"]["moderationLog"]>
@@ -1137,7 +1317,8 @@ readonly fields: ModerationLogFieldRefs;
  */
 export interface Prisma__ModerationLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  post<T extends Prisma.PostDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PostDefaultArgs<ExtArgs>>): Prisma.Prisma__PostClient<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  post<T extends Prisma.ModerationLog$postArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ModerationLog$postArgs<ExtArgs>>): Prisma.Prisma__PostClient<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  event<T extends Prisma.ModerationLog$eventArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ModerationLog$eventArgs<ExtArgs>>): Prisma.Prisma__EventClient<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   moderator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1170,9 +1351,10 @@ export interface Prisma__ModerationLogClient<T, Null = never, ExtArgs extends ru
 export interface ModerationLogFieldRefs {
   readonly id: Prisma.FieldRef<"ModerationLog", 'Int'>
   readonly postId: Prisma.FieldRef<"ModerationLog", 'Int'>
+  readonly eventId: Prisma.FieldRef<"ModerationLog", 'Int'>
   readonly moderatorId: Prisma.FieldRef<"ModerationLog", 'Int'>
-  readonly oldStatus: Prisma.FieldRef<"ModerationLog", 'PostStatus'>
-  readonly newStatus: Prisma.FieldRef<"ModerationLog", 'PostStatus'>
+  readonly oldStatus: Prisma.FieldRef<"ModerationLog", 'String'>
+  readonly newStatus: Prisma.FieldRef<"ModerationLog", 'String'>
   readonly reason: Prisma.FieldRef<"ModerationLog", 'String'>
   readonly createdAt: Prisma.FieldRef<"ModerationLog", 'DateTime'>
 }
@@ -1566,6 +1748,44 @@ export type ModerationLogDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many ModerationLogs to delete.
    */
   limit?: number
+}
+
+/**
+ * ModerationLog.post
+ */
+export type ModerationLog$postArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Post
+   */
+  select?: Prisma.PostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Post
+   */
+  omit?: Prisma.PostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  where?: Prisma.PostWhereInput
+}
+
+/**
+ * ModerationLog.event
+ */
+export type ModerationLog$eventArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Event
+   */
+  select?: Prisma.EventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Event
+   */
+  omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
+  where?: Prisma.EventWhereInput
 }
 
 /**

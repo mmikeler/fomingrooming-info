@@ -23,6 +23,16 @@ export * from './enums.ts';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Event
+ * 
+ */
+export type Event = Prisma.EventModel
+/**
+ * Model EventRegistration
+ * 
+ */
+export type EventRegistration = Prisma.EventRegistrationModel
+/**
  * Model Post
  * 
  */

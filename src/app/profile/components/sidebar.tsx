@@ -1,6 +1,6 @@
 "use client";
 
-import { EditOutlined, UserOutlined } from "@ant-design/icons";
+import { EditOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
 import Link from "next/link";
@@ -12,6 +12,9 @@ type MenuItem = Required<MenuProps>["items"][number];
 const menuKeyToPath: Record<string, string> = {
   profile: "/profile",
   posts: "/profile/posts",
+  events: "/profile/events",
+  events_my: "/profile/events/my",
+  events_registered: "/profile/events/registered",
   // Добавляйте новые пункты здесь
 };
 
@@ -46,11 +49,33 @@ export default function ProfileSidebar() {
       key: "posts",
       icon: <EditOutlined />,
     },
+    {
+      label: "Мероприятия",
+      key: "events",
+      icon: <TeamOutlined />,
+      children: [
+        {
+          label: <Link href={"/profile/events/my"}>Организую</Link>,
+          key: "events_my",
+          icon: <TeamOutlined />,
+        },
+        {
+          label: <Link href={"/profile/events/registered"}>Участвую</Link>,
+          key: "events_registered",
+          icon: <TeamOutlined />,
+        },
+      ],
+    },
   ];
 
   return (
     <Sider theme="light">
-      <Menu selectedKeys={selectedKey ? [selectedKey] : []} items={items} />
+      <Menu
+        defaultOpenKeys={["events"]}
+        selectedKeys={selectedKey ? [selectedKey] : []}
+        items={items}
+        mode="inline"
+      />
     </Sider>
   );
 }

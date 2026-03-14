@@ -57,7 +57,8 @@ COPY --from=builder /app/prisma/schema.prisma ./prisma/schema.prisma
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
-RUN chown -R nextjs:nodejs .next prisma
+RUN mkdir logs
+RUN chown -R nextjs:nodejs .next prisma logs
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing

@@ -1,6 +1,6 @@
 import { UserRole } from "@/generated/prisma/enums";
 
-export type UploadType = "avatar" | "post-cover";
+export type UploadType = "avatar" | "post-cover" | "event-cover";
 
 export interface UploadPathOptions {
   userId: number;
@@ -14,6 +14,7 @@ export interface UploadPathOptions {
  * Структура директорий:
  * - uploads/{userId}/avatars/ - аватарки пользователей
  * - uploads/{userId}/posts/{MM-YYYY}/ - изображения постов пользователей
+ * - uploads/{userId}/events/{MM-YYYY}/ - обложки мероприятий пользователей
  * - uploads/shared/{MM-YYYY}/ - общее хранилище для админов
  */
 export function getUploadPath(options: UploadPathOptions): string {
@@ -33,6 +34,9 @@ export function getUploadPath(options: UploadPathOptions): string {
   // Обычные пользователи - персональная папка
   if (type === "avatar") {
     return `uploads/${userId}/avatars`;
+  }
+  if (type === "event-cover") {
+    return `uploads/${userId}/events/${monthYear}`;
   }
   return `uploads/${userId}/posts/${monthYear}`;
 }

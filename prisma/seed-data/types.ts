@@ -24,6 +24,23 @@ export interface SeedPost {
   authorId: string;
 }
 
+export interface SeedEvent {
+  title: string;
+  slug: string;
+  description?: string;
+  format: "ONLINE" | "OFFLINE";
+  city?: string;
+  location?: string;
+  startDate: string;
+  endDate: string;
+  status?: string;
+  rejectionReason?: string;
+  moderatedAt?: string;
+  moderatedBy?: number;
+  /** Reference to SeedUser.id (temporary string ID) */
+  authorId: string;
+}
+
 export interface SeedNotification {
   /** Reference to SeedUser.id (temporary ID) */
   userId: number;

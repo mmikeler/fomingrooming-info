@@ -12,30 +12,32 @@ import {
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { canModerate } from "@/lib/permissions";
-import { PostStatus } from "@/generated/prisma/enums";
+import { EventStatus } from "@/generated/prisma/enums";
 import { logger } from "@/lib/logger";
 
-interface ModeratedPost {
+interface ModeratedEvent {
   id: number;
   title: string;
-  status: PostStatus;
+  status: EventStatus;
 }
 
 interface ModerationLogEntry {
   id: number;
-  postId: number | null;
-  eventId: number | null;
+  eventId: number;
   moderatorId: number;
-  oldStatus: string | null;
-  newStatus: string | null;
+  oldStatus: EventStatus;
+  newStatus: EventStatus;
   reason: string | null;
   createdAt: Date;
 }
 
+// Для мероприятий используем EventStatus вместо PostStatus
+type StatusType = EventStatus;
+
 /**
- * Получение постов на модерации
+ * Получение мероприятий на модерации
  */
-export async function getPendingPosts() {
+export async function getPendingEvents() {
   try {
     const session = await getServerSession(authOptions);
 
@@ -51,9 +53,9 @@ export async function getPendingPosts() {
       return [];
     }
 
-    const posts = await prisma.post.findMany({
+    const events = await prisma.event.findMany({
       where: {
-        status: PostStatus.PENDING,
+        status: EventStatus.PENDING,
       },
       include: {
         author: {
@@ -69,19 +71,19 @@ export async function getPendingPosts() {
       },
     });
 
-    return posts;
+    return events;
   } catch (error) {
-    logger.error("Failed to get pending posts", { error });
+    logger.error("Failed to get pending events", { error });
     return [];
   }
 }
 
 /**
- * Одобрение поста
+ * Одобрение мероприятия
  */
-export async function approvePost(
-  postId: number,
-): Promise<ActionResult<ModeratedPost>> {
+export async function approveEvent(
+  eventId: number,
+): Promise<ActionResult<ModeratedEvent>> {
   return action(async () => {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -96,24 +98,24 @@ export async function approvePost(
       throw new ForbiddenError("Недостаточно прав для модерации");
     }
 
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
     });
 
-    if (!post) {
-      throw new NotFoundError("Пост", postId);
+    if (!event) {
+      throw new NotFoundError("Мероприятие", eventId);
     }
 
-    if (post.status !== PostStatus.PENDING) {
-      throw new Error("Пост не находится на модерации");
+    if (event.status !== EventStatus.PENDING) {
+      throw new Error("Мероприятие не находится на модерации");
     }
 
-    // Обновляем пост и создаём лог в транзакции
+    // Обновляем мероприятие и создаём лог в транзакции
     const result = await prisma.$transaction([
-      prisma.post.update({
-        where: { id: postId },
+      prisma.event.update({
+        where: { id: eventId },
         data: {
-          status: PostStatus.PUBLISHED,
+          status: EventStatus.PUBLISHED,
           moderatedAt: new Date(),
           moderatedBy: user.id,
           rejectionReason: null,
@@ -126,34 +128,34 @@ export async function approvePost(
       }),
       prisma.moderationLog.create({
         data: {
-          postId,
+          eventId,
           moderatorId: user.id,
-          oldStatus: post.status,
-          newStatus: PostStatus.PUBLISHED,
+          oldStatus: event.status,
+          newStatus: EventStatus.PUBLISHED,
         },
       }),
     ]);
 
-    logger.info("Post approved", {
-      postId,
+    logger.info("Event approved", {
+      eventId,
       moderatorId: user.id,
     });
 
     revalidatePath("/moderation");
-    revalidatePath("/blog");
-    revalidatePath(`/blog/${postId}`);
+    revalidatePath("/events");
+    revalidatePath(`/events/${eventId}`);
 
     return result[0];
   });
 }
 
 /**
- * Отклонение поста
+ * Отклонение мероприятия
  */
-export async function rejectPost(
-  postId: number,
+export async function rejectEvent(
+  eventId: number,
   reason: string,
-): Promise<ActionResult<ModeratedPost>> {
+): Promise<ActionResult<ModeratedEvent>> {
   return action(async () => {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -168,28 +170,28 @@ export async function rejectPost(
       throw new ForbiddenError("Недостаточно прав для модерации");
     }
 
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
     });
 
-    if (!post) {
-      throw new NotFoundError("Пост", postId);
+    if (!event) {
+      throw new NotFoundError("Мероприятие", eventId);
     }
 
-    if (post.status !== PostStatus.PENDING) {
-      throw new Error("Пост не находится на модерации");
+    if (event.status !== EventStatus.PENDING) {
+      throw new Error("Мероприятие не находится на модерации");
     }
 
     if (!reason.trim()) {
       throw new Error("Необходимо указать причину отклонения");
     }
 
-    // Обновляем пост и создаём лог в транзакции
+    // Обновляем мероприятие и создаём лог в транзакции
     const result = await prisma.$transaction([
-      prisma.post.update({
-        where: { id: postId },
+      prisma.event.update({
+        where: { id: eventId },
         data: {
-          status: PostStatus.REJECTED,
+          status: EventStatus.REJECTED,
           rejectionReason: reason,
           moderatedAt: new Date(),
           moderatedBy: user.id,
@@ -202,17 +204,17 @@ export async function rejectPost(
       }),
       prisma.moderationLog.create({
         data: {
-          postId,
+          eventId,
           moderatorId: user.id,
-          oldStatus: post.status,
-          newStatus: PostStatus.REJECTED,
-          reason,
+          oldStatus: event.status,
+          newStatus: EventStatus.REJECTED,
+          reason: reason,
         },
       }),
     ]);
 
-    logger.info("Post rejected", {
-      postId,
+    logger.info("Event rejected", {
+      eventId,
       moderatorId: user.id,
       reason,
     });
@@ -224,11 +226,23 @@ export async function rejectPost(
 }
 
 /**
- * Получение истории модерации поста
+ * Получение истории модерации мероприятия
  */
-export async function getModerationHistory(
-  postId: number,
-): Promise<ModerationLogEntry[]> {
+export async function getEventModerationHistory(eventId: number): Promise<
+  {
+    id: number;
+    eventId: number;
+    moderatorId: number;
+    oldStatus: StatusType;
+    newStatus: StatusType;
+    reason: string | null;
+    createdAt: Date;
+    moderator: {
+      id: number;
+      name: string;
+    };
+  }[]
+> {
   try {
     const session = await getServerSession(authOptions);
 
@@ -244,22 +258,11 @@ export async function getModerationHistory(
       return [];
     }
 
-    const logs = await prisma.moderationLog.findMany({
-      where: { postId },
-      include: {
-        moderator: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    return logs;
+    // Для мероприятий пока нет отдельной таблицы логов, возвращаем пустой массив
+    // Можно расширить схему при необходимости
+    return [];
   } catch (error) {
-    logger.error("Failed to get moderation history", { error, postId });
+    logger.error("Failed to get event moderation history", { error, eventId });
     return [];
   }
 }

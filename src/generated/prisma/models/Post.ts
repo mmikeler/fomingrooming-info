@@ -511,9 +511,9 @@ export type PostSumOrderByAggregateInput = {
   moderatedBy?: Prisma.SortOrder
 }
 
-export type PostScalarRelationFilter = {
-  is?: Prisma.PostWhereInput
-  isNot?: Prisma.PostWhereInput
+export type PostNullableScalarRelationFilter = {
+  is?: Prisma.PostWhereInput | null
+  isNot?: Prisma.PostWhereInput | null
 }
 
 export type PostCreateNestedManyWithoutAuthorInput = {
@@ -604,24 +604,18 @@ export type EnumPostStatusFieldUpdateOperationsInput = {
   set?: $Enums.PostStatus
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type PostCreateNestedOneWithoutModerationLogsInput = {
   create?: Prisma.XOR<Prisma.PostCreateWithoutModerationLogsInput, Prisma.PostUncheckedCreateWithoutModerationLogsInput>
   connectOrCreate?: Prisma.PostCreateOrConnectWithoutModerationLogsInput
   connect?: Prisma.PostWhereUniqueInput
 }
 
-export type PostUpdateOneRequiredWithoutModerationLogsNestedInput = {
+export type PostUpdateOneWithoutModerationLogsNestedInput = {
   create?: Prisma.XOR<Prisma.PostCreateWithoutModerationLogsInput, Prisma.PostUncheckedCreateWithoutModerationLogsInput>
   connectOrCreate?: Prisma.PostCreateOrConnectWithoutModerationLogsInput
   upsert?: Prisma.PostUpsertWithoutModerationLogsInput
+  disconnect?: Prisma.PostWhereInput | boolean
+  delete?: Prisma.PostWhereInput | boolean
   connect?: Prisma.PostWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutModerationLogsInput, Prisma.PostUpdateWithoutModerationLogsInput>, Prisma.PostUncheckedUpdateWithoutModerationLogsInput>
 }

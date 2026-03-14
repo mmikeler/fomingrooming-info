@@ -29,3 +29,22 @@ export const PostStatus = {
 } as const
 
 export type PostStatus = (typeof PostStatus)[keyof typeof PostStatus]
+
+
+export const EventFormat = {
+  ONLINE: 'ONLINE',
+  OFFLINE: 'OFFLINE'
+} as const
+
+export type EventFormat = (typeof EventFormat)[keyof typeof EventFormat]
+
+
+export const EventStatus = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  PUBLISHED: 'PUBLISHED',
+  REJECTED: 'REJECTED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]

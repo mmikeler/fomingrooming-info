@@ -80,6 +80,18 @@ export default async function UserProfilePage({ params }: Props) {
           coverImage: true,
         },
       },
+      events: {
+        where: { status: "PUBLISHED" },
+        orderBy: { startDate: "desc" },
+        take: 10,
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          startDate: true,
+          coverImage: true,
+        },
+      },
     },
   });
 
@@ -94,16 +106,16 @@ export default async function UserProfilePage({ params }: Props) {
         <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             {/* Аватар */}
-            <div className="shrink-0">
+            <div className="max-w-50 shrink-0">
               {user.avatar ? (
                 <Avatar
-                  size={120}
+                  size={200}
                   src={user.avatar}
                   className="border-2 border-gray-200"
                 />
               ) : (
                 <Avatar
-                  size={120}
+                  size={200}
                   icon={<UserOutlined />}
                   className="bg-gray-300"
                 />
@@ -179,6 +191,46 @@ export default async function UserProfilePage({ params }: Props) {
           ) : (
             <Empty
               description="Пока нет публикаций"
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+            />
+          )}
+        </div>
+
+        {/* Мероприятия пользователя */}
+        <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm">
+          <h2 className="mb-6 text-2xl font-bold">Мероприятия</h2>
+
+          {user.events.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {user.events.map((event) => (
+                <Link
+                  key={event.id}
+                  href={`/events/${event.slug}`}
+                  className="group block overflow-hidden rounded-xl border transition-shadow hover:shadow-md"
+                >
+                  {event.coverImage && (
+                    <div className="aspect-video w-full overflow-hidden">
+                      <Image
+                        src={event.coverImage}
+                        alt={event.title}
+                        className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <h3 className="mb-2 line-clamp-2 text-lg font-semibold transition-colors group-hover:text-blue-600">
+                      {event.title}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {new Date(event.startDate).toLocaleDateString("ru-RU")}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <Empty
+              description="Пока нет мероприятий"
               image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           )}

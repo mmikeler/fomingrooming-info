@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { canModerate } from "@/lib/permissions";
 import { ModerationQueue } from "./components/ModerationQueue";
+import { EventsModerationQueue } from "./components/EventsModerationQueue";
 
 export default async function ModerationPage() {
   const session = await getServerSession(authOptions);
@@ -39,25 +40,58 @@ export default async function ModerationPage() {
     },
   });
 
+  // Получаем мероприятия на модерации
+  const pendingEvents = await prisma.event.findMany({
+    where: {
+      status: "PENDING",
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+    },
+    orderBy: {
+      created: "asc",
+    },
+  });
+
+  const totalItems = pendingPosts.length + pendingEvents.length;
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-6 text-3xl font-bold">Модерация постов</h1>
+      <h1 className="mb-6 text-3xl font-bold">Модерация</h1>
 
-      {pendingPosts.length === 0 ? (
+      {totalItems === 0 ? (
         <div className="py-12 text-center">
           <p className="text-lg text-gray-500">
-            Нет постов, ожидающих модерации
+            Нет материалов, ожидающих модерации
           </p>
         </div>
       ) : (
-        <div className="mb-4">
-          <p className="text-gray-600">
-            Постов на модерации: {pendingPosts.length}
-          </p>
-        </div>
-      )}
+        <>
+          {pendingPosts.length > 0 && (
+            <div className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold">
+                Посты на модерации ({pendingPosts.length})
+              </h2>
+              <ModerationQueue posts={pendingPosts} />
+            </div>
+          )}
 
-      <ModerationQueue posts={pendingPosts} />
+          {pendingEvents.length > 0 && (
+            <div>
+              <h2 className="mb-4 text-2xl font-semibold">
+                Мероприятия на модерации ({pendingEvents.length})
+              </h2>
+              <EventsModerationQueue events={pendingEvents} />
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

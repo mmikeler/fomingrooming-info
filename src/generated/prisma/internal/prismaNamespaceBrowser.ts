@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Event: 'Event',
+  EventRegistration: 'EventRegistration',
   Post: 'Post',
   Notification: 'Notification',
   ModerationLog: 'ModerationLog'
@@ -91,6 +93,39 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  format: 'format',
+  city: 'city',
+  location: 'location',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  coverImage: 'coverImage',
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  authorId: 'authorId',
+  moderatedAt: 'moderatedAt',
+  moderatedBy: 'moderatedBy',
+  created: 'created',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const EventRegistrationScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  userId: 'userId',
+  registeredAt: 'registeredAt'
+} as const
+
+export type EventRegistrationScalarFieldEnum = (typeof EventRegistrationScalarFieldEnum)[keyof typeof EventRegistrationScalarFieldEnum]
+
+
 export const PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -124,6 +159,7 @@ export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[k
 export const ModerationLogScalarFieldEnum = {
   id: 'id',
   postId: 'postId',
+  eventId: 'eventId',
   moderatorId: 'moderatorId',
   oldStatus: 'oldStatus',
   newStatus: 'newStatus',
