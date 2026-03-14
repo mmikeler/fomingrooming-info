@@ -12,6 +12,7 @@ import {
   SeedNotification,
   SeedModerationLog,
   SeedEvent,
+  SeedEventRegistration,
 } from "./seed-data/types";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -47,7 +48,21 @@ function loadSeedData() {
     fs.readFileSync(path.join(seedDataDir, "moderation-logs.json"), "utf-8"),
   );
 
-  return { users, posts, events, notifications, moderationLogs };
+  const eventRegistrations: SeedEventRegistration[] = JSON.parse(
+    fs.readFileSync(
+      path.join(seedDataDir, "event-registrations.json"),
+      "utf-8",
+    ),
+  );
+
+  return {
+    users,
+    posts,
+    events,
+    notifications,
+    moderationLogs,
+    eventRegistrations,
+  };
 }
 
 /**
@@ -59,10 +74,16 @@ async function main() {
 
   // Load data from JSON files
   console.log("Loading seed data from JSON files...");
-  const { users, posts, events, notifications, moderationLogs } =
-    loadSeedData();
+  const {
+    users,
+    posts,
+    events,
+    notifications,
+    moderationLogs,
+    eventRegistrations,
+  } = loadSeedData();
   console.log(
-    `Loaded ${users.length} users, ${posts.length} posts, ${events.length} events, ${notifications.length} notifications, ${moderationLogs.length} moderation logs`,
+    `Loaded ${users.length} users, ${posts.length} posts, ${events.length} events, ${notifications.length} notifications, ${moderationLogs.length} moderation logs, ${eventRegistrations.length} event registrations`,
   );
 
   // Clear existing data
@@ -255,6 +276,34 @@ async function main() {
     });
   }
   console.log(`  Created ${moderationLogs.length} moderation logs`);
+
+  // Create event registrations
+  console.log("Creating event registrations...");
+  for (const registration of eventRegistrations) {
+    const eventId = eventIdMap.get(registration.eventIndex);
+    const userId = userIdMap.get(String(registration.userId));
+
+    if (!eventId) {
+      console.warn(
+        `  Warning: Event not found for registration (index ${registration.eventIndex}), skipping...`,
+      );
+      continue;
+    }
+    if (!userId) {
+      console.warn(
+        `  Warning: User not found for registration (userId ${registration.userId}), skipping...`,
+      );
+      continue;
+    }
+
+    await prisma.eventRegistration.create({
+      data: {
+        eventId,
+        userId,
+      },
+    });
+  }
+  console.log(`  Created ${eventRegistrations.length} event registrations`);
 
   console.log("Seed completed successfully!");
 }

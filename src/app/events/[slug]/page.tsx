@@ -96,7 +96,7 @@ export default async function EventPage({ params }: PageProps) {
       <div className="mx-auto max-w-4xl">
         {/* Обложка */}
         {event.coverImage && (
-          <div className="relative mb-6 h-[300px] w-full overflow-hidden rounded-lg">
+          <div className="relative mb-6 h-75 w-full overflow-hidden rounded-lg">
             <Image
               src={event.coverImage}
               alt={event.title}

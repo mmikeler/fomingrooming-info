@@ -73,3 +73,10 @@ export interface SeedTag {
   name: string;
   slug: string;
 }
+
+export interface SeedEventRegistration {
+  /** Reference to event index in events.json (1-based) */
+  eventIndex: number;
+  /** Reference to SeedUser.id (temporary ID) */
+  userId: number;
+}
