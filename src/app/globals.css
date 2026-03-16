@@ -4,7 +4,8 @@
   --background: #ffffff;
   --gray-background: #f6faff;
   --foreground: #486284;
-  --accent: #F83758;
+  --accent: #f83758;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -12,7 +13,7 @@ body {
 }
 
 /* Post Editor Config */
-body .w-md-editor-text-pre>code,
+body .w-md-editor-text-pre > code,
 body .w-md-editor-text-input {
   font-size: 18px !important;
   line-height: 1.2 !important;
@@ -22,7 +23,7 @@ body .wmde-markdown {
   font-size: 18px !important;
 }
 /* Button */
-.btn{
+.btn {
   background-color: var(--accent);
   border-radius: 100px;
   text-transform: uppercase;
@@ -30,8 +31,11 @@ body .wmde-markdown {
   color: white;
   line-height: 0;
   cursor: pointer;
+  text-align: center;
+  letter-spacing: 2px;
   transition: background-color 0.3s linear;
-  &:hover{
+  &:hover {
     background-color: #da304c;
+    color: white;
   }
 }

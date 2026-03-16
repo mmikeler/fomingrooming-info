@@ -5,6 +5,7 @@ import { CalendarOutlined, UserOutlined } from "@ant-design/icons";
 import { Space } from "antd";
 import { Metadata } from "next";
 import { cleanMarkdown } from "@/lib/markdown";
+import Image from "next/image";
 
 export async function generateMetadata({
   params,
@@ -60,6 +61,19 @@ export default async function Page({
             <CalendarOutlined />
             <time>{new Date(post.created).toLocaleDateString()}</time>
           </Space>
+        </div>
+        <div className="mt-2">
+          {/* Обложка поста */}
+          {post.coverImage && (
+            <div className="relative mb-6 h-75 w-full overflow-hidden rounded-lg">
+              <Image
+                src={post.coverImage}
+                alt="Обложка статьи"
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
         </div>
         <Content content={post.content || ""} />
       </article>

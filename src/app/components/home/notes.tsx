@@ -1,4 +1,4 @@
-import { Flex, Skeleton } from "antd";
+import { Skeleton } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -74,7 +74,7 @@ function PostCard({ post }: { post: LatestPost }) {
         <h3 className="text-xl font-semibold">{post.title}</h3>
         <p className="mt-2 text-sm">{excerpt}</p>
         <Link href={`/blog/${post.slug}`} className="mt-auto pt-5 text-xs">
-          More details
+          Читать заметку
         </Link>
       </div>
     </div>

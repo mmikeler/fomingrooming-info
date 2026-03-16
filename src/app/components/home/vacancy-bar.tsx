@@ -89,7 +89,7 @@ export default function VACANCY_BAR() {
         );
       })}
       <div className="mt-10">
-        <Button type="link" href="/">
+        <Button className="w-fit" href="/">
           Все вакансии
         </Button>
       </div>
