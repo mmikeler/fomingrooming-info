@@ -56,6 +56,21 @@ export const authOptions: NextAuthOptions = {
           throw new Error("EMAIL_NOT_VERIFIED");
         }
 
+        // Проверка статуса аккаунта
+        if (user.status === "BANNED") {
+          logger.warn("Login attempt with banned account", {
+            email: credentials.email,
+            userId: user.id,
+            banReason: user.banReason,
+          });
+          // Включаем причину бана в сообщение об ошибке
+          throw new Error(
+            user.banReason
+              ? `ACCOUNT_BANNED:${user.banReason}`
+              : "ACCOUNT_BANNED",
+          );
+        }
+
         logger.info("User logged in successfully", {
           userId: user.id,
           email: user.email,
@@ -67,6 +82,7 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           role: user.role,
+          status: user.status,
           city: user.city || null,
           phone: user.phone || null,
           image: user.avatar || null,
@@ -79,6 +95,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.status = user.status;
         token.city = user.city || null;
         token.phone = user.phone || null;
         token.image = user.image || null;
@@ -94,6 +111,10 @@ export const authOptions: NextAuthOptions = {
           | "MODERATOR"
           | "ADMIN"
           | "SUPERADMIN";
+        session.user.status = token.status as
+          | "ACTIVE"
+          | "RESTRICTED"
+          | "BANNED";
         session.user.city = token.city as string | null;
         session.user.phone = token.phone as string | null;
         session.user.image = token.image as string | null;

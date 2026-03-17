@@ -389,7 +389,8 @@ export const ModelName = {
   EventRegistration: 'EventRegistration',
   Post: 'Post',
   Notification: 'Notification',
-  ModerationLog: 'ModerationLog'
+  ModerationLog: 'ModerationLog',
+  UserBanLog: 'UserBanLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "event" | "eventRegistration" | "post" | "notification" | "moderationLog"
+    modelProps: "user" | "event" | "eventRegistration" | "post" | "notification" | "moderationLog" | "userBanLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -853,6 +854,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserBanLog: {
+      payload: Prisma.$UserBanLogPayload<ExtArgs>
+      fields: Prisma.UserBanLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserBanLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserBanLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>
+        }
+        findFirst: {
+          args: Prisma.UserBanLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserBanLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>
+        }
+        findMany: {
+          args: Prisma.UserBanLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>[]
+        }
+        create: {
+          args: Prisma.UserBanLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>
+        }
+        createMany: {
+          args: Prisma.UserBanLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserBanLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>[]
+        }
+        delete: {
+          args: Prisma.UserBanLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>
+        }
+        update: {
+          args: Prisma.UserBanLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserBanLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserBanLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserBanLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserBanLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBanLogPayload>
+        }
+        aggregate: {
+          args: Prisma.UserBanLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserBanLog>
+        }
+        groupBy: {
+          args: Prisma.UserBanLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserBanLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserBanLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserBanLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -904,7 +979,14 @@ export const UserScalarFieldEnum = {
   verificationToken: 'verificationToken',
   verificationTokenExpires: 'verificationTokenExpires',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status',
+  banReason: 'banReason',
+  bannedAt: 'bannedAt',
+  bannedBy: 'bannedBy',
+  restrictedReason: 'restrictedReason',
+  restrictedAt: 'restrictedAt',
+  restrictedBy: 'restrictedBy'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -951,6 +1033,7 @@ export const PostScalarFieldEnum = {
   coverImage: 'coverImage',
   created: 'created',
   status: 'status',
+  category: 'category',
   rejectionReason: 'rejectionReason',
   authorId: 'authorId',
   moderatedAt: 'moderatedAt',
@@ -985,6 +1068,19 @@ export const ModerationLogScalarFieldEnum = {
 } as const
 
 export type ModerationLogScalarFieldEnum = (typeof ModerationLogScalarFieldEnum)[keyof typeof ModerationLogScalarFieldEnum]
+
+
+export const UserBanLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  reason: 'reason',
+  moderatorId: 'moderatorId',
+  previousValue: 'previousValue',
+  createdAt: 'createdAt'
+} as const
+
+export type UserBanLogScalarFieldEnum = (typeof UserBanLogScalarFieldEnum)[keyof typeof UserBanLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1045,6 +1141,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
 
 
 /**
+ * Reference to a field of type 'AccountStatus'
+ */
+export type EnumAccountStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountStatus'>
+    
+
+
+/**
  * Reference to a field of type 'EventFormat'
  */
 export type EnumEventFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventFormat'>
@@ -1062,6 +1165,20 @@ export type EnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'PostStatus'
  */
 export type EnumPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PostCategory'
+ */
+export type EnumPostCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'BanAction'
+ */
+export type EnumBanActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BanAction'>
     
 
 
@@ -1172,6 +1289,7 @@ export type GlobalOmitConfig = {
   post?: Prisma.PostOmit
   notification?: Prisma.NotificationOmit
   moderationLog?: Prisma.ModerationLogOmit
+  userBanLog?: Prisma.UserBanLogOmit
 }
 
 /* Types for Logging */

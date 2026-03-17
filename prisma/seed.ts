@@ -119,6 +119,16 @@ async function main() {
         role: role as "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN",
         emailVerified: new Date(),
         showContacts: true,
+        // Account status fields
+        status: userData.status || "ACTIVE",
+        restrictedReason: userData.restrictedReason || null,
+        restrictedAt: userData.restrictedAt
+          ? new Date(userData.restrictedAt)
+          : null,
+        restrictedBy: userData.restrictedBy || null,
+        banReason: userData.bannedReason || null,
+        bannedAt: userData.bannedAt ? new Date(userData.bannedAt) : null,
+        bannedBy: userData.bannedBy || null,
       },
     });
     userIdMap.set(userData.id.toString(), user.id);
@@ -155,6 +165,7 @@ async function main() {
           | "PUBLISHED"
           | "REJECTED"
           | "ARCHIVED",
+        category: post.category || "NEWS",
         authorId,
         rejectionReason: post.rejectionReason,
         moderatedAt: post.moderatedAt ? new Date(post.moderatedAt) : undefined,
@@ -164,7 +175,9 @@ async function main() {
       },
     });
     postIdMap.set(i + 1, createdPost.id); // 1-based index for JSON reference
-    console.log(`  Created post: ${post.title} (status: ${status})`);
+    console.log(
+      `  Created post: ${post.title} (status: ${status}, category: ${post.category || "NEWS"})`,
+    );
   }
 
   // Create events

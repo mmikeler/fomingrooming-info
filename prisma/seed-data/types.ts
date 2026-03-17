@@ -9,6 +9,20 @@ export interface SeedUser {
   name: string;
   /** Plain text password (will be hashed during seed) */
   password: string;
+  /** Account status: ACTIVE, RESTRICTED, BANNED */
+  status?: "ACTIVE" | "RESTRICTED" | "BANNED";
+  /** Reason for restriction (when status is RESTRICTED) */
+  restrictedReason?: string;
+  /** When user was restricted */
+  restrictedAt?: string;
+  /** Who restricted the user */
+  restrictedBy?: number;
+  /** Reason for ban (when status is BANNED) */
+  bannedReason?: string;
+  /** When user was banned */
+  bannedAt?: string;
+  /** Who banned the user */
+  bannedBy?: number;
 }
 
 export interface SeedPost {
@@ -17,6 +31,8 @@ export interface SeedPost {
   content: string;
   published?: boolean;
   status?: string;
+  /** Post category: NEWS or ARTICLE */
+  category?: "NEWS" | "ARTICLE";
   rejectionReason?: string;
   moderatedAt?: string;
   moderatedBy?: number;

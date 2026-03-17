@@ -9,9 +9,10 @@ import {
   UnauthorizedError,
   NotFoundError,
   BadRequestError,
+  ForbiddenError,
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
-import { canPublishDirectly } from "@/lib/permissions";
+import { canPublishDirectly, canCreateContent } from "@/lib/permissions";
 import { PostStatus } from "@/generated/prisma/enums";
 import { validateSlug, slugify } from "@/lib/slug";
 import { checkSlugUniqueness, generateUniqueSlug } from "./checkSlug";
@@ -44,6 +45,18 @@ export async function updatePost(
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация");
+    }
+
+    // Проверка статуса аккаунта
+    const userCheck = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!userCheck || !canCreateContent(userCheck.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете редактировать посты.",
+      );
     }
 
     // Поиск поста с проверкой владельца
@@ -144,6 +157,13 @@ export async function submitPost(
       throw new UnauthorizedError("Пользователь не найден");
     }
 
+    // Проверка статуса аккаунта
+    if (!canCreateContent(user.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете публиковать посты.",
+      );
+    }
+
     // Поиск поста с проверкой владельца
     const existingPost = await prisma.post.findFirst({
       where: {
@@ -211,6 +231,16 @@ export async function archivePost(
       throw new UnauthorizedError("Необходима авторизация");
     }
 
+    // Проверка статуса аккаунта
+    const userCheck = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!userCheck || !canCreateContent(userCheck.status)) {
+      throw new ForbiddenError("Ваш аккаунт ограничен.");
+    }
+
     // Поиск поста с проверкой владельца
     const existingPost = await prisma.post.findFirst({
       where: {
@@ -257,6 +287,16 @@ export async function restorePost(
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация");
+    }
+
+    // Проверка статуса аккаунта
+    const userCheck = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!userCheck || !canCreateContent(userCheck.status)) {
+      throw new ForbiddenError("Ваш аккаунт ограничен.");
     }
 
     // Поиск поста с проверкой владельца

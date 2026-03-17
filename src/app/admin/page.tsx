@@ -27,6 +27,11 @@ export default async function AdminPage() {
       email: true,
       name: true,
       role: true,
+      status: true,
+      banReason: true,
+      bannedAt: true,
+      restrictedReason: true,
+      restrictedAt: true,
       createdAt: true,
       _count: {
         select: { posts: true },

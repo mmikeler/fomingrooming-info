@@ -4,9 +4,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { action, UnauthorizedError } from "@/lib/errors";
+import { action, UnauthorizedError, ForbiddenError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
-import { canPublishDirectly } from "@/lib/permissions";
+import { canPublishDirectly, canCreateContent } from "@/lib/permissions";
 import { PostStatus } from "@/generated/prisma/enums";
 import { generateUniqueSlug } from "./checkSlug";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
@@ -44,6 +44,18 @@ export async function createPost(): Promise<ActionResult<CreatedPost>> {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация для создания поста");
+    }
+
+    // Проверка статуса аккаунта
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!user || !canCreateContent(user.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете создавать посты.",
+      );
     }
 
     // Генерация уникального slug

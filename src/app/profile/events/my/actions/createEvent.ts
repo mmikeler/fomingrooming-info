@@ -4,10 +4,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { action, UnauthorizedError } from "@/lib/errors";
+import { action, UnauthorizedError, ForbiddenError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { EventStatus } from "@/generated/prisma/enums";
 import { generateEventUniqueSlug } from "./checkEventSlug";
+import { canCreateContent } from "@/lib/permissions";
 
 interface CreatedEvent {
   id: number;
@@ -28,6 +29,18 @@ export async function createEvent(): Promise<ActionResult<CreatedEvent>> {
     if (!session?.user?.id) {
       throw new UnauthorizedError(
         "Необходима авторизация для создания мероприятия",
+      );
+    }
+
+    // Проверка статуса аккаунта
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!user || !canCreateContent(user.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете создавать мероприятия.",
       );
     }
 

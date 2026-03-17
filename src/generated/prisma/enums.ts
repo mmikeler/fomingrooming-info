@@ -20,6 +20,15 @@ export const UserRole = {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
+export const AccountStatus = {
+  ACTIVE: 'ACTIVE',
+  RESTRICTED: 'RESTRICTED',
+  BANNED: 'BANNED'
+} as const
+
+export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus]
+
+
 export const PostStatus = {
   DRAFT: 'DRAFT',
   PENDING: 'PENDING',
@@ -48,3 +57,21 @@ export const EventStatus = {
 } as const
 
 export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]
+
+
+export const PostCategory = {
+  NEWS: 'NEWS',
+  ARTICLE: 'ARTICLE'
+} as const
+
+export type PostCategory = (typeof PostCategory)[keyof typeof PostCategory]
+
+
+export const BanAction = {
+  RESTRICTED: 'RESTRICTED',
+  UNRESTRICTED: 'UNRESTRICTED',
+  BANNED: 'BANNED',
+  UNBANNED: 'UNBANNED'
+} as const
+
+export type BanAction = (typeof BanAction)[keyof typeof BanAction]

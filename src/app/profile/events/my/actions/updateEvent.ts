@@ -9,9 +9,10 @@ import {
   UnauthorizedError,
   NotFoundError,
   BadRequestError,
+  ForbiddenError,
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
-import { canPublishDirectly } from "@/lib/permissions";
+import { canPublishDirectly, canCreateContent } from "@/lib/permissions";
 import { EventStatus } from "@/generated/prisma/enums";
 import { validateSlug } from "@/lib/slug";
 import { generateEventUniqueSlug } from "./checkEventSlug";
@@ -54,6 +55,18 @@ export async function updateEvent(
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация");
+    }
+
+    // Проверка статуса аккаунта
+    const userCheck = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!userCheck || !canCreateContent(userCheck.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете редактировать мероприятия.",
+      );
     }
 
     // Поиск мероприятия с проверкой владельца
@@ -170,6 +183,13 @@ export async function submitEvent(
       throw new UnauthorizedError("Пользователь не найден");
     }
 
+    // Проверка статуса аккаунта
+    if (!canCreateContent(user.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете публиковать мероприятия.",
+      );
+    }
+
     // Поиск мероприятия с проверкой владельца
     const existingEvent = await prisma.event.findFirst({
       where: {
@@ -244,6 +264,16 @@ export async function archiveEvent(
       throw new UnauthorizedError("Необходима авторизация");
     }
 
+    // Проверка статуса аккаунта
+    const userCheck = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!userCheck || !canCreateContent(userCheck.status)) {
+      throw new ForbiddenError("Ваш аккаунт ограничен.");
+    }
+
     // Поиск мероприятия с проверкой владельца
     const existingEvent = await prisma.event.findFirst({
       where: {
@@ -295,6 +325,16 @@ export async function restoreEvent(
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация");
+    }
+
+    // Проверка статуса аккаунта
+    const userCheck = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!userCheck || !canCreateContent(userCheck.status)) {
+      throw new ForbiddenError("Ваш аккаунт ограничен.");
     }
 
     // Поиск мероприятия с проверкой владельца

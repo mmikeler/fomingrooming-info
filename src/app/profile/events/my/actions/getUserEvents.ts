@@ -3,8 +3,9 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { action, UnauthorizedError } from "@/lib/errors";
+import { action, UnauthorizedError, ForbiddenError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
+import { canCreateContent } from "@/lib/permissions";
 
 interface Event {
   id: number;
@@ -31,6 +32,18 @@ export async function getUserEvents(): Promise<ActionResult<Event[]>> {
 
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация");
+    }
+
+    // Проверка статуса аккаунта
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!user || !canCreateContent(user.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете управлять мероприятиями.",
+      );
     }
 
     const events = await prisma.event.findMany({

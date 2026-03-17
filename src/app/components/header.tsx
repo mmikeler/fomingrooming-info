@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { Space, Flex } from "antd";
 import { Header as AntHeader } from "antd/es/layout/layout";
 import Link from "next/link";
@@ -9,6 +10,12 @@ import { SearchPanel } from "./search-form";
 import UserAuthWidget from "./ui/user-auth-widget";
 
 export function Header() {
+  const pathname = usePathname();
+  const showNavigation =
+    pathname === "/" ||
+    pathname?.startsWith("/posts") ||
+    pathname?.startsWith("/events");
+
   return (
     <AntHeader
       style={{
@@ -41,28 +48,30 @@ export function Header() {
           <UserAuthWidget />
         </Flex>
       </div>
-      <div className="flex items-center justify-between bg-(--foreground) p-2 lg:rounded-[25px] lg:p-6">
-        <Link
-          href="/"
-          className="relative flex h-10 w-28 items-center lg:h-13 lg:w-33"
-        >
-          <Image
-            fill
-            style={{ objectFit: "contain" }}
-            src={"/logo.png"}
-            alt="Фомин Груминг Инфо"
-          />
-        </Link>
+      {showNavigation && (
+        <div className="flex items-center justify-between bg-(--foreground) p-2 lg:rounded-[25px] lg:p-6">
+          <Link
+            href="/"
+            className="relative flex h-10 w-28 items-center lg:h-13 lg:w-33"
+          >
+            <Image
+              fill
+              style={{ objectFit: "contain" }}
+              src={"/logo.png"}
+              alt="Фомин Груминг Инфо"
+            />
+          </Link>
 
-        <div className="max-w-90">
-          <SearchPanel />
-        </div>
+          <div className="max-w-90">
+            <SearchPanel />
+          </div>
 
-        <div className="ms-auto lg:hidden">
-          <UserAuthWidget />
+          <div className="ms-auto lg:hidden">
+            <UserAuthWidget />
+          </div>
+          <Navigation />
         </div>
-        <Navigation />
-      </div>
+      )}
     </AntHeader>
   );
 }

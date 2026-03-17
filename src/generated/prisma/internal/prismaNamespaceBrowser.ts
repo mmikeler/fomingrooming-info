@@ -56,7 +56,8 @@ export const ModelName = {
   EventRegistration: 'EventRegistration',
   Post: 'Post',
   Notification: 'Notification',
-  ModerationLog: 'ModerationLog'
+  ModerationLog: 'ModerationLog',
+  UserBanLog: 'UserBanLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -87,7 +88,14 @@ export const UserScalarFieldEnum = {
   verificationToken: 'verificationToken',
   verificationTokenExpires: 'verificationTokenExpires',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status',
+  banReason: 'banReason',
+  bannedAt: 'bannedAt',
+  bannedBy: 'bannedBy',
+  restrictedReason: 'restrictedReason',
+  restrictedAt: 'restrictedAt',
+  restrictedBy: 'restrictedBy'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -134,6 +142,7 @@ export const PostScalarFieldEnum = {
   coverImage: 'coverImage',
   created: 'created',
   status: 'status',
+  category: 'category',
   rejectionReason: 'rejectionReason',
   authorId: 'authorId',
   moderatedAt: 'moderatedAt',
@@ -168,6 +177,19 @@ export const ModerationLogScalarFieldEnum = {
 } as const
 
 export type ModerationLogScalarFieldEnum = (typeof ModerationLogScalarFieldEnum)[keyof typeof ModerationLogScalarFieldEnum]
+
+
+export const UserBanLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  reason: 'reason',
+  moderatorId: 'moderatorId',
+  previousValue: 'previousValue',
+  createdAt: 'createdAt'
+} as const
+
+export type UserBanLogScalarFieldEnum = (typeof UserBanLogScalarFieldEnum)[keyof typeof UserBanLogScalarFieldEnum]
 
 
 export const SortOrder = {

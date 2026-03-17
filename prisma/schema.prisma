@@ -18,6 +18,12 @@ enum UserRole {
   SUPERADMIN
 }
 
+enum AccountStatus {
+  ACTIVE
+  RESTRICTED
+  BANNED
+}
+
 enum PostStatus {
   DRAFT
   PENDING
@@ -42,6 +48,17 @@ model User {
   verificationTokenExpires DateTime?
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
+  // Статус аккаунта
+  status                   AccountStatus       @default(ACTIVE)
+  // Блокировка (BANNED)
+  banReason                String?
+  bannedAt                 DateTime?
+  bannedBy                 Int?
+  // Ограничение (RESTRICTED)
+  restrictedReason         String?
+  restrictedAt             DateTime?
+  restrictedBy             Int?
+  // Связи
   posts                    Post[]              @relation("AuthoredPosts")
   events                   Event[]             @relation("AuthoredEvents")
   eventRegistrations       EventRegistration[]
@@ -49,6 +66,8 @@ model User {
   moderationLogs           ModerationLog[]
   moderatedPosts           Post[]              @relation("ModeratedPosts")
   moderatedEvents          Event[]             @relation("ModeratedEvents")
+  banLogs                  UserBanLog[]        @relation("BanLogs")
+  banActions               UserBanLog[]        @relation("BanActions")
 
   @@index([slug])
 }
@@ -103,6 +122,11 @@ model EventRegistration {
   @@unique([eventId, userId])
 }
 
+enum PostCategory {
+  NEWS
+  ARTICLE
+}
+
 model Post {
   id              Int             @id @default(autoincrement())
   title           String
@@ -111,6 +135,7 @@ model Post {
   coverImage      String?
   created         DateTime        @default(now())
   status          PostStatus      @default(DRAFT)
+  category        PostCategory    @default(NEWS)
   rejectionReason String?
   author          User            @relation("AuthoredPosts", fields: [authorId], references: [id])
   authorId        Int
@@ -145,4 +170,25 @@ model ModerationLog {
   newStatus   String?
   reason      String?
   createdAt   DateTime @default(now())
+}
+
+model UserBanLog {
+  id            Int       @id @default(autoincrement())
+  user          User      @relation("BanLogs", fields: [userId], references: [id])
+  userId        Int
+  action        BanAction // RESTRICTED, UNRESTRICTED, BANNED, UNBANNED
+  reason        String?
+  moderator     User      @relation("BanActions", fields: [moderatorId], references: [id])
+  moderatorId   Int
+  previousValue String? // Предыдущее значение статуса
+  createdAt     DateTime  @default(now())
+
+  @@index([userId])
+}
+
+enum BanAction {
+  RESTRICTED
+  UNRESTRICTED
+  BANNED
+  UNBANNED
 }

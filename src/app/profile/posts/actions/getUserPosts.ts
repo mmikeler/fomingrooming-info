@@ -3,10 +3,11 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-import { action, UnauthorizedError } from "@/lib/errors";
+import { action, UnauthorizedError, ForbiddenError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { prisma } from "@/lib/prisma";
 import { PostStatus } from "@/generated/prisma/enums";
+import { canCreateContent } from "@/lib/permissions";
 
 interface Post {
   id: number;
@@ -28,6 +29,18 @@ export async function getUserPosts(): Promise<ActionResult<Post[]>> {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация");
+    }
+
+    // Проверка статуса аккаунта
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(session.user.id) },
+      select: { status: true },
+    });
+
+    if (!user || !canCreateContent(user.status)) {
+      throw new ForbiddenError(
+        "Ваш аккаунт ограничен. Вы не можете управлять постами.",
+      );
     }
 
     // Получение постов

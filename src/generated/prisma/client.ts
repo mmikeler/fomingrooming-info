@@ -69,3 +69,8 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type ModerationLog = Prisma.ModerationLogModel
+/**
+ * Model UserBanLog
+ * 
+ */
+export type UserBanLog = Prisma.UserBanLogModel

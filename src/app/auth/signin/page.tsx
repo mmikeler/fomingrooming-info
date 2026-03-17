@@ -31,6 +31,14 @@ export default function SignIn() {
           message.warning(
             "Пожалуйста, подтвердите ваш email. Проверьте почту для подтверждения.",
           );
+        } else if (result.error.startsWith("ACCOUNT_BANNED")) {
+          // Извлекаем причину бана из сообщения об ошибке
+          const banReason = result.error.replace("ACCOUNT_BANNED:", "");
+          message.error(
+            banReason
+              ? `Ваш аккаунт заблокирован. Причина: ${banReason}`
+              : "Ваш аккаунт заблокирован. Свяжитесь с администратором.",
+          );
         } else {
           message.error("Неверный email или пароль");
         }

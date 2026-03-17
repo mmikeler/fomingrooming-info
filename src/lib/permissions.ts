@@ -1,4 +1,4 @@
-import { UserRole } from "../generated/prisma/enums";
+import { UserRole, AccountStatus } from "../generated/prisma/enums";
 
 export const ROLE_HIERARCHY: Record<UserRole, number> = {
   USER: 0,
@@ -44,6 +44,27 @@ export function canManageUsers(role: UserRole): boolean {
  */
 export function hasFullControl(role: UserRole): boolean {
   return role === "SUPERADMIN";
+}
+
+/**
+ * Check if account status allows login
+ */
+export function canLogin(status: AccountStatus): boolean {
+  return status !== AccountStatus.BANNED;
+}
+
+/**
+ * Check if account status allows creating content (posts, events)
+ */
+export function canCreateContent(status: AccountStatus): boolean {
+  return status === AccountStatus.ACTIVE;
+}
+
+/**
+ * Check if user account is active
+ */
+export function isAccountActive(status: AccountStatus): boolean {
+  return status === AccountStatus.ACTIVE;
 }
 
 /**

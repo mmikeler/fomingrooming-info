@@ -40,7 +40,7 @@ export default function Home() {
               <ADS place="HOMEPAGE_SIDEBAR_2" />
             </div>
             <Title level={2}>Статьи</Title>
-            <NEWS_BAR />
+            <NEWS_BAR categories={["ARTICLE"]} />
             <div className="my-5 h-75 w-full">
               <ADS place="HOMEPAGE_SIDEBAR_3" />
             </div>

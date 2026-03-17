@@ -28,10 +28,14 @@ export type AggregateUser = {
 
 export type UserAvgAggregateOutputType = {
   id: number | null
+  bannedBy: number | null
+  restrictedBy: number | null
 }
 
 export type UserSumAggregateOutputType = {
   id: number | null
+  bannedBy: number | null
+  restrictedBy: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -50,6 +54,13 @@ export type UserMinAggregateOutputType = {
   verificationTokenExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  status: $Enums.AccountStatus | null
+  banReason: string | null
+  bannedAt: Date | null
+  bannedBy: number | null
+  restrictedReason: string | null
+  restrictedAt: Date | null
+  restrictedBy: number | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -68,6 +79,13 @@ export type UserMaxAggregateOutputType = {
   verificationTokenExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  status: $Enums.AccountStatus | null
+  banReason: string | null
+  bannedAt: Date | null
+  bannedBy: number | null
+  restrictedReason: string | null
+  restrictedAt: Date | null
+  restrictedBy: number | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -86,16 +104,27 @@ export type UserCountAggregateOutputType = {
   verificationTokenExpires: number
   createdAt: number
   updatedAt: number
+  status: number
+  banReason: number
+  bannedAt: number
+  bannedBy: number
+  restrictedReason: number
+  restrictedAt: number
+  restrictedBy: number
   _all: number
 }
 
 
 export type UserAvgAggregateInputType = {
   id?: true
+  bannedBy?: true
+  restrictedBy?: true
 }
 
 export type UserSumAggregateInputType = {
   id?: true
+  bannedBy?: true
+  restrictedBy?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -114,6 +143,13 @@ export type UserMinAggregateInputType = {
   verificationTokenExpires?: true
   createdAt?: true
   updatedAt?: true
+  status?: true
+  banReason?: true
+  bannedAt?: true
+  bannedBy?: true
+  restrictedReason?: true
+  restrictedAt?: true
+  restrictedBy?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -132,6 +168,13 @@ export type UserMaxAggregateInputType = {
   verificationTokenExpires?: true
   createdAt?: true
   updatedAt?: true
+  status?: true
+  banReason?: true
+  bannedAt?: true
+  bannedBy?: true
+  restrictedReason?: true
+  restrictedAt?: true
+  restrictedBy?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -150,6 +193,13 @@ export type UserCountAggregateInputType = {
   verificationTokenExpires?: true
   createdAt?: true
   updatedAt?: true
+  status?: true
+  banReason?: true
+  bannedAt?: true
+  bannedBy?: true
+  restrictedReason?: true
+  restrictedAt?: true
+  restrictedBy?: true
   _all?: true
 }
 
@@ -255,6 +305,13 @@ export type UserGroupByOutputType = {
   verificationTokenExpires: Date | null
   createdAt: Date
   updatedAt: Date
+  status: $Enums.AccountStatus
+  banReason: string | null
+  bannedAt: Date | null
+  bannedBy: number | null
+  restrictedReason: string | null
+  restrictedAt: Date | null
+  restrictedBy: number | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -296,6 +353,13 @@ export type UserWhereInput = {
   verificationTokenExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  status?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
+  banReason?: Prisma.StringNullableFilter<"User"> | string | null
+  bannedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  bannedBy?: Prisma.IntNullableFilter<"User"> | number | null
+  restrictedReason?: Prisma.StringNullableFilter<"User"> | string | null
+  restrictedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  restrictedBy?: Prisma.IntNullableFilter<"User"> | number | null
   posts?: Prisma.PostListRelationFilter
   events?: Prisma.EventListRelationFilter
   eventRegistrations?: Prisma.EventRegistrationListRelationFilter
@@ -303,6 +367,8 @@ export type UserWhereInput = {
   moderationLogs?: Prisma.ModerationLogListRelationFilter
   moderatedPosts?: Prisma.PostListRelationFilter
   moderatedEvents?: Prisma.EventListRelationFilter
+  banLogs?: Prisma.UserBanLogListRelationFilter
+  banActions?: Prisma.UserBanLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -321,6 +387,13 @@ export type UserOrderByWithRelationInput = {
   verificationTokenExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  banReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  restrictedReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  restrictedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  restrictedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   posts?: Prisma.PostOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
   eventRegistrations?: Prisma.EventRegistrationOrderByRelationAggregateInput
@@ -328,6 +401,8 @@ export type UserOrderByWithRelationInput = {
   moderationLogs?: Prisma.ModerationLogOrderByRelationAggregateInput
   moderatedPosts?: Prisma.PostOrderByRelationAggregateInput
   moderatedEvents?: Prisma.EventOrderByRelationAggregateInput
+  banLogs?: Prisma.UserBanLogOrderByRelationAggregateInput
+  banActions?: Prisma.UserBanLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -349,6 +424,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   verificationTokenExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  status?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
+  banReason?: Prisma.StringNullableFilter<"User"> | string | null
+  bannedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  bannedBy?: Prisma.IntNullableFilter<"User"> | number | null
+  restrictedReason?: Prisma.StringNullableFilter<"User"> | string | null
+  restrictedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  restrictedBy?: Prisma.IntNullableFilter<"User"> | number | null
   posts?: Prisma.PostListRelationFilter
   events?: Prisma.EventListRelationFilter
   eventRegistrations?: Prisma.EventRegistrationListRelationFilter
@@ -356,6 +438,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   moderationLogs?: Prisma.ModerationLogListRelationFilter
   moderatedPosts?: Prisma.PostListRelationFilter
   moderatedEvents?: Prisma.EventListRelationFilter
+  banLogs?: Prisma.UserBanLogListRelationFilter
+  banActions?: Prisma.UserBanLogListRelationFilter
 }, "id" | "email" | "slug">
 
 export type UserOrderByWithAggregationInput = {
@@ -374,6 +458,13 @@ export type UserOrderByWithAggregationInput = {
   verificationTokenExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  banReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  restrictedReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  restrictedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  restrictedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -400,6 +491,13 @@ export type UserScalarWhereWithAggregatesInput = {
   verificationTokenExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  status?: Prisma.EnumAccountStatusWithAggregatesFilter<"User"> | $Enums.AccountStatus
+  banReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  bannedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  bannedBy?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
+  restrictedReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  restrictedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  restrictedBy?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
 }
 
 export type UserCreateInput = {
@@ -417,6 +515,13 @@ export type UserCreateInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
@@ -424,6 +529,8 @@ export type UserCreateInput = {
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -442,6 +549,13 @@ export type UserUncheckedCreateInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
@@ -449,6 +563,8 @@ export type UserUncheckedCreateInput = {
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUpdateInput = {
@@ -466,6 +582,13 @@ export type UserUpdateInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
@@ -473,6 +596,8 @@ export type UserUpdateInput = {
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -491,6 +616,13 @@ export type UserUncheckedUpdateInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
@@ -498,6 +630,8 @@ export type UserUncheckedUpdateInput = {
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -516,6 +650,13 @@ export type UserCreateManyInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -533,6 +674,13 @@ export type UserUpdateManyMutationInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -551,6 +699,13 @@ export type UserUncheckedUpdateManyInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -569,10 +724,19 @@ export type UserCountOrderByAggregateInput = {
   verificationTokenExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
+  bannedAt?: Prisma.SortOrder
+  bannedBy?: Prisma.SortOrder
+  restrictedReason?: Prisma.SortOrder
+  restrictedAt?: Prisma.SortOrder
+  restrictedBy?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  bannedBy?: Prisma.SortOrder
+  restrictedBy?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -591,6 +755,13 @@ export type UserMaxOrderByAggregateInput = {
   verificationTokenExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
+  bannedAt?: Prisma.SortOrder
+  bannedBy?: Prisma.SortOrder
+  restrictedReason?: Prisma.SortOrder
+  restrictedAt?: Prisma.SortOrder
+  restrictedBy?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -609,10 +780,19 @@ export type UserMinOrderByAggregateInput = {
   verificationTokenExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
+  bannedAt?: Prisma.SortOrder
+  bannedBy?: Prisma.SortOrder
+  restrictedReason?: Prisma.SortOrder
+  restrictedAt?: Prisma.SortOrder
+  restrictedBy?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  bannedBy?: Prisma.SortOrder
+  restrictedBy?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -647,6 +827,18 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type EnumAccountStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AccountStatus
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -759,6 +951,34 @@ export type UserUpdateOneRequiredWithoutModerationLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutModerationLogsInput, Prisma.UserUpdateWithoutModerationLogsInput>, Prisma.UserUncheckedUpdateWithoutModerationLogsInput>
 }
 
+export type UserCreateNestedOneWithoutBanLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBanLogsInput, Prisma.UserUncheckedCreateWithoutBanLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBanLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutBanActionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBanActionsInput, Prisma.UserUncheckedCreateWithoutBanActionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBanActionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBanLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBanLogsInput, Prisma.UserUncheckedCreateWithoutBanLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBanLogsInput
+  upsert?: Prisma.UserUpsertWithoutBanLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBanLogsInput, Prisma.UserUpdateWithoutBanLogsInput>, Prisma.UserUncheckedUpdateWithoutBanLogsInput>
+}
+
+export type UserUpdateOneRequiredWithoutBanActionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBanActionsInput, Prisma.UserUncheckedCreateWithoutBanActionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBanActionsInput
+  upsert?: Prisma.UserUpsertWithoutBanActionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBanActionsInput, Prisma.UserUpdateWithoutBanActionsInput>, Prisma.UserUncheckedUpdateWithoutBanActionsInput>
+}
+
 export type UserCreateWithoutEventsInput = {
   email: string
   password: string
@@ -774,12 +994,21 @@ export type UserCreateWithoutEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateWithoutEventsInput = {
@@ -798,12 +1027,21 @@ export type UserUncheckedCreateWithoutEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserCreateOrConnectWithoutEventsInput = {
@@ -826,12 +1064,21 @@ export type UserCreateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateWithoutModeratedEventsInput = {
@@ -850,12 +1097,21 @@ export type UserUncheckedCreateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserCreateOrConnectWithoutModeratedEventsInput = {
@@ -889,12 +1145,21 @@ export type UserUpdateWithoutEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventsInput = {
@@ -913,12 +1178,21 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUpsertWithoutModeratedEventsInput = {
@@ -947,12 +1221,21 @@ export type UserUpdateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModeratedEventsInput = {
@@ -971,12 +1254,21 @@ export type UserUncheckedUpdateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserCreateWithoutEventRegistrationsInput = {
@@ -994,12 +1286,21 @@ export type UserCreateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventCreateNestedManyWithoutAuthorInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateWithoutEventRegistrationsInput = {
@@ -1018,12 +1319,21 @@ export type UserUncheckedCreateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserCreateOrConnectWithoutEventRegistrationsInput = {
@@ -1057,12 +1367,21 @@ export type UserUpdateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventRegistrationsInput = {
@@ -1081,12 +1400,21 @@ export type UserUncheckedUpdateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserCreateWithoutPostsInput = {
@@ -1104,12 +1432,21 @@ export type UserCreateWithoutPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   events?: Prisma.EventCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -1128,12 +1465,21 @@ export type UserUncheckedCreateWithoutPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -1156,12 +1502,21 @@ export type UserCreateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateWithoutModeratedPostsInput = {
@@ -1180,12 +1535,21 @@ export type UserUncheckedCreateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserCreateOrConnectWithoutModeratedPostsInput = {
@@ -1219,12 +1583,21 @@ export type UserUpdateWithoutPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -1243,12 +1616,21 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUpsertWithoutModeratedPostsInput = {
@@ -1277,12 +1659,21 @@ export type UserUpdateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModeratedPostsInput = {
@@ -1301,12 +1692,21 @@ export type UserUncheckedUpdateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -1324,12 +1724,21 @@ export type UserCreateWithoutNotificationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1348,12 +1757,21 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
   moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1387,12 +1805,21 @@ export type UserUpdateWithoutNotificationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1411,12 +1838,21 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserCreateWithoutModerationLogsInput = {
@@ -1434,12 +1870,21 @@ export type UserCreateWithoutModerationLogsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
 }
 
 export type UserUncheckedCreateWithoutModerationLogsInput = {
@@ -1458,12 +1903,21 @@ export type UserUncheckedCreateWithoutModerationLogsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
 }
 
 export type UserCreateOrConnectWithoutModerationLogsInput = {
@@ -1497,12 +1951,21 @@ export type UserUpdateWithoutModerationLogsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModerationLogsInput = {
@@ -1521,12 +1984,313 @@ export type UserUncheckedUpdateWithoutModerationLogsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
   eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
+}
+
+export type UserCreateWithoutBanLogsInput = {
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
+}
+
+export type UserUncheckedCreateWithoutBanLogsInput = {
+  id?: number
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
+}
+
+export type UserCreateOrConnectWithoutBanLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBanLogsInput, Prisma.UserUncheckedCreateWithoutBanLogsInput>
+}
+
+export type UserCreateWithoutBanActionsInput = {
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBanActionsInput = {
+  id?: number
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutBanActionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBanActionsInput, Prisma.UserUncheckedCreateWithoutBanActionsInput>
+}
+
+export type UserUpsertWithoutBanLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBanLogsInput, Prisma.UserUncheckedUpdateWithoutBanLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBanLogsInput, Prisma.UserUncheckedCreateWithoutBanLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBanLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBanLogsInput, Prisma.UserUncheckedUpdateWithoutBanLogsInput>
+}
+
+export type UserUpdateWithoutBanLogsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBanLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
+}
+
+export type UserUpsertWithoutBanActionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBanActionsInput, Prisma.UserUncheckedUpdateWithoutBanActionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBanActionsInput, Prisma.UserUncheckedCreateWithoutBanActionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBanActionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBanActionsInput, Prisma.UserUncheckedUpdateWithoutBanActionsInput>
+}
+
+export type UserUpdateWithoutBanActionsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBanActionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1542,6 +2306,8 @@ export type UserCountOutputType = {
   moderationLogs: number
   moderatedPosts: number
   moderatedEvents: number
+  banLogs: number
+  banActions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1552,6 +2318,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   moderationLogs?: boolean | UserCountOutputTypeCountModerationLogsArgs
   moderatedPosts?: boolean | UserCountOutputTypeCountModeratedPostsArgs
   moderatedEvents?: boolean | UserCountOutputTypeCountModeratedEventsArgs
+  banLogs?: boolean | UserCountOutputTypeCountBanLogsArgs
+  banActions?: boolean | UserCountOutputTypeCountBanActionsArgs
 }
 
 /**
@@ -1613,6 +2381,20 @@ export type UserCountOutputTypeCountModeratedEventsArgs<ExtArgs extends runtime.
   where?: Prisma.EventWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBanLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserBanLogWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBanActionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserBanLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1630,6 +2412,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
+  banReason?: boolean
+  bannedAt?: boolean
+  bannedBy?: boolean
+  restrictedReason?: boolean
+  restrictedAt?: boolean
+  restrictedBy?: boolean
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
   eventRegistrations?: boolean | Prisma.User$eventRegistrationsArgs<ExtArgs>
@@ -1637,6 +2426,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   moderationLogs?: boolean | Prisma.User$moderationLogsArgs<ExtArgs>
   moderatedPosts?: boolean | Prisma.User$moderatedPostsArgs<ExtArgs>
   moderatedEvents?: boolean | Prisma.User$moderatedEventsArgs<ExtArgs>
+  banLogs?: boolean | Prisma.User$banLogsArgs<ExtArgs>
+  banActions?: boolean | Prisma.User$banActionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1656,6 +2447,13 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
+  banReason?: boolean
+  bannedAt?: boolean
+  bannedBy?: boolean
+  restrictedReason?: boolean
+  restrictedAt?: boolean
+  restrictedBy?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1674,6 +2472,13 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
+  banReason?: boolean
+  bannedAt?: boolean
+  bannedBy?: boolean
+  restrictedReason?: boolean
+  restrictedAt?: boolean
+  restrictedBy?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1692,9 +2497,16 @@ export type UserSelectScalar = {
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
+  banReason?: boolean
+  bannedAt?: boolean
+  bannedBy?: boolean
+  restrictedReason?: boolean
+  restrictedAt?: boolean
+  restrictedBy?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "slug" | "city" | "phone" | "showContacts" | "avatar" | "role" | "emailVerified" | "verificationToken" | "verificationTokenExpires" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "slug" | "city" | "phone" | "showContacts" | "avatar" | "role" | "emailVerified" | "verificationToken" | "verificationTokenExpires" | "createdAt" | "updatedAt" | "status" | "banReason" | "bannedAt" | "bannedBy" | "restrictedReason" | "restrictedAt" | "restrictedBy", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
@@ -1703,6 +2515,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   moderationLogs?: boolean | Prisma.User$moderationLogsArgs<ExtArgs>
   moderatedPosts?: boolean | Prisma.User$moderatedPostsArgs<ExtArgs>
   moderatedEvents?: boolean | Prisma.User$moderatedEventsArgs<ExtArgs>
+  banLogs?: boolean | Prisma.User$banLogsArgs<ExtArgs>
+  banActions?: boolean | Prisma.User$banActionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1718,6 +2532,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     moderationLogs: Prisma.$ModerationLogPayload<ExtArgs>[]
     moderatedPosts: Prisma.$PostPayload<ExtArgs>[]
     moderatedEvents: Prisma.$EventPayload<ExtArgs>[]
+    banLogs: Prisma.$UserBanLogPayload<ExtArgs>[]
+    banActions: Prisma.$UserBanLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1735,6 +2551,13 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     verificationTokenExpires: Date | null
     createdAt: Date
     updatedAt: Date
+    status: $Enums.AccountStatus
+    banReason: string | null
+    bannedAt: Date | null
+    bannedBy: number | null
+    restrictedReason: string | null
+    restrictedAt: Date | null
+    restrictedBy: number | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2136,6 +2959,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   moderationLogs<T extends Prisma.User$moderationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModerationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderatedPosts<T extends Prisma.User$moderatedPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderatedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderatedEvents<T extends Prisma.User$moderatedEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderatedEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  banLogs<T extends Prisma.User$banLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$banLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserBanLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  banActions<T extends Prisma.User$banActionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$banActionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserBanLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2180,6 +3005,13 @@ export interface UserFieldRefs {
   readonly verificationTokenExpires: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly status: Prisma.FieldRef<"User", 'AccountStatus'>
+  readonly banReason: Prisma.FieldRef<"User", 'String'>
+  readonly bannedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly bannedBy: Prisma.FieldRef<"User", 'Int'>
+  readonly restrictedReason: Prisma.FieldRef<"User", 'String'>
+  readonly restrictedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly restrictedBy: Prisma.FieldRef<"User", 'Int'>
 }
     
 
@@ -2731,6 +3563,54 @@ export type User$moderatedEventsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
+}
+
+/**
+ * User.banLogs
+ */
+export type User$banLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserBanLog
+   */
+  select?: Prisma.UserBanLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserBanLog
+   */
+  omit?: Prisma.UserBanLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserBanLogInclude<ExtArgs> | null
+  where?: Prisma.UserBanLogWhereInput
+  orderBy?: Prisma.UserBanLogOrderByWithRelationInput | Prisma.UserBanLogOrderByWithRelationInput[]
+  cursor?: Prisma.UserBanLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserBanLogScalarFieldEnum | Prisma.UserBanLogScalarFieldEnum[]
+}
+
+/**
+ * User.banActions
+ */
+export type User$banActionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserBanLog
+   */
+  select?: Prisma.UserBanLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserBanLog
+   */
+  omit?: Prisma.UserBanLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserBanLogInclude<ExtArgs> | null
+  where?: Prisma.UserBanLogWhereInput
+  orderBy?: Prisma.UserBanLogOrderByWithRelationInput | Prisma.UserBanLogOrderByWithRelationInput[]
+  cursor?: Prisma.UserBanLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserBanLogScalarFieldEnum | Prisma.UserBanLogScalarFieldEnum[]
 }
 
 /**
