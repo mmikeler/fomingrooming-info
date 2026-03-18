@@ -109,15 +109,17 @@ export default function UserAuthWidget() {
       ) : (
         <div className="flex flex-col gap-2 lg:flex-row">
           <Button
+            className="bg-primary hover:bg-primary/90 text-white"
             style={{ fontSize: "10px" }}
-            type="primary"
+            type="button"
             onClick={() => router.push("/auth/signin")}
           >
             Войти
           </Button>
           <Button
+            className="bg-primary hover:bg-primary/90 text-white"
             style={{ fontSize: "10px" }}
-            type="primary"
+            type="button"
             onClick={() => router.push("/auth/signup")}
           >
             Регистрация
