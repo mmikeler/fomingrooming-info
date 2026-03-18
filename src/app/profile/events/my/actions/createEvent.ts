@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { action, UnauthorizedError, ForbiddenError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
-import { EventStatus } from "@/generated/prisma/enums";
+import { EventStatus, EventType } from "@/generated/prisma/enums";
 import { generateEventUniqueSlug } from "./checkEventSlug";
 import { canCreateContent } from "@/lib/permissions";
 
@@ -57,6 +57,7 @@ export async function createEvent(): Promise<ActionResult<CreatedEvent>> {
         slug: slugResult.data,
         description: null,
         format: "OFFLINE",
+        type: EventType.VEBINAR,
         city: null,
         location: null,
         startDate: new Date(),

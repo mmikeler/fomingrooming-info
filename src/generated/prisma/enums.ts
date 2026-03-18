@@ -48,6 +48,17 @@ export const EventFormat = {
 export type EventFormat = (typeof EventFormat)[keyof typeof EventFormat]
 
 
+export const EventType = {
+  MASTERCLASS: 'MASTERCLASS',
+  SEMINAR: 'SEMINAR',
+  KONKURS: 'KONKURS',
+  LEKCIYA: 'LEKCIYA',
+  VEBINAR: 'VEBINAR'
+} as const
+
+export type EventType = (typeof EventType)[keyof typeof EventType]
+
+
 export const EventStatus = {
   DRAFT: 'DRAFT',
   PENDING: 'PENDING',

@@ -2,6 +2,8 @@
  * TypeScript types for seed data
  */
 
+import { EventType } from "@/generated/prisma/enums";
+
 export interface SeedUser {
   /** Temporary ID for mapping posts to authors */
   id: number;
@@ -45,6 +47,7 @@ export interface SeedEvent {
   slug: string;
   description?: string;
   format: "ONLINE" | "OFFLINE";
+  type?: EventType;
   city?: string;
   location?: string;
   startDate: string;

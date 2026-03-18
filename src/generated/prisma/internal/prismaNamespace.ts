@@ -998,6 +998,7 @@ export const EventScalarFieldEnum = {
   slug: 'slug',
   description: 'description',
   format: 'format',
+  type: 'type',
   city: 'city',
   location: 'location',
   startDate: 'startDate',
@@ -1151,6 +1152,13 @@ export type EnumAccountStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'EventFormat'
  */
 export type EnumEventFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventFormat'>
+    
+
+
+/**
+ * Reference to a field of type 'EventType'
+ */
+export type EnumEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventType'>
     
 
 

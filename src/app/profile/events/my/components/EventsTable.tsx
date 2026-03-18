@@ -227,7 +227,7 @@ export function EventsTable({ events }: EventsTableProps) {
               >
                 Опубликовать
               </Button>
-              <Button href={`/profile/events/${event.id}`} variant="filled">
+              <Button href={`/profile/events/my/${event.id}`} variant="filled">
                 Редактировать
               </Button>
             </>

@@ -43,6 +43,7 @@ export default async function EventEditPage({ params }: PageProps) {
           slug: event.slug,
           description: event.description,
           format: event.format,
+          type: event.type,
           city: event.city,
           location: event.location,
           startDate: event.startDate,

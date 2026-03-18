@@ -7,6 +7,7 @@ import Link from "next/link";
 import { EventStatus } from "@/generated/prisma/enums";
 import { RegisterButton } from "./components/RegisterButton";
 import { CountdownTimer } from "@/app/components/CountdownTimer";
+import { EventTypeTag } from "@/app/components/events/EventTypeTag";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -30,7 +31,20 @@ export default async function EventPage({ params }: PageProps) {
   // Получаем мероприятие по slug
   const event = await prisma.event.findUnique({
     where: { slug },
-    include: {
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      format: true,
+      type: true,
+      city: true,
+      location: true,
+      startDate: true,
+      endDate: true,
+      coverImage: true,
+      status: true,
+      authorId: true,
       author: {
         select: {
           id: true,
@@ -110,6 +124,13 @@ export default async function EventPage({ params }: PageProps) {
 
         {/* Заголовок */}
         <h1 className="mb-4 text-4xl font-bold">{event.title}</h1>
+
+        {/* Тег типа мероприятия */}
+        {event.type && (
+          <div className="mb-4">
+            <EventTypeTag type={event.type} />
+          </div>
+        )}
 
         {/* Информация о мероприятии */}
         <div className="mb-6 flex flex-wrap gap-4 text-gray-600">

@@ -18,7 +18,7 @@ import { updateEvent, submitEvent } from "../../actions/updateEvent";
 import { checkEventSlugUniqueness } from "../../actions/checkEventSlug";
 import dynamic from "next/dynamic";
 import { debounce } from "lodash";
-import { EventStatus } from "@/generated/prisma/enums";
+import { EventStatus, EventType } from "@/generated/prisma/enums";
 import { slugify } from "@/lib/slug";
 import { EventCoverUploader } from "../../components/EventCoverUploader";
 import dayjs from "dayjs";
@@ -29,6 +29,7 @@ interface Event {
   slug: string;
   description: string | null;
   format: "ONLINE" | "OFFLINE";
+  type: EventType | null;
   city: string | null;
   location: string | null;
   startDate: Date;
@@ -68,6 +69,7 @@ export function EventEditor({ event }: EventEditorProps) {
   const [slugError, setSlugError] = useState<string | null>(null);
   const [coverImage, setCoverImage] = useState<string | null>(event.coverImage);
   const [format, setFormat] = useState<"ONLINE" | "OFFLINE">(event.format);
+  const [eventType, setEventType] = useState<EventType | null>(event.type);
   const router = useRouter();
   const [form] = Form.useForm();
 
@@ -106,6 +108,7 @@ export function EventEditor({ event }: EventEditorProps) {
         slug: values.slug || slug,
         description: value,
         format: format,
+        type: eventType,
         city: values.city || null,
         location: values.location || null,
         coverImage: coverImage,
@@ -141,6 +144,7 @@ export function EventEditor({ event }: EventEditorProps) {
         slug: values.slug || slug,
         description: value,
         format: format,
+        type: eventType,
         city: values.city || null,
         location: values.location || null,
         coverImage: coverImage,
@@ -185,6 +189,7 @@ export function EventEditor({ event }: EventEditorProps) {
         initialValues={{
           title: event.title,
           slug: event.slug,
+          type: event.type,
           city: event.city,
           location: event.location,
           startDate: dayjs(event.startDate),
@@ -286,6 +291,23 @@ export function EventEditor({ event }: EventEditorProps) {
             options={[
               { value: "OFFLINE", label: "Оффлайн" },
               { value: "ONLINE", label: "Онлайн" },
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item label="Тип мероприятия" name="type">
+          <Select
+            value={eventType}
+            onChange={setEventType}
+            disabled={!canEdit}
+            allowClear
+            placeholder="Выберите тип"
+            options={[
+              { value: "MASTERCLASS", label: "Мастер-класс" },
+              { value: "SEMINAR", label: "Семинар" },
+              { value: "KONKURS", label: "Конкурс" },
+              { value: "LEKCIYA", label: "Лекция" },
+              { value: "VEBINAR", label: "Вебинар" },
             ]}
           />
         </Form.Item>

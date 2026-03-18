@@ -73,7 +73,7 @@ export function CountdownTimer({
   return (
     <div className={`flex items-center gap-1 text-sm ${className}`}>
       <span className="font-semibold text-blue-600">⏱️</span>
-      <span className="text-gray-600">
+      <span className="flex items-center gap-2 text-gray-600">
         {days > 0 && (
           <span className="font-medium">
             {days} {days === 1 ? "день" : days < 5 ? "дня" : "дней"}

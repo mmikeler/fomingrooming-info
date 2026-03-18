@@ -13,7 +13,7 @@ import {
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { canPublishDirectly, canCreateContent } from "@/lib/permissions";
-import { EventStatus } from "@/generated/prisma/enums";
+import { EventStatus, EventType } from "@/generated/prisma/enums";
 import { validateSlug } from "@/lib/slug";
 import { generateEventUniqueSlug } from "./checkEventSlug";
 
@@ -22,6 +22,7 @@ interface UpdateEventData {
   slug?: string;
   description?: string | null;
   format?: "ONLINE" | "OFFLINE";
+  type?: EventType | null;
   city?: string | null;
   location?: string | null;
   startDate?: Date;
@@ -35,6 +36,7 @@ interface UpdatedEvent {
   slug: string;
   description: string | null;
   format: "ONLINE" | "OFFLINE";
+  type: EventType | null;
   city: string | null;
   location: string | null;
   startDate: Date;
@@ -132,6 +134,7 @@ export async function updateEvent(
             ? data.description
             : existingEvent.description,
         format: data.format ?? existingEvent.format,
+        type: data.type !== undefined ? data.type : existingEvent.type,
         city: data.city !== undefined ? data.city : existingEvent.city,
         location:
           data.location !== undefined ? data.location : existingEvent.location,
@@ -145,6 +148,7 @@ export async function updateEvent(
         slug: true,
         description: true,
         format: true,
+        type: true,
         city: true,
         location: true,
         startDate: true,
@@ -155,7 +159,7 @@ export async function updateEvent(
     });
 
     // Обновление кэша
-    revalidatePath("/profile/events");
+    revalidatePath("/profile/events/my");
 
     return updatedEvent;
   });
@@ -234,6 +238,7 @@ export async function submitEvent(
         slug: true,
         description: true,
         format: true,
+        type: true,
         city: true,
         location: true,
         startDate: true,
@@ -298,6 +303,7 @@ export async function archiveEvent(
         slug: true,
         description: true,
         format: true,
+        type: true,
         city: true,
         location: true,
         startDate: true,
@@ -368,6 +374,7 @@ export async function restoreEvent(
         slug: true,
         description: true,
         format: true,
+        type: true,
         city: true,
         location: true,
         startDate: true,

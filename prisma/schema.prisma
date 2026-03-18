@@ -77,6 +77,14 @@ enum EventFormat {
   OFFLINE
 }
 
+enum EventType {
+  MASTERCLASS
+  SEMINAR
+  KONKURS
+  LEKCIYA
+  VEBINAR
+}
+
 enum EventStatus {
   DRAFT
   PENDING
@@ -91,6 +99,7 @@ model Event {
   slug            String              @unique
   description     String?
   format          EventFormat
+  type            EventType?
   city            String?
   location        String?
   startDate       DateTime

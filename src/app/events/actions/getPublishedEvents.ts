@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import type { ActionResult } from "@/lib/errors/result";
+import type { EventType } from "@/generated/prisma/enums";
 
 export interface PublishedEvent {
   id: number;
@@ -9,6 +10,7 @@ export interface PublishedEvent {
   slug: string;
   description: string | null;
   format: "ONLINE" | "OFFLINE";
+  type: EventType | null;
   city: string | null;
   location: string | null;
   startDate: Date;
@@ -29,8 +31,10 @@ export interface GetPublishedEventsParams {
   cursor?: number;
   limit?: number;
   format?: "ONLINE" | "OFFLINE" | null;
+  type?: EventType | null;
   city?: string | null;
   dateFilter?: "upcoming" | "past" | "all" | null;
+  dateRange?: { start: string | null; end: string | null } | null;
   search?: string | null;
 }
 
@@ -84,7 +88,16 @@ export async function getPublishedEvents(
   params: GetPublishedEventsParams = {},
 ): Promise<ActionResult<GetPublishedEventsResult>> {
   try {
-    const { cursor, limit = 6, format, city, dateFilter, search } = params;
+    const {
+      cursor,
+      limit = 6,
+      format,
+      type,
+      city,
+      dateFilter,
+      dateRange,
+      search,
+    } = params;
 
     // Построение условий where
     const where: Record<string, unknown> = {
@@ -96,20 +109,14 @@ export async function getPublishedEvents(
       where.format = format;
     }
 
+    // Фильтр по типу
+    if (type) {
+      where.type = type;
+    }
+
     // Фильтр по городу
     if (city) {
       where.city = city;
-    }
-
-    // Фильтр по дате
-    if (dateFilter === "upcoming") {
-      where.startDate = {
-        gte: new Date(),
-      };
-    } else if (dateFilter === "past") {
-      where.endDate = {
-        lt: new Date(),
-      };
     }
 
     // Поиск по названию и описанию
@@ -126,6 +133,64 @@ export async function getPublishedEvents(
           },
         },
       ];
+    }
+
+    // Фильтры по дате - собираем все условия в AND
+    const dateConditions: Record<string, unknown>[] = [];
+
+    // Фильтр по диапазону дат
+    if (dateRange) {
+      const { start, end } = dateRange;
+      const startDate = start ? new Date(start) : null;
+      const endDate = end ? new Date(end) : null;
+
+      if (startDate && endDate) {
+        // Оба диапазона указаны - мероприятие должно пересекаться с диапазоном
+        dateConditions.push({
+          startDate: {
+            lte: endDate,
+          },
+        });
+        dateConditions.push({
+          endDate: {
+            gte: startDate,
+          },
+        });
+      } else if (startDate) {
+        // Указана только начальная дата - мероприятие заканчивается после указанной даты
+        dateConditions.push({
+          endDate: {
+            gte: startDate,
+          },
+        });
+      } else if (endDate) {
+        // Указана только конечная дата - мероприятие начинается до указанной даты
+        dateConditions.push({
+          startDate: {
+            lte: endDate,
+          },
+        });
+      }
+    }
+
+    // Фильтр по времени (предстоящие/прошедшие)
+    if (dateFilter === "upcoming") {
+      dateConditions.push({
+        startDate: {
+          gte: new Date(),
+        },
+      });
+    } else if (dateFilter === "past") {
+      dateConditions.push({
+        endDate: {
+          lt: new Date(),
+        },
+      });
+    }
+
+    // Применяем все условия даты через AND
+    if (dateConditions.length > 0) {
+      where.AND = dateConditions;
     }
 
     // Получаем общее количество (для информативности)

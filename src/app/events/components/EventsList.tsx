@@ -3,22 +3,27 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Spin, Empty, Select, Input } from "antd";
+import { Spin, Empty, Select, Input, DatePicker } from "antd";
+import dayjs from "dayjs";
+import { EventTypeTag } from "@/app/components/events/EventTypeTag";
 import {
   getPublishedEvents,
   getEventCities,
   type PublishedEvent,
 } from "../actions/getPublishedEvents";
+import type { EventType } from "@/generated/prisma/enums";
 
 const { Search } = Input;
+const { RangePicker } = DatePicker;
 
 /**
  * Типы фильтров
  */
 interface EventFilters {
   format: "ONLINE" | "OFFLINE" | null;
+  type: EventType | null;
   city: string | null;
-  dateFilter: "upcoming" | "past" | "all" | null;
+  dateRange: { start: string | null; end: string | null } | null;
   search: string | null;
 }
 
@@ -96,6 +101,12 @@ function EventCard({ event }: { event: PublishedEvent }) {
         {isUpcoming && !isOngoing && (
           <div className="absolute top-2 left-2 rounded-full bg-blue-500 px-3 py-1 text-xs font-semibold text-white shadow">
             Скоро
+          </div>
+        )}
+        {/* Бейдж типа */}
+        {event.type && (
+          <div className="absolute bottom-2 left-2">
+            <EventTypeTag type={event.type} />
           </div>
         )}
       </div>
@@ -187,7 +198,7 @@ function FiltersPanel({
 }) {
   return (
     <div className="mb-6 rounded-xl bg-white p-4 shadow-sm">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {/* Поиск */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -218,8 +229,29 @@ function FiltersPanel({
             value={filters.format}
             onChange={(value) => onFilterChange({ ...filters, format: value })}
             options={[
-              { value: "ONLINE", label: "💻 Онлайн" },
-              { value: "OFFLINE", label: "📍 Оффлайн" },
+              { value: "ONLINE", label: "Онлайн" },
+              { value: "OFFLINE", label: "Оффлайн" },
+            ]}
+          />
+        </div>
+
+        {/* Тип */}
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Тип
+          </label>
+          <Select
+            placeholder="Все типы"
+            allowClear
+            className="w-full"
+            value={filters.type}
+            onChange={(value) => onFilterChange({ ...filters, type: value })}
+            options={[
+              { value: "MASTERCLASS", label: "Мастер-класс" },
+              { value: "SEMINAR", label: "Семинар" },
+              { value: "KONKURS", label: "Конкурс" },
+              { value: "LEKCIYA", label: "Лекция" },
+              { value: "VEBINAR", label: "Вебинар" },
             ]}
           />
         </div>
@@ -227,22 +259,46 @@ function FiltersPanel({
         {/* Дата */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Когда
+            Дата
           </label>
-          <Select
-            placeholder="Все мероприятия"
-            allowClear
-            className="w-full"
-            value={filters.dateFilter}
-            onChange={(value) =>
-              onFilterChange({ ...filters, dateFilter: value })
-            }
-            options={[
-              { value: "upcoming", label: "Предстоящие" },
-              { value: "past", label: "Прошедшие" },
-              { value: "all", label: "Все" },
-            ]}
-          />
+          <div className="flex gap-2">
+            <DatePicker
+              className="flex-1"
+              format="DD.MM.YYYY"
+              placeholder="От"
+              value={
+                filters.dateRange?.start ? dayjs(filters.dateRange.start) : null
+              }
+              onChange={(date) => {
+                onFilterChange({
+                  ...filters,
+                  dateRange: {
+                    start: date ? date.toISOString() : null,
+                    end: filters.dateRange?.end ?? null,
+                  },
+                });
+              }}
+              allowClear
+            />
+            <DatePicker
+              className="flex-1"
+              format="DD.MM.YYYY"
+              placeholder="До"
+              value={
+                filters.dateRange?.end ? dayjs(filters.dateRange.end) : null
+              }
+              onChange={(date) => {
+                onFilterChange({
+                  ...filters,
+                  dateRange: {
+                    start: filters.dateRange?.start ?? null,
+                    end: date ? date.toISOString() : null,
+                  },
+                });
+              }}
+              allowClear
+            />
+          </div>
         </div>
 
         {/* Город */}
@@ -278,8 +334,9 @@ export default function EventsList() {
   const [cities, setCities] = useState<string[]>([]);
   const [filters, setFilters] = useState<EventFilters>({
     format: null,
+    type: null,
     city: null,
-    dateFilter: null,
+    dateRange: null,
     search: null,
   });
   const observerRef = useRef<HTMLDivElement>(null);
@@ -325,8 +382,9 @@ export default function EventsList() {
       const result = await getPublishedEvents({
         cursor: cursorParam ?? undefined,
         format: currentFilters.format,
+        type: currentFilters.type,
         city: currentFilters.city,
-        dateFilter: currentFilters.dateFilter,
+        dateRange: currentFilters.dateRange,
         search: currentFilters.search,
       });
 

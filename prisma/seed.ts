@@ -1,5 +1,5 @@
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { EventType, PrismaClient } from "../src/generated/prisma/client";
 import { hash } from "bcryptjs";
 import { slugify } from "../src/lib/slug";
 import "dotenv/config";
@@ -202,6 +202,7 @@ async function main() {
         slug: event.slug,
         description: event.description || null,
         format: event.format,
+        type: event.type || null,
         city: event.city || null,
         location: event.location || null,
         startDate: new Date(event.startDate),
