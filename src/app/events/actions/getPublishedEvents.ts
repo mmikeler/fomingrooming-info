@@ -3,6 +3,8 @@
 import { prisma } from "@/lib/prisma";
 import type { ActionResult } from "@/lib/errors/result";
 import type { EventType } from "@/generated/prisma/enums";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export interface PublishedEvent {
   id: number;
@@ -25,6 +27,7 @@ export interface PublishedEvent {
   _count: {
     registrations: number;
   };
+  isFavorite: boolean;
 }
 
 export interface GetPublishedEventsParams {
@@ -196,6 +199,25 @@ export async function getPublishedEvents(
     // Получаем общее количество (для информативности)
     const totalCount = await prisma.event.count({ where });
 
+    // Получаем сессию для проверки избранного
+    const session = await getServerSession(authOptions);
+    const userId = session?.user?.id ? parseInt(session.user.id) : null;
+
+    // Получаем ID избранных мероприятий
+    let favoriteIds: number[] = [];
+    if (userId) {
+      const favorites = await prisma.favorite.findMany({
+        where: {
+          userId,
+          type: "EVENT",
+        },
+        select: {
+          eventId: true,
+        },
+      });
+      favoriteIds = favorites.map((f) => f.eventId!);
+    }
+
     const events = await prisma.event.findMany({
       where,
       include: {
@@ -227,10 +249,16 @@ export async function getPublishedEvents(
       ? resultEvents[resultEvents.length - 1].id
       : null;
 
+    // Добавляем isFavorite к каждому событию
+    const eventsWithFavorite = resultEvents.map((event) => ({
+      ...event,
+      isFavorite: favoriteIds.includes(event.id),
+    }));
+
     return {
       success: true,
       data: {
-        events: resultEvents as PublishedEvent[],
+        events: eventsWithFavorite as PublishedEvent[],
         nextCursor,
         hasMore,
         totalCount,

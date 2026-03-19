@@ -74,3 +74,8 @@ export type ModerationLog = Prisma.ModerationLogModel
  * 
  */
 export type UserBanLog = Prisma.UserBanLogModel
+/**
+ * Model Favorite
+ * 
+ */
+export type Favorite = Prisma.FavoriteModel

@@ -68,6 +68,7 @@ model User {
   moderatedEvents          Event[]             @relation("ModeratedEvents")
   banLogs                  UserBanLog[]        @relation("BanLogs")
   banActions               UserBanLog[]        @relation("BanActions")
+  favorites                Favorite[]
 
   @@index([slug])
 }
@@ -116,6 +117,7 @@ model Event {
   created         DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
   moderationLogs  ModerationLog[]
+  favorites       Favorite[]
 
   @@index([slug])
 }
@@ -152,6 +154,7 @@ model Post {
   moderatedBy     Int?
   moderator       User?           @relation("ModeratedPosts", fields: [moderatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   moderationLogs  ModerationLog[]
+  favorites       Favorite[]
 
   @@index([slug])
 }
@@ -200,4 +203,30 @@ enum BanAction {
   UNRESTRICTED
   BANNED
   UNBANNED
+}
+
+// Типы записей в избранном
+enum FavoriteType {
+  EVENT
+  POST
+  // Можно добавить: VACANCY, NEWS и т.д.
+}
+
+model Favorite {
+  id        Int          @id @default(autoincrement())
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  type      FavoriteType
+  event     Event?       @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId   Int?
+  post      Post?        @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int?
+  createdAt DateTime     @default(now())
+
+  // Уникальный индекс: пользователь не может добавить одну и ту же запись дважды
+  @@unique([userId, type, eventId])
+  @@unique([userId, type, postId])
+  @@index([userId])
+  @@index([eventId])
+  @@index([postId])
 }

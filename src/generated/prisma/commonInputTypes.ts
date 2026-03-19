@@ -334,6 +334,23 @@ export type EnumBanActionWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumBanActionFilter<$PrismaModel>
 }
 
+export type EnumFavoriteTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FavoriteType | Prisma.EnumFavoriteTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FavoriteType[]
+  notIn?: $Enums.FavoriteType[]
+  not?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel> | $Enums.FavoriteType
+}
+
+export type EnumFavoriteTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FavoriteType | Prisma.EnumFavoriteTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FavoriteType[]
+  notIn?: $Enums.FavoriteType[]
+  not?: Prisma.NestedEnumFavoriteTypeWithAggregatesFilter<$PrismaModel> | $Enums.FavoriteType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[]
@@ -669,6 +686,23 @@ export type NestedEnumBanActionWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumBanActionFilter<$PrismaModel>
   _max?: Prisma.NestedEnumBanActionFilter<$PrismaModel>
+}
+
+export type NestedEnumFavoriteTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FavoriteType | Prisma.EnumFavoriteTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FavoriteType[]
+  notIn?: $Enums.FavoriteType[]
+  not?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel> | $Enums.FavoriteType
+}
+
+export type NestedEnumFavoriteTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FavoriteType | Prisma.EnumFavoriteTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FavoriteType[]
+  notIn?: $Enums.FavoriteType[]
+  not?: Prisma.NestedEnumFavoriteTypeWithAggregatesFilter<$PrismaModel> | $Enums.FavoriteType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel>
 }
 
 

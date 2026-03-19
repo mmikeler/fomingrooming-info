@@ -57,7 +57,8 @@ export const ModelName = {
   Post: 'Post',
   Notification: 'Notification',
   ModerationLog: 'ModerationLog',
-  UserBanLog: 'UserBanLog'
+  UserBanLog: 'UserBanLog',
+  Favorite: 'Favorite'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -191,6 +192,18 @@ export const UserBanLogScalarFieldEnum = {
 } as const
 
 export type UserBanLogScalarFieldEnum = (typeof UserBanLogScalarFieldEnum)[keyof typeof UserBanLogScalarFieldEnum]
+
+
+export const FavoriteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  eventId: 'eventId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
 
 
 export const SortOrder = {

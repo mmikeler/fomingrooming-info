@@ -5,9 +5,11 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { EventStatus } from "@/generated/prisma/enums";
+import { FavoriteType } from "@/generated/prisma/enums";
 import { RegisterButton } from "./components/RegisterButton";
 import { CountdownTimer } from "@/app/components/CountdownTimer";
 import { EventTypeTag } from "@/app/components/events/EventTypeTag";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -91,6 +93,7 @@ export default async function EventPage({ params }: PageProps) {
 
   // Проверяем, зарегистрирован ли пользователь
   let isRegistered = false;
+  let isFavorite = false;
   if (session?.user?.id) {
     const registration = await prisma.eventRegistration.findUnique({
       where: {
@@ -101,6 +104,16 @@ export default async function EventPage({ params }: PageProps) {
       },
     });
     isRegistered = !!registration;
+
+    // Проверяем, в избранном ли мероприятие
+    const favorite = await prisma.favorite.findFirst({
+      where: {
+        userId: parseInt(session.user.id),
+        type: FavoriteType.EVENT,
+        eventId: event.id,
+      },
+    });
+    isFavorite = !!favorite;
   }
 
   const formatLabel = event.format === "ONLINE" ? "Онлайн" : "Оффлайн";
@@ -164,8 +177,8 @@ export default async function EventPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Кнопка регистрации */}
-        <div className="mb-6">
+        {/* Кнопки регистрации и избранного */}
+        <div className="mb-6 flex gap-3">
           <RegisterButton
             eventId={event.id}
             isRegistered={isRegistered}
@@ -175,6 +188,7 @@ export default async function EventPage({ params }: PageProps) {
             )}
             isEnded={isEnded}
           />
+          <FavoriteButton eventId={event.id} initialIsFavorite={isFavorite} />
         </div>
 
         {/* Описание */}

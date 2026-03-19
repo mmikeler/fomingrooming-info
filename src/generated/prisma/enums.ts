@@ -86,3 +86,11 @@ export const BanAction = {
 } as const
 
 export type BanAction = (typeof BanAction)[keyof typeof BanAction]
+
+
+export const FavoriteType = {
+  EVENT: 'EVENT',
+  POST: 'POST'
+} as const
+
+export type FavoriteType = (typeof FavoriteType)[keyof typeof FavoriteType]

@@ -283,6 +283,7 @@ export type PostWhereInput = {
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   moderator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   moderationLogs?: Prisma.ModerationLogListRelationFilter
+  favorites?: Prisma.FavoriteListRelationFilter
 }
 
 export type PostOrderByWithRelationInput = {
@@ -301,6 +302,7 @@ export type PostOrderByWithRelationInput = {
   author?: Prisma.UserOrderByWithRelationInput
   moderator?: Prisma.UserOrderByWithRelationInput
   moderationLogs?: Prisma.ModerationLogOrderByRelationAggregateInput
+  favorites?: Prisma.FavoriteOrderByRelationAggregateInput
 }
 
 export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -322,6 +324,7 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   moderator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   moderationLogs?: Prisma.ModerationLogListRelationFilter
+  favorites?: Prisma.FavoriteListRelationFilter
 }, "id" | "slug">
 
 export type PostOrderByWithAggregationInput = {
@@ -375,6 +378,7 @@ export type PostCreateInput = {
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedPostsInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutPostInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateInput = {
@@ -391,6 +395,7 @@ export type PostUncheckedCreateInput = {
   moderatedAt?: Date | string | null
   moderatedBy?: number | null
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutPostInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostUpdateInput = {
@@ -406,6 +411,7 @@ export type PostUpdateInput = {
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   moderator?: Prisma.UserUpdateOneWithoutModeratedPostsNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutPostNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateInput = {
@@ -422,6 +428,7 @@ export type PostUncheckedUpdateInput = {
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutPostNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateManyInput = {
@@ -646,6 +653,22 @@ export type PostUpdateOneWithoutModerationLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutModerationLogsInput, Prisma.PostUpdateWithoutModerationLogsInput>, Prisma.PostUncheckedUpdateWithoutModerationLogsInput>
 }
 
+export type PostCreateNestedOneWithoutFavoritesInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutFavoritesInput, Prisma.PostUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutFavoritesInput
+  connect?: Prisma.PostWhereUniqueInput
+}
+
+export type PostUpdateOneWithoutFavoritesNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutFavoritesInput, Prisma.PostUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutFavoritesInput
+  upsert?: Prisma.PostUpsertWithoutFavoritesInput
+  disconnect?: Prisma.PostWhereInput | boolean
+  delete?: Prisma.PostWhereInput | boolean
+  connect?: Prisma.PostWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutFavoritesInput, Prisma.PostUpdateWithoutFavoritesInput>, Prisma.PostUncheckedUpdateWithoutFavoritesInput>
+}
+
 export type PostCreateWithoutAuthorInput = {
   title: string
   slug: string
@@ -658,6 +681,7 @@ export type PostCreateWithoutAuthorInput = {
   moderatedAt?: Date | string | null
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedPostsInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutPostInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutAuthorInput = {
@@ -673,6 +697,7 @@ export type PostUncheckedCreateWithoutAuthorInput = {
   moderatedAt?: Date | string | null
   moderatedBy?: number | null
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutPostInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutAuthorInput = {
@@ -696,6 +721,7 @@ export type PostCreateWithoutModeratorInput = {
   moderatedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutPostInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutModeratorInput = {
@@ -711,6 +737,7 @@ export type PostUncheckedCreateWithoutModeratorInput = {
   authorId: number
   moderatedAt?: Date | string | null
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutPostInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutModeratorInput = {
@@ -784,6 +811,7 @@ export type PostCreateWithoutModerationLogsInput = {
   moderatedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedPostsInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutModerationLogsInput = {
@@ -799,6 +827,7 @@ export type PostUncheckedCreateWithoutModerationLogsInput = {
   authorId: number
   moderatedAt?: Date | string | null
   moderatedBy?: number | null
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutModerationLogsInput = {
@@ -829,6 +858,7 @@ export type PostUpdateWithoutModerationLogsInput = {
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   moderator?: Prisma.UserUpdateOneWithoutModeratedPostsNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutModerationLogsInput = {
@@ -844,6 +874,85 @@ export type PostUncheckedUpdateWithoutModerationLogsInput = {
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutPostNestedInput
+}
+
+export type PostCreateWithoutFavoritesInput = {
+  title: string
+  slug: string
+  content?: string | null
+  coverImage?: string | null
+  created?: Date | string
+  status?: $Enums.PostStatus
+  category?: $Enums.PostCategory
+  rejectionReason?: string | null
+  moderatedAt?: Date | string | null
+  author: Prisma.UserCreateNestedOneWithoutPostsInput
+  moderator?: Prisma.UserCreateNestedOneWithoutModeratedPostsInput
+  moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutPostInput
+}
+
+export type PostUncheckedCreateWithoutFavoritesInput = {
+  id?: number
+  title: string
+  slug: string
+  content?: string | null
+  coverImage?: string | null
+  created?: Date | string
+  status?: $Enums.PostStatus
+  category?: $Enums.PostCategory
+  rejectionReason?: string | null
+  authorId: number
+  moderatedAt?: Date | string | null
+  moderatedBy?: number | null
+  moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type PostCreateOrConnectWithoutFavoritesInput = {
+  where: Prisma.PostWhereUniqueInput
+  create: Prisma.XOR<Prisma.PostCreateWithoutFavoritesInput, Prisma.PostUncheckedCreateWithoutFavoritesInput>
+}
+
+export type PostUpsertWithoutFavoritesInput = {
+  update: Prisma.XOR<Prisma.PostUpdateWithoutFavoritesInput, Prisma.PostUncheckedUpdateWithoutFavoritesInput>
+  create: Prisma.XOR<Prisma.PostCreateWithoutFavoritesInput, Prisma.PostUncheckedCreateWithoutFavoritesInput>
+  where?: Prisma.PostWhereInput
+}
+
+export type PostUpdateToOneWithWhereWithoutFavoritesInput = {
+  where?: Prisma.PostWhereInput
+  data: Prisma.XOR<Prisma.PostUpdateWithoutFavoritesInput, Prisma.PostUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type PostUpdateWithoutFavoritesInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  category?: Prisma.EnumPostCategoryFieldUpdateOperationsInput | $Enums.PostCategory
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  moderator?: Prisma.UserUpdateOneWithoutModeratedPostsNestedInput
+  moderationLogs?: Prisma.ModerationLogUpdateManyWithoutPostNestedInput
+}
+
+export type PostUncheckedUpdateWithoutFavoritesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  category?: Prisma.EnumPostCategoryFieldUpdateOperationsInput | $Enums.PostCategory
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateManyAuthorInput = {
@@ -886,6 +995,7 @@ export type PostUpdateWithoutAuthorInput = {
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moderator?: Prisma.UserUpdateOneWithoutModeratedPostsNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutPostNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutAuthorInput = {
@@ -901,6 +1011,7 @@ export type PostUncheckedUpdateWithoutAuthorInput = {
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutPostNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateManyWithoutAuthorInput = {
@@ -929,6 +1040,7 @@ export type PostUpdateWithoutModeratorInput = {
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutPostNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutModeratorInput = {
@@ -944,6 +1056,7 @@ export type PostUncheckedUpdateWithoutModeratorInput = {
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutPostNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateManyWithoutModeratorInput = {
@@ -967,10 +1080,12 @@ export type PostUncheckedUpdateManyWithoutModeratorInput = {
 
 export type PostCountOutputType = {
   moderationLogs: number
+  favorites: number
 }
 
 export type PostCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   moderationLogs?: boolean | PostCountOutputTypeCountModerationLogsArgs
+  favorites?: boolean | PostCountOutputTypeCountFavoritesArgs
 }
 
 /**
@@ -990,6 +1105,13 @@ export type PostCountOutputTypeCountModerationLogsArgs<ExtArgs extends runtime.T
   where?: Prisma.ModerationLogWhereInput
 }
 
+/**
+ * PostCountOutputType without action
+ */
+export type PostCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavoriteWhereInput
+}
+
 
 export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1007,6 +1129,7 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   moderator?: boolean | Prisma.Post$moderatorArgs<ExtArgs>
   moderationLogs?: boolean | Prisma.Post$moderationLogsArgs<ExtArgs>
+  favorites?: boolean | Prisma.Post$favoritesArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
@@ -1064,6 +1187,7 @@ export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   moderator?: boolean | Prisma.Post$moderatorArgs<ExtArgs>
   moderationLogs?: boolean | Prisma.Post$moderationLogsArgs<ExtArgs>
+  favorites?: boolean | Prisma.Post$favoritesArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PostIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1081,6 +1205,7 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     author: Prisma.$UserPayload<ExtArgs>
     moderator: Prisma.$UserPayload<ExtArgs> | null
     moderationLogs: Prisma.$ModerationLogPayload<ExtArgs>[]
+    favorites: Prisma.$FavoritePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1492,6 +1617,7 @@ export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Typ
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   moderator<T extends Prisma.Post$moderatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$moderatorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   moderationLogs<T extends Prisma.Post$moderationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$moderationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModerationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favorites<T extends Prisma.Post$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1967,6 +2093,30 @@ export type Post$moderationLogsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.ModerationLogScalarFieldEnum | Prisma.ModerationLogScalarFieldEnum[]
+}
+
+/**
+ * Post.favorites
+ */
+export type Post$favoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Favorite
+   */
+  select?: Prisma.FavoriteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Favorite
+   */
+  omit?: Prisma.FavoriteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavoriteInclude<ExtArgs> | null
+  where?: Prisma.FavoriteWhereInput
+  orderBy?: Prisma.FavoriteOrderByWithRelationInput | Prisma.FavoriteOrderByWithRelationInput[]
+  cursor?: Prisma.FavoriteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavoriteScalarFieldEnum | Prisma.FavoriteScalarFieldEnum[]
 }
 
 /**

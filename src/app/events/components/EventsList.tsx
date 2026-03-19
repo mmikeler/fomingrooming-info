@@ -1,45 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Spin, Empty, Select, Input, DatePicker } from "antd";
-import dayjs from "dayjs";
-import { EventTypeTag } from "@/app/components/events/EventTypeTag";
+import { Spin, Empty } from "antd";
 import {
   getPublishedEvents,
   getEventCities,
   type PublishedEvent,
 } from "../actions/getPublishedEvents";
-import type { EventType } from "@/generated/prisma/enums";
-
-const { Search } = Input;
-const { RangePicker } = DatePicker;
-
-/**
- * Типы фильтров
- */
-interface EventFilters {
-  format: "ONLINE" | "OFFLINE" | null;
-  type: EventType | null;
-  city: string | null;
-  dateRange: { start: string | null; end: string | null } | null;
-  search: string | null;
-}
-
-/**
- * Форматирование даты
- */
-function formatDate(date: Date | string): string {
-  const d = new Date(date);
-  return d.toLocaleDateString("ru-RU", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+import { EventCard } from "./EventCard";
+import { FiltersPanel, type EventFilters } from "./FiltersPanel";
 
 /**
  * Скелетон загрузки для карточки ивента
@@ -55,266 +24,6 @@ function EventCardSkeleton() {
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200" />
           <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Карточка ивента
- */
-function EventCard({ event }: { event: PublishedEvent }) {
-  const formatLabel = event.format === "ONLINE" ? "Онлайн" : "Оффлайн";
-  const formatIcon = event.format === "ONLINE" ? "💻" : "📍";
-  const isUpcoming = new Date(event.startDate) > new Date();
-  const isOngoing =
-    new Date(event.startDate) <= new Date() &&
-    new Date(event.endDate) >= new Date();
-
-  return (
-    <div className="w-full overflow-hidden rounded-2xl bg-white shadow-md transition-shadow hover:shadow-lg">
-      {/* Обложка */}
-      <div className="relative h-48 w-full overflow-hidden">
-        {event.coverImage ? (
-          <Image
-            src={event.coverImage}
-            alt={event.title}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-blue-400 to-purple-500">
-            <span className="text-6xl">🐕</span>
-          </div>
-        )}
-        {/* Бейдж формата */}
-        <div className="absolute top-2 right-2 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold shadow">
-          {formatIcon} {formatLabel}
-        </div>
-        {/* Бейдж статуса */}
-        {isOngoing && (
-          <div className="absolute top-2 left-2 rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow">
-            Идет сейчас
-          </div>
-        )}
-        {isUpcoming && !isOngoing && (
-          <div className="absolute top-2 left-2 rounded-full bg-blue-500 px-3 py-1 text-xs font-semibold text-white shadow">
-            Скоро
-          </div>
-        )}
-        {/* Бейдж типа */}
-        {event.type && (
-          <div className="absolute bottom-2 left-2">
-            <EventTypeTag type={event.type} />
-          </div>
-        )}
-      </div>
-
-      {/* Контент */}
-      <div className="flex flex-col p-4">
-        <h3 className="mb-2 line-clamp-2 text-lg font-semibold">
-          {event.title}
-        </h3>
-
-        {/* Дата */}
-        <div className="mb-2 flex items-center gap-2 text-sm text-gray-600">
-          <span>📅</span>
-          <span>{formatDate(event.startDate)}</span>
-        </div>
-
-        {/* Место */}
-        {(event.city || event.location) && (
-          <div className="mb-2 flex items-center gap-2 text-sm text-gray-600">
-            <span>{formatIcon}</span>
-            <span className="line-clamp-1">
-              {event.city && `${event.city}`}
-              {event.location && ` • ${event.location}`}
-            </span>
-          </div>
-        )}
-
-        {/* Количество участников */}
-        <div className="mb-3 flex items-center gap-2 text-sm text-gray-600">
-          <span>👥</span>
-          <span>
-            {event._count.registrations}{" "}
-            {event._count.registrations === 1
-              ? "участник"
-              : event._count.registrations >= 2 &&
-                  event._count.registrations <= 4
-                ? "участника"
-                : "участников"}
-          </span>
-        </div>
-
-        {/* Автор */}
-        <Link
-          href={`/u/${event.author.slug}`}
-          className="mt-auto flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600"
-        >
-          {event.author.avatar ? (
-            <div className="relative h-6 w-6 overflow-hidden rounded-full">
-              <Image
-                src={event.author.avatar}
-                alt={event.author.name}
-                fill
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-300">
-              <span className="text-xs font-semibold text-gray-600">
-                {event.author.name.charAt(0).toUpperCase()}
-              </span>
-            </div>
-          )}
-          <span className="hover:underline">{event.author.name}</span>
-        </Link>
-
-        {/* Ссылка на ивент */}
-        <Link
-          href={`/events/${event.slug}`}
-          className="mt-3 block rounded-lg bg-blue-500 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-600"
-        >
-          Подробнее
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Панель фильтров
- */
-function FiltersPanel({
-  filters,
-  cities,
-  onFilterChange,
-}: {
-  filters: EventFilters;
-  cities: string[];
-  onFilterChange: (filters: EventFilters) => void;
-}) {
-  return (
-    <div className="mb-6 rounded-xl bg-white p-4 shadow-sm">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        {/* Поиск */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Поиск
-          </label>
-          <Search
-            placeholder="Название или описание"
-            allowClear
-            value={filters.search ?? ""}
-            onChange={(e) =>
-              onFilterChange({ ...filters, search: e.target.value || null })
-            }
-            onSearch={(value) =>
-              onFilterChange({ ...filters, search: value || null })
-            }
-          />
-        </div>
-
-        {/* Формат */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Формат
-          </label>
-          <Select
-            placeholder="Все форматы"
-            allowClear
-            className="w-full"
-            value={filters.format}
-            onChange={(value) => onFilterChange({ ...filters, format: value })}
-            options={[
-              { value: "ONLINE", label: "Онлайн" },
-              { value: "OFFLINE", label: "Оффлайн" },
-            ]}
-          />
-        </div>
-
-        {/* Тип */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Тип
-          </label>
-          <Select
-            placeholder="Все типы"
-            allowClear
-            className="w-full"
-            value={filters.type}
-            onChange={(value) => onFilterChange({ ...filters, type: value })}
-            options={[
-              { value: "MASTERCLASS", label: "Мастер-класс" },
-              { value: "SEMINAR", label: "Семинар" },
-              { value: "KONKURS", label: "Конкурс" },
-              { value: "LEKCIYA", label: "Лекция" },
-              { value: "VEBINAR", label: "Вебинар" },
-            ]}
-          />
-        </div>
-
-        {/* Дата */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Дата
-          </label>
-          <div className="flex gap-2">
-            <DatePicker
-              className="flex-1"
-              format="DD.MM.YYYY"
-              placeholder="От"
-              value={
-                filters.dateRange?.start ? dayjs(filters.dateRange.start) : null
-              }
-              onChange={(date) => {
-                onFilterChange({
-                  ...filters,
-                  dateRange: {
-                    start: date ? date.toISOString() : null,
-                    end: filters.dateRange?.end ?? null,
-                  },
-                });
-              }}
-              allowClear
-            />
-            <DatePicker
-              className="flex-1"
-              format="DD.MM.YYYY"
-              placeholder="До"
-              value={
-                filters.dateRange?.end ? dayjs(filters.dateRange.end) : null
-              }
-              onChange={(date) => {
-                onFilterChange({
-                  ...filters,
-                  dateRange: {
-                    start: filters.dateRange?.start ?? null,
-                    end: date ? date.toISOString() : null,
-                  },
-                });
-              }}
-              allowClear
-            />
-          </div>
-        </div>
-
-        {/* Город */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            Город
-          </label>
-          <Select
-            placeholder="Все города"
-            allowClear
-            showSearch
-            className="w-full"
-            value={filters.city}
-            onChange={(value) => onFilterChange({ ...filters, city: value })}
-            options={cities.map((city) => ({ value: city, label: city }))}
-          />
         </div>
       </div>
     </div>
@@ -446,6 +155,15 @@ export default function EventsList() {
     return () => observer.disconnect();
   }, [handleObserver]);
 
+  // Обработчик переключения избранного
+  const handleFavoriteToggle = (eventId: number, isFavorite: boolean) => {
+    setEvents((prev) =>
+      prev.map((event) =>
+        event.id === eventId ? { ...event, isFavorite } : event,
+      ),
+    );
+  };
+
   // Начальная загрузка
   if (initialLoading) {
     return (
@@ -501,7 +219,11 @@ export default function EventsList() {
       {/* Список ивентов */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {events.map((event) => (
-          <EventCard key={event.id} event={event} />
+          <EventCard
+            key={event.id}
+            event={event}
+            onFavoriteToggle={handleFavoriteToggle}
+          />
         ))}
       </div>
 
