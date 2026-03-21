@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Spin } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
+import { Calendar, MapPin, Users, Monitor, PawPrint } from "lucide-react";
 import { EventTypeTag } from "@/app/components/events/EventTypeTag";
 import { toggleFavorite } from "@/app/favorites/actions/favorites";
 import type { PublishedEvent } from "../actions/getPublishedEvents";
@@ -33,7 +34,8 @@ interface EventCardProps {
  */
 export function EventCard({ event, onFavoriteToggle }: EventCardProps) {
   const formatLabel = event.format === "ONLINE" ? "Онлайн" : "Оффлайн";
-  const formatIcon = event.format === "ONLINE" ? "💻" : "📍";
+  const formatIcon =
+    event.format === "ONLINE" ? <Monitor size={14} /> : <MapPin size={14} />;
   const isUpcoming = new Date(event.startDate) > new Date();
   const isOngoing =
     new Date(event.startDate) <= new Date() &&
@@ -106,11 +108,13 @@ export function EventCard({ event, onFavoriteToggle }: EventCardProps) {
           <div
             className={`flex h-full w-full items-center justify-center ${getCoverBackground()}`}
           >
-            <span className="text-6xl">🐕</span>
+            <span className="text-6xl">
+              <PawPrint />
+            </span>
           </div>
         )}
         {/* Бейдж формата */}
-        <div className="absolute top-2 right-2 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold shadow">
+        <div className="absolute top-2 right-2 flex gap-2 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold shadow">
           {formatIcon} {formatLabel}
         </div>
         {/* Бейдж статуса с цветовой индикацией */}
@@ -131,7 +135,7 @@ export function EventCard({ event, onFavoriteToggle }: EventCardProps) {
         <button
           onClick={handleFavoriteClick}
           disabled={isToggling}
-          className={`absolute right-2 bottom-2 flex h-8 w-8 items-center justify-center rounded-full transition-all hover:scale-110 focus:ring-2 focus:ring-red-400 focus:outline-none ${
+          className={`absolute right-2 bottom-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-all hover:scale-110 focus:ring-2 focus:ring-red-400 focus:outline-none ${
             isFavoriteLocal
               ? "bg-red-500 text-white"
               : "bg-white/90 text-gray-600 hover:bg-red-100 hover:text-red-500"
@@ -158,7 +162,9 @@ export function EventCard({ event, onFavoriteToggle }: EventCardProps) {
 
         {/* Дата */}
         <div className="mb-2 flex items-center gap-2 text-sm text-gray-600">
-          <span>📅</span>
+          <span className="flex items-center">
+            <Calendar size={16} className="text-gray-400" />
+          </span>
           <span>{formatDate(event.startDate)}</span>
         </div>
 
@@ -175,7 +181,9 @@ export function EventCard({ event, onFavoriteToggle }: EventCardProps) {
 
         {/* Количество участников */}
         <div className="mb-3 flex items-center gap-2 text-sm text-gray-600">
-          <span>👥</span>
+          <span className="flex items-center">
+            <Users size={16} className="text-gray-400" />
+          </span>
           <span>
             {event._count.registrations}{" "}
             {event._count.registrations === 1

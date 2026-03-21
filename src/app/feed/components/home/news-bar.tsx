@@ -3,7 +3,7 @@ import { Skeleton } from "antd";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getNewsPosts, type NewsPost } from "./actions/getNewsPosts";
-import { getExcerpt } from "../ui/excerpt";
+import { getExcerpt } from "@/app/components/ui/excerpt";
 
 /**
  * Скелетон для загрузки новостей

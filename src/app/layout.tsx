@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
 import { App, ConfigProvider } from "antd";
-import { Header } from "./components/header";
-import { Footer } from "./components/footer";
 import { Providers } from "../components/providers";
 
 const titleFont = Jost({
@@ -47,13 +45,7 @@ export default function RootLayout({
       <html lang="ru">
         <body className={`${titleFont.variable} antialiased`}>
           <Providers>
-            <App>
-              <div className="m-auto max-w-360 bg-white lg:rounded-xl">
-                <Header />
-                {children}
-                <Footer />
-              </div>
-            </App>
+            <App>{children}</App>
           </Providers>
         </body>
       </html>

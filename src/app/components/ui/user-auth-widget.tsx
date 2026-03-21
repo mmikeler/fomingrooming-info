@@ -84,7 +84,7 @@ export default function UserAuthWidget() {
           >
             <B
               type="text"
-              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100"
+              className="flex items-center gap-2 hover:bg-gray-100"
             >
               <span
                 className="hidden sm:inline"

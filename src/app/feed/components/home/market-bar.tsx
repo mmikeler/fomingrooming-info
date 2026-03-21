@@ -1,8 +1,8 @@
 import { Card } from "antd";
 import Image from "next/image";
-import { formatPrice } from "../ui/format";
 import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import Paragraph from "antd/es/typography/Paragraph";
+import { formatPrice } from "@/app/components/ui/format";
 
 export default function MARKET_BAR() {
   const products = [

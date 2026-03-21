@@ -2,38 +2,44 @@
 
 import { Tag } from "antd";
 import { EventType } from "@/generated/prisma/enums";
+import { GraduationCap, Trophy, BookOpen, Video, Users } from "lucide-react";
 
 /**
  * Типы мероприятий с человекочитаемыми названиями и цветами
  */
 const EVENT_TYPE_CONFIG: Record<
   EventType,
-  { label: string; color: string; bgColor: string }
+  { label: string; color: string; bgColor: string; icon: React.ReactNode }
 > = {
   MASTERCLASS: {
     label: "Мастер-класс",
     color: "#722ed1",
     bgColor: "#efdbff",
+    icon: <GraduationCap size={14} />,
   },
   SEMINAR: {
     label: "Семинар",
     color: "#1890ff",
     bgColor: "#e6f7ff",
+    icon: <Users size={14} />,
   },
   KONKURS: {
     label: "Конкурс",
     color: "#fa541c",
     bgColor: "#fff7e6",
+    icon: <Trophy size={14} />,
   },
   LEKCIYA: {
     label: "Лекция",
     color: "#13c2c2",
     bgColor: "#e6fffb",
+    icon: <BookOpen size={14} />,
   },
   VEBINAR: {
     label: "Вебинар",
     color: "#52c41a",
     bgColor: "#f6ffed",
+    icon: <Video size={14} />,
   },
 };
 
@@ -67,13 +73,14 @@ export function EventTypeTag({ type, className = "" }: EventTypeTagProps) {
   return (
     <Tag
       color={config.bgColor}
-      className={`${className}`}
+      className={`${className} flex! items-center gap-1`}
       style={{
         color: config.color,
         borderColor: config.color,
         fontWeight: 500,
       }}
     >
+      <span className="flex items-center">{config.icon}</span>
       {config.label}
     </Tag>
   );

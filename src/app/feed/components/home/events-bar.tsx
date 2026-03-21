@@ -1,7 +1,6 @@
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { Card, Flex, Space, Skeleton } from "antd";
 import Image from "next/image";
-import Button from "../ui/button";
 import { Timer } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -9,6 +8,7 @@ import {
   getNearestEventsForWidget,
   type WidgetEvent,
 } from "./actions/getNearestEvents";
+import Button from "@/app/components/ui/button";
 
 /**
  * Скелетон загрузки для виджета мероприятий
@@ -177,7 +177,7 @@ async function EventsList() {
         </div>
       )}
       <div className="mt-5 flex justify-end">
-        <Link href="/events">
+        <Link href="/feed/events">
           <Button>
             <Space>
               Все мероприятия <ArrowRightOutlined />

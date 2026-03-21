@@ -10,6 +10,7 @@ import { RegisterButton } from "./components/RegisterButton";
 import { CountdownTimer } from "@/app/components/CountdownTimer";
 import { EventTypeTag } from "@/app/components/events/EventTypeTag";
 import { FavoriteButton } from "@/app/components/FavoriteButton";
+import { Calendar, MapPin, Users, Monitor, Pin } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -148,7 +149,13 @@ export default async function EventPage({ params }: PageProps) {
         {/* Информация о мероприятии */}
         <div className="mb-6 flex flex-wrap gap-4 text-gray-600">
           <div className="flex items-center gap-2">
-            <span className="font-semibold">📍</span>
+            <span className="flex items-center">
+              {event.format === "ONLINE" ? (
+                <Monitor size={18} className="text-gray-500" />
+              ) : (
+                <MapPin size={18} className="text-gray-500" />
+              )}
+            </span>
             <span>
               {formatLabel}
               {event.city && ` • ${event.city}`}
@@ -157,13 +164,17 @@ export default async function EventPage({ params }: PageProps) {
 
           {event.location && (
             <div className="flex items-center gap-2">
-              <span className="font-semibold">📌</span>
+              <span className="flex items-center">
+                <Pin size={18} className="text-gray-500" />
+              </span>
               <span>{event.location}</span>
             </div>
           )}
 
           <div className="flex items-center gap-2">
-            <span className="font-semibold">📅</span>
+            <span className="flex items-center">
+              <Calendar size={18} className="text-gray-500" />
+            </span>
             <span>
               {formatDate(event.startDate)} - {formatDate(event.endDate)}
             </span>
@@ -172,7 +183,9 @@ export default async function EventPage({ params }: PageProps) {
           <CountdownTimer targetDate={event.startDate} />
 
           <div className="flex items-center gap-2">
-            <span className="font-semibold">👥</span>
+            <span className="flex items-center">
+              <Users size={18} className="text-gray-500" />
+            </span>
             <span>{event._count.registrations} зарегистрировано</span>
           </div>
         </div>

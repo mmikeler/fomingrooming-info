@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Clock } from "lucide-react";
 
 interface CountdownTimerProps {
   targetDate: Date | string;
@@ -57,10 +58,13 @@ export function CountdownTimer({
   if (!hydrated || !timeLeft) {
     return (
       <span
-        className={`font-medium text-gray-400 ${className}`}
+        className={`flex items-center gap-1 font-medium text-gray-400 ${className}`}
         suppressHydrationWarning
       >
-        ⏱️ Загрузка...
+        <span className="flex items-center">
+          <Clock size={16} className="mr-1" />
+        </span>
+        Загрузка...
       </span>
     );
   }
@@ -72,7 +76,9 @@ export function CountdownTimer({
 
   return (
     <div className={`flex items-center gap-1 text-sm ${className}`}>
-      <span className="font-semibold text-blue-600">⏱️</span>
+      <span className="flex items-center">
+        <Clock size={16} className="text-blue-600" />
+      </span>
       <span className="flex items-center gap-2 text-gray-600">
         {days > 0 && (
           <span className="font-medium">

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getLatestPosts, type LatestPost } from "./actions/getLatestPosts";
-import { getExcerpt } from "../ui/excerpt";
+import { getExcerpt } from "@/app/components/ui/excerpt";
 
 /**
  * Skeleton for loading posts

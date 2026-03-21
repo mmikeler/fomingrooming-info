@@ -1,19 +1,17 @@
-import { Flex, Skeleton } from "antd";
+import { Skeleton } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getLatestPosts, type LatestPost } from "./actions/getLatestPosts";
-import { getExcerpt } from "../ui/excerpt";
-import { ArrowRight } from "lucide-react";
-import { ArrowRightOutlined } from "@ant-design/icons";
+import { getExcerpt } from "@/app/components/ui/excerpt";
 
 /**
- * Skeleton for loading posts
+ * Скелетон для загрузки постов
  */
 function PostsSkeleton() {
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {[1, 2, 3].map((i) => (
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      {[1, 2].map((i) => (
         <div key={i} className="w-full overflow-hidden rounded-2xl">
           <Skeleton.Image
             active
@@ -30,17 +28,17 @@ function PostsSkeleton() {
 }
 
 /**
- * Component for displaying post list
+ * Компонент для отображения списка постов
  */
 async function PostsList() {
-  const result = await getLatestPosts(3);
+  const result = await getLatestPosts();
 
   if (!result.success || !result.data || result.data.length === 0) {
     return (
-      <div>
+      <div className="text-gray-500">
         {result.success && result.data?.length === 0
-          ? "No published posts"
-          : "Error loading posts"}
+          ? "Нет опубликованных постов"
+          : "Ошибка при загрузке постов"}
       </div>
     );
   }
@@ -48,7 +46,7 @@ async function PostsList() {
   const posts = result.data;
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       {posts.map((post: LatestPost) => (
         <PostCard key={post.id} post={post} />
       ))}
@@ -57,29 +55,29 @@ async function PostsList() {
 }
 
 /**
- * Individual post card
+ * Карточка отдельного поста
  */
 function PostCard({ post }: { post: LatestPost }) {
-  const excerpt = getExcerpt(post.content, 200);
+  const excerpt = getExcerpt(post.content, 150);
 
   return (
-    <div className="flex w-full flex-col gap-4">
-      <div className="relative aspect-square w-full overflow-hidden rounded-2xl">
+    <div className="w-full">
+      <div className="relative h-60 w-full overflow-hidden rounded-2xl sm:h-72 md:h-80">
         <Image
-          src={`https://picsum.dev/400/400?seed=${post.id}`}
+          src={`https://picsum.dev/400/200?seed=${post.id}`}
           alt={post.title}
           fill
           className="object-cover"
         />
       </div>
-      <div className="flex min-h-40 w-full flex-col sm:min-h-50">
+      <div className="flex min-h-32 flex-col py-4 sm:min-h-36">
         <h3 className="text-base font-semibold sm:text-lg">{post.title}</h3>
-        <p className="mt-2 min-h-20 text-sm sm:min-h-25">{excerpt}</p>
+        <p className="mt-2 text-sm">{excerpt}</p>
         <Link
           href={`/blog/${post.slug}`}
-          className="mt-auto pt-4 text-xs sm:pt-5"
+          className="mt-auto text-right text-xs"
         >
-          Читать дальше <ArrowRightOutlined />
+          Читать статью
         </Link>
       </div>
     </div>
@@ -87,9 +85,9 @@ function PostCard({ post }: { post: LatestPost }) {
 }
 
 /**
- * Useful posts component with Suspense
+ * Компонент актуальных постов с Suspense
  */
-export default function USEFUL_POSTS() {
+export default function ACTUAL_POSTS() {
   return (
     <Suspense fallback={<PostsSkeleton />}>
       <PostsList />

@@ -1,6 +1,7 @@
 import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
 import ProfileSidebar from "./components/sidebar";
+import { Header } from "./components/header";
 
 export default function ProfileLayout({
   children,
@@ -8,13 +9,18 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="container mx-auto flex min-h-[calc(100dvh-130px)] py-8">
-      <Layout>
-        <ProfileSidebar />
+    <>
+      <Header />
+      <div className="container mx-auto flex min-h-[calc(100dvh-130px)] max-w-285">
         <Layout>
-          <Content>{children}</Content>
+          <ProfileSidebar />
+          <Layout>
+            <Content style={{ backgroundColor: "var(--gray-background)" }}>
+              {children}
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
-    </div>
+      </div>
+    </>
   );
 }

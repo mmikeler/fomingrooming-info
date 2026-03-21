@@ -1,5 +1,5 @@
-import Button from "../ui/button";
-import { formatPrice } from "../ui/format";
+import Button from "@/app/components/ui/button";
+import { formatPrice } from "@/app/components/ui/format";
 import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
 
 export default function VACANCY_BAR() {
