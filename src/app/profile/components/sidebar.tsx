@@ -3,6 +3,7 @@
 import { Divider, Flex, Menu, MenuProps, Space } from "antd";
 import Sider from "antd/es/layout/Sider";
 import {
+  Bookmark,
   CalendarCheck2,
   CalendarPlus,
   Calendars,
@@ -21,6 +22,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 // Карта соответствия ключей меню путям
 const menuKeyToPath: Record<string, string> = {
+  lenta: "/profile/lenta",
   profile: "/profile",
   posts: "/profile/posts",
   events: "/profile/events",
@@ -106,9 +108,9 @@ export default function ProfileSidebar() {
       type: "divider",
     },
     {
-      label: <Link href="/profile/favorites">Избранное</Link>,
+      label: <Link href="/profile/favorites">Закладки</Link>,
       key: "favorites",
-      icon: <Heart size={iconSize} />,
+      icon: <Bookmark size={iconSize} />,
     },
   ];
 
@@ -154,13 +156,6 @@ export default function ProfileSidebar() {
 
           <Space vertical className="text-[10px] text-gray-400!">
             <div className="">© ИП Иванов ИИ 2026</div>
-            <Link className="text-gray-400!" href="mailto:sobaka@sobaka.ru">
-              sobaka@sobaka.ru
-            </Link>
-            <Link className="text-gray-400!" href="tel:+7 999 999 99 99">
-              +7 999 999 99 99
-            </Link>
-            <div className="">г.Москва</div>
             <div className="">Версия: 0.16.0</div>
           </Space>
         </>

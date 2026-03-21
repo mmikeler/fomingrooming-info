@@ -9,6 +9,10 @@ import { Calendar, MapPin, Users, Monitor, PawPrint } from "lucide-react";
 import { EventTypeTag } from "@/app/components/events/EventTypeTag";
 import { toggleFavorite } from "@/app/favorites/actions/favorites";
 import type { PublishedEvent } from "../actions/getPublishedEvents";
+import {
+  extractFirstImageFromContent,
+  getFullImageUrl,
+} from "@/app/profile/lenta/utils/extractFirstImage";
 
 /**
  * Форматирование даты
@@ -85,6 +89,13 @@ export function EventCard({ event, onFavoriteToggle }: EventCardProps) {
     return "";
   };
 
+  // Получаем изображение из description, если нет обложки
+  const fallbackImage =
+    !event.coverImage && event.description
+      ? getFullImageUrl(extractFirstImageFromContent(event.description))
+      : null;
+  const displayImage = event.coverImage || fallbackImage;
+
   // Определение цвета фона обложки в зависимости от статуса
   const getCoverBackground = () => {
     if (isOngoing) return "bg-linear-to-br from-green-400 to-emerald-500";
@@ -97,9 +108,9 @@ export function EventCard({ event, onFavoriteToggle }: EventCardProps) {
     <div className="w-full overflow-hidden rounded-2xl bg-white shadow-md transition-shadow hover:shadow-lg">
       {/* Обложка */}
       <div className="relative h-48 w-full overflow-hidden">
-        {event.coverImage ? (
+        {displayImage ? (
           <Image
-            src={event.coverImage}
+            src={displayImage}
             alt={event.title}
             fill
             className="object-cover"

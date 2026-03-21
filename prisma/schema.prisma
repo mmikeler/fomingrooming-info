@@ -84,6 +84,7 @@ enum EventType {
   KONKURS
   LEKCIYA
   VEBINAR
+  AREA
 }
 
 enum EventStatus {
@@ -224,9 +225,12 @@ model Favorite {
   createdAt DateTime     @default(now())
 
   // Уникальный индекс: пользователь не может добавить одну и ту же запись дважды
+  // Для SQLite используем отдельные уникальные индексы вместо составных с nullable полями
   @@unique([userId, type, eventId])
   @@unique([userId, type, postId])
+  // Дополнительные индексы для проверки уникальности
   @@index([userId])
   @@index([eventId])
   @@index([postId])
+  @@index([userId, type])
 }

@@ -1,19 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "antd";
-import { HeartOutlined, HeartFilled } from "@ant-design/icons";
+import { Button, Spin } from "antd";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { toggleFavorite, isFavorite } from "@/app/favorites/actions/favorites";
+import { toggleFavorite } from "@/app/favorites/actions/favorites";
+import type { FavoriteItemType } from "@/app/favorites/actions/favorites";
+import { PawPrint } from "lucide-react";
 
 interface FavoriteButtonProps {
-  eventId: number;
+  /** ID записи (мероприятия, поста и т.д.) */
+  itemId: number;
+  /** Тип записи: EVENT или POST */
+  type: FavoriteItemType;
+  /** Начальное состояние избранного */
   initialIsFavorite?: boolean;
 }
 
 export function FavoriteButton({
-  eventId,
+  itemId,
+  type,
   initialIsFavorite = false,
 }: FavoriteButtonProps) {
   const { data: session } = useSession();
@@ -31,7 +37,7 @@ export function FavoriteButton({
 
     setLoading(true);
     try {
-      const result = await toggleFavorite(eventId);
+      const result = await toggleFavorite(itemId, type);
 
       if (result.success) {
         setIsFavoriteState(result.data?.isFavorite ?? false);
@@ -43,27 +49,25 @@ export function FavoriteButton({
     }
   };
 
+  if (loading) return <Spin />;
+
   if (isFavoriteState) {
     return (
       <Button
-        type="default"
+        type="link"
         onClick={handleToggle}
         loading={loading}
-        icon={<HeartFilled style={{ color: "#ff4d4f" }} />}
-      >
-        В избранном
-      </Button>
+        icon={<PawPrint fill="red" color="red" />}
+      ></Button>
     );
   }
 
   return (
     <Button
-      type="default"
+      type="link"
       onClick={handleToggle}
       loading={loading}
-      icon={<HeartOutlined />}
-    >
-      В избранное
-    </Button>
+      icon={<PawPrint color="gray" />}
+    ></Button>
   );
 }

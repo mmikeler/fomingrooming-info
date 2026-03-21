@@ -7,6 +7,9 @@ import { action, UnauthorizedError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { FavoriteType } from "@/generated/prisma/enums";
 
+// Типы записей для избранного
+export type FavoriteItemType = "EVENT" | "POST";
+
 interface FavoriteEvent {
   id: number;
   title: string;
@@ -22,11 +25,46 @@ interface FavoriteEvent {
 export type { FavoriteEvent };
 
 /**
- * Переключение состояния избранного для мероприятия
- * Если в избранном - удаляет, если нет - добавляет
+ * Универсальная функция проверки избранного для любого типа записи
+ * @param itemId - ID записи
+ * @param type - тип записи (EVENT или POST), по умолчанию EVENT
+ */
+export async function isFavorite(
+  itemId: number,
+  type: FavoriteItemType = "EVENT",
+): Promise<ActionResult<{ isFavorite: boolean }>> {
+  return action(async () => {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.id) {
+      return { isFavorite: false };
+    }
+
+    const userId = parseInt(session.user.id);
+    const favoriteType =
+      type === "EVENT" ? FavoriteType.EVENT : FavoriteType.POST;
+
+    const whereClause =
+      type === "EVENT"
+        ? { userId, type: favoriteType, eventId: itemId }
+        : { userId, type: favoriteType, postId: itemId };
+
+    const existing = await prisma.favorite.findFirst({
+      where: whereClause,
+    });
+
+    return { isFavorite: !!existing };
+  });
+}
+
+/**
+ * Универсальная функция переключения избранного для любого типа записи
+ * @param itemId - ID записи
+ * @param type - тип записи (EVENT или POST), по умолчанию EVENT
  */
 export async function toggleFavorite(
-  eventId: number,
+  itemId: number,
+  type: FavoriteItemType = "EVENT",
 ): Promise<ActionResult<{ isFavorite: boolean }>> {
   return action(async () => {
     const session = await getServerSession(authOptions);
@@ -36,15 +74,28 @@ export async function toggleFavorite(
     }
 
     const userId = parseInt(session.user.id);
+    const favoriteType =
+      type === "EVENT" ? FavoriteType.EVENT : FavoriteType.POST;
+
+    const whereClause =
+      type === "EVENT"
+        ? { userId, type: favoriteType, eventId: itemId }
+        : { userId, type: favoriteType, postId: itemId };
 
     // Проверяем, есть ли уже в избранном
     const existing = await prisma.favorite.findFirst({
-      where: {
-        userId,
-        type: FavoriteType.EVENT,
-        eventId,
-      },
+      where: whereClause,
     });
+
+    // Проверяем, существует ли пользователь
+    const userExists = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+    if (!userExists) {
+      console.error("User not found:", userId);
+      throw new Error("Пользователь не найден");
+    }
 
     if (existing) {
       // Удаляем из избранного
@@ -53,43 +104,51 @@ export async function toggleFavorite(
       });
       return { isFavorite: false };
     } else {
+      // Проверяем, существует ли запись (событие или пост)
+      if (type === "EVENT") {
+        const eventExists = await prisma.event.findUnique({
+          where: { id: itemId },
+          select: { id: true },
+        });
+        if (!eventExists) {
+          console.error("Event not found:", itemId);
+          throw new Error("Мероприятие не найдено");
+        }
+      } else {
+        const postExists = await prisma.post.findUnique({
+          where: { id: itemId },
+          select: { id: true },
+        });
+        if (!postExists) {
+          console.error("Post not found:", itemId);
+          throw new Error("Пост не найден");
+        }
+      }
+
       // Добавляем в избранное
-      await prisma.favorite.create({
-        data: {
-          userId,
-          type: FavoriteType.EVENT,
-          eventId,
-        },
-      });
+      const data =
+        type === "EVENT"
+          ? { userId, type: favoriteType, eventId: itemId }
+          : { userId, type: favoriteType, postId: itemId };
+
+      console.log("Creating favorite:", { data, userId, type, itemId });
+
+      try {
+        await prisma.favorite.create({
+          data,
+        });
+      } catch (error: unknown) {
+        console.error("Prisma error creating favorite:", error);
+        if (
+          error instanceof Error &&
+          error.message.includes("Foreign key constraint")
+        ) {
+          throw new Error("Ошибка связи: неверный ID пользователя или записи");
+        }
+        throw error;
+      }
       return { isFavorite: true };
     }
-  });
-}
-
-/**
- * Проверка, находится ли мероприятие в избранном у текущего пользователя
- */
-export async function isFavorite(
-  eventId: number,
-): Promise<ActionResult<{ isFavorite: boolean }>> {
-  return action(async () => {
-    const session = await getServerSession(authOptions);
-
-    if (!session?.user?.id) {
-      return { isFavorite: false };
-    }
-
-    const userId = parseInt(session.user.id);
-
-    const existing = await prisma.favorite.findFirst({
-      where: {
-        userId,
-        type: FavoriteType.EVENT,
-        eventId,
-      },
-    });
-
-    return { isFavorite: !!existing };
   });
 }
 

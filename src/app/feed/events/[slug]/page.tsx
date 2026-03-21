@@ -201,7 +201,11 @@ export default async function EventPage({ params }: PageProps) {
             )}
             isEnded={isEnded}
           />
-          <FavoriteButton eventId={event.id} initialIsFavorite={isFavorite} />
+          <FavoriteButton
+            itemId={event.id}
+            type="EVENT"
+            initialIsFavorite={isFavorite}
+          />
         </div>
 
         {/* Описание */}

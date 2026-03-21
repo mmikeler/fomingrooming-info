@@ -53,7 +53,8 @@ export const EventType = {
   SEMINAR: 'SEMINAR',
   KONKURS: 'KONKURS',
   LEKCIYA: 'LEKCIYA',
-  VEBINAR: 'VEBINAR'
+  VEBINAR: 'VEBINAR',
+  AREA: 'AREA'
 } as const
 
 export type EventType = (typeof EventType)[keyof typeof EventType]

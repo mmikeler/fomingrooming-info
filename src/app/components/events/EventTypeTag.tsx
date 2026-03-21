@@ -2,7 +2,14 @@
 
 import { Tag } from "antd";
 import { EventType } from "@/generated/prisma/enums";
-import { GraduationCap, Trophy, BookOpen, Video, Users } from "lucide-react";
+import {
+  GraduationCap,
+  Trophy,
+  BookOpen,
+  Video,
+  Users,
+  TreeDeciduous,
+} from "lucide-react";
 
 /**
  * Типы мероприятий с человекочитаемыми названиями и цветами
@@ -40,6 +47,12 @@ const EVENT_TYPE_CONFIG: Record<
     color: "#52c41a",
     bgColor: "#f6ffed",
     icon: <Video size={14} />,
+  },
+  AREA: {
+    label: "Площадка",
+    color: "#70a533",
+    bgColor: "#ecf5e1",
+    icon: <TreeDeciduous size={14} />,
   },
 };
 
