@@ -4,7 +4,7 @@ import React from "react";
 import { Clock } from "lucide-react";
 
 interface CountdownTimerProps {
-  targetDate: Date | string;
+  targetDate: Date | string | undefined;
   className?: string;
 }
 
@@ -15,8 +15,15 @@ interface TimeLeft {
   seconds: number;
 }
 
-function calculateTimeLeft(targetDate: Date | string): TimeLeft | null {
+function calculateTimeLeft(
+  targetDate: CountdownTimerProps["targetDate"],
+): TimeLeft | null {
   const now = Date.now();
+
+  if (!targetDate) {
+    return null;
+  }
+
   const target = new Date(targetDate).getTime();
   const difference = target - now;
 

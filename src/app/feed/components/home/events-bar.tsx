@@ -104,7 +104,7 @@ function MainEventCard({ event }: { event: WidgetEvent }) {
           </Space>
         </div>
         <div className="mt-10 w-full lg:mt-20">
-          <Link href={`/events/${event.slug}`}>
+          <Link href={`/in/events/${event.slug}`}>
             <Button className="w-full lg:py-7">Участвовать</Button>
           </Link>
         </div>
@@ -177,7 +177,7 @@ async function EventsList() {
         </div>
       )}
       <div className="mt-5 flex justify-end">
-        <Link href="/feed/events">
+        <Link href="/in/events">
           <Button>
             <Space>
               Все мероприятия <ArrowRightOutlined />

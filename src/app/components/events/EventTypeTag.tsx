@@ -1,6 +1,6 @@
 "use client";
 
-import { Tag } from "antd";
+import { Tag, Tooltip } from "antd";
 import { EventType } from "@/generated/prisma/enums";
 import {
   GraduationCap,
@@ -84,18 +84,20 @@ export function EventTypeTag({ type, className = "" }: EventTypeTagProps) {
   }
 
   return (
-    <Tag
-      color={config.bgColor}
-      className={`${className} flex! items-center gap-1`}
-      style={{
-        color: config.color,
-        borderColor: config.color,
-        fontWeight: 500,
-      }}
-    >
-      <span className="flex items-center">{config.icon}</span>
-      {config.label}
-    </Tag>
+    <Tooltip title="Тип мероприятия">
+      <Tag
+        color={config.bgColor}
+        className={`${className} flex! items-center gap-1`}
+        style={{
+          color: config.color,
+          borderColor: config.color,
+          fontWeight: 500,
+        }}
+      >
+        <span className="flex items-center">{config.icon}</span>
+        {config.label}
+      </Tag>
+    </Tooltip>
   );
 }
 

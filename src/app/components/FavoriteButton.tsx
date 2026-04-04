@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Spin } from "antd";
+import { Button, Spin, Tooltip } from "antd";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { toggleFavorite } from "@/app/favorites/actions/favorites";
-import type { FavoriteItemType } from "@/app/favorites/actions/favorites";
-import { PawPrint } from "lucide-react";
+import { toggleFavorite } from "@/app/in/favorites/actions/favorites";
+import type { FavoriteItemType } from "@/app/in/favorites/actions/favorites";
+import { Bookmark } from "lucide-react";
 
 interface FavoriteButtonProps {
   /** ID записи (мероприятия, поста и т.д.) */
@@ -51,23 +51,22 @@ export function FavoriteButton({
 
   if (loading) return <Spin />;
 
-  if (isFavoriteState) {
-    return (
+  return (
+    <Tooltip
+      title={isFavoriteState ? "Удалить из закладок" : "Добавить в закладки"}
+    >
       <Button
         type="link"
         onClick={handleToggle}
         loading={loading}
-        icon={<PawPrint fill="red" color="red" />}
+        icon={
+          isFavoriteState ? (
+            <Bookmark fill="red" color="red" />
+          ) : (
+            <Bookmark color="gray" />
+          )
+        }
       ></Button>
-    );
-  }
-
-  return (
-    <Button
-      type="link"
-      onClick={handleToggle}
-      loading={loading}
-      icon={<PawPrint color="gray" />}
-    ></Button>
+    </Tooltip>
   );
 }

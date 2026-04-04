@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
 import { App, ConfigProvider } from "antd";
-import { Providers } from "../components/providers";
+import { Providers } from "@/components/providers";
+import type { ReactNode } from "react";
 
 const titleFont = Jost({
-  variable: "--font-goo-sans",
+  variable: "--font-notoserif-sans",
   subsets: ["latin", "cyrillic"],
   weight: ["400", "700"],
   display: "swap",
@@ -13,7 +14,7 @@ const titleFont = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "ФОМИНГРУМИНГ ИНФО",
+  title: "ФОМИН ГРУМИНГ ИНФО",
   description:
     "Информационный портал для грумеров. События, бренды и знания в одном месте",
 };
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <ConfigProvider

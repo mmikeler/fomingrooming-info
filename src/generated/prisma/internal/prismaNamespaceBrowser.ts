@@ -58,7 +58,9 @@ export const ModelName = {
   Notification: 'Notification',
   ModerationLog: 'ModerationLog',
   UserBanLog: 'UserBanLog',
-  Favorite: 'Favorite'
+  Favorite: 'Favorite',
+  Like: 'Like',
+  PostView: 'PostView'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -115,6 +117,7 @@ export const EventScalarFieldEnum = {
   endDate: 'endDate',
   coverImage: 'coverImage',
   status: 'status',
+  viewsCount: 'viewsCount',
   rejectionReason: 'rejectionReason',
   authorId: 'authorId',
   moderatedAt: 'moderatedAt',
@@ -140,11 +143,13 @@ export const PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
   slug: 'slug',
+  excerpt: 'excerpt',
   content: 'content',
   coverImage: 'coverImage',
   created: 'created',
   status: 'status',
   category: 'category',
+  viewsCount: 'viewsCount',
   rejectionReason: 'rejectionReason',
   authorId: 'authorId',
   moderatedAt: 'moderatedAt',
@@ -204,6 +209,29 @@ export const FavoriteScalarFieldEnum = {
 } as const
 
 export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
+
+
+export const LikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  eventId: 'eventId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type LikeScalarFieldEnum = (typeof LikeScalarFieldEnum)[keyof typeof LikeScalarFieldEnum]
+
+
+export const PostViewScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  views: 'views',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  eventId: 'eventId'
+} as const
+
+export type PostViewScalarFieldEnum = (typeof PostViewScalarFieldEnum)[keyof typeof PostViewScalarFieldEnum]
 
 
 export const SortOrder = {

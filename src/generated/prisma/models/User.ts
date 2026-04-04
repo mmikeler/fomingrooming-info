@@ -370,6 +370,8 @@ export type UserWhereInput = {
   banLogs?: Prisma.UserBanLogListRelationFilter
   banActions?: Prisma.UserBanLogListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
+  likes?: Prisma.LikeListRelationFilter
+  postViews?: Prisma.PostViewListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -405,6 +407,8 @@ export type UserOrderByWithRelationInput = {
   banLogs?: Prisma.UserBanLogOrderByRelationAggregateInput
   banActions?: Prisma.UserBanLogOrderByRelationAggregateInput
   favorites?: Prisma.FavoriteOrderByRelationAggregateInput
+  likes?: Prisma.LikeOrderByRelationAggregateInput
+  postViews?: Prisma.PostViewOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -443,6 +447,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   banLogs?: Prisma.UserBanLogListRelationFilter
   banActions?: Prisma.UserBanLogListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
+  likes?: Prisma.LikeListRelationFilter
+  postViews?: Prisma.PostViewListRelationFilter
 }, "id" | "email" | "slug">
 
 export type UserOrderByWithAggregationInput = {
@@ -535,6 +541,8 @@ export type UserCreateInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -570,6 +578,8 @@ export type UserUncheckedCreateInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -604,6 +614,8 @@ export type UserUpdateInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -639,6 +651,8 @@ export type UserUncheckedUpdateInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1000,6 +1014,36 @@ export type UserUpdateOneRequiredWithoutFavoritesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFavoritesInput, Prisma.UserUpdateWithoutFavoritesInput>, Prisma.UserUncheckedUpdateWithoutFavoritesInput>
 }
 
+export type UserCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.UserUpsertWithoutLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLikesInput, Prisma.UserUpdateWithoutLikesInput>, Prisma.UserUncheckedUpdateWithoutLikesInput>
+}
+
+export type UserCreateNestedOneWithoutPostViewsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPostViewsInput, Prisma.UserUncheckedCreateWithoutPostViewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPostViewsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutPostViewsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPostViewsInput, Prisma.UserUncheckedCreateWithoutPostViewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPostViewsInput
+  upsert?: Prisma.UserUpsertWithoutPostViewsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPostViewsInput, Prisma.UserUpdateWithoutPostViewsInput>, Prisma.UserUncheckedUpdateWithoutPostViewsInput>
+}
+
 export type UserCreateWithoutEventsInput = {
   email: string
   password: string
@@ -1031,6 +1075,8 @@ export type UserCreateWithoutEventsInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEventsInput = {
@@ -1065,6 +1111,8 @@ export type UserUncheckedCreateWithoutEventsInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEventsInput = {
@@ -1103,6 +1151,8 @@ export type UserCreateWithoutModeratedEventsInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutModeratedEventsInput = {
@@ -1137,6 +1187,8 @@ export type UserUncheckedCreateWithoutModeratedEventsInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutModeratedEventsInput = {
@@ -1186,6 +1238,8 @@ export type UserUpdateWithoutEventsInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventsInput = {
@@ -1220,6 +1274,8 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutModeratedEventsInput = {
@@ -1264,6 +1320,8 @@ export type UserUpdateWithoutModeratedEventsInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModeratedEventsInput = {
@@ -1298,6 +1356,8 @@ export type UserUncheckedUpdateWithoutModeratedEventsInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEventRegistrationsInput = {
@@ -1331,6 +1391,8 @@ export type UserCreateWithoutEventRegistrationsInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEventRegistrationsInput = {
@@ -1365,6 +1427,8 @@ export type UserUncheckedCreateWithoutEventRegistrationsInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEventRegistrationsInput = {
@@ -1414,6 +1478,8 @@ export type UserUpdateWithoutEventRegistrationsInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventRegistrationsInput = {
@@ -1448,6 +1514,8 @@ export type UserUncheckedUpdateWithoutEventRegistrationsInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPostsInput = {
@@ -1481,6 +1549,8 @@ export type UserCreateWithoutPostsInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -1515,6 +1585,8 @@ export type UserUncheckedCreateWithoutPostsInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -1553,6 +1625,8 @@ export type UserCreateWithoutModeratedPostsInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutModeratedPostsInput = {
@@ -1587,6 +1661,8 @@ export type UserUncheckedCreateWithoutModeratedPostsInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutModeratedPostsInput = {
@@ -1636,6 +1712,8 @@ export type UserUpdateWithoutPostsInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -1670,6 +1748,8 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutModeratedPostsInput = {
@@ -1714,6 +1794,8 @@ export type UserUpdateWithoutModeratedPostsInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModeratedPostsInput = {
@@ -1748,6 +1830,8 @@ export type UserUncheckedUpdateWithoutModeratedPostsInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -1781,6 +1865,8 @@ export type UserCreateWithoutNotificationsInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1815,6 +1901,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1864,6 +1952,8 @@ export type UserUpdateWithoutNotificationsInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1898,6 +1988,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutModerationLogsInput = {
@@ -1931,6 +2023,8 @@ export type UserCreateWithoutModerationLogsInput = {
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutModerationLogsInput = {
@@ -1965,6 +2059,8 @@ export type UserUncheckedCreateWithoutModerationLogsInput = {
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutModerationLogsInput = {
@@ -2014,6 +2110,8 @@ export type UserUpdateWithoutModerationLogsInput = {
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModerationLogsInput = {
@@ -2048,6 +2146,8 @@ export type UserUncheckedUpdateWithoutModerationLogsInput = {
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBanLogsInput = {
@@ -2081,6 +2181,8 @@ export type UserCreateWithoutBanLogsInput = {
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBanLogsInput = {
@@ -2115,6 +2217,8 @@ export type UserUncheckedCreateWithoutBanLogsInput = {
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBanLogsInput = {
@@ -2153,6 +2257,8 @@ export type UserCreateWithoutBanActionsInput = {
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBanActionsInput = {
@@ -2187,6 +2293,8 @@ export type UserUncheckedCreateWithoutBanActionsInput = {
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBanActionsInput = {
@@ -2236,6 +2344,8 @@ export type UserUpdateWithoutBanLogsInput = {
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBanLogsInput = {
@@ -2270,6 +2380,8 @@ export type UserUncheckedUpdateWithoutBanLogsInput = {
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutBanActionsInput = {
@@ -2314,6 +2426,8 @@ export type UserUpdateWithoutBanActionsInput = {
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBanActionsInput = {
@@ -2348,6 +2462,8 @@ export type UserUncheckedUpdateWithoutBanActionsInput = {
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutFavoritesInput = {
@@ -2381,6 +2497,8 @@ export type UserCreateWithoutFavoritesInput = {
   moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
   banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -2415,6 +2533,8 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
   banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
   banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -2464,6 +2584,8 @@ export type UserUpdateWithoutFavoritesInput = {
   moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
   banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -2498,6 +2620,324 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
   banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
   banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutLikesInput = {
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLikesInput = {
+  id?: number
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  postViews?: Prisma.PostViewUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLikesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+}
+
+export type UserUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLikesInput, Prisma.UserUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLikesInput, Prisma.UserUncheckedUpdateWithoutLikesInput>
+}
+
+export type UserUpdateWithoutLikesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  postViews?: Prisma.PostViewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPostViewsInput = {
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogCreateNestedManyWithoutModeratorInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPostViewsInput = {
+  id?: number
+  email: string
+  password: string
+  name: string
+  slug: string
+  city?: string | null
+  phone?: string | null
+  showContacts?: boolean
+  avatar?: string | null
+  role?: $Enums.UserRole
+  emailVerified?: Date | string | null
+  verificationToken?: string | null
+  verificationTokenExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.AccountStatus
+  banReason?: string | null
+  bannedAt?: Date | string | null
+  bannedBy?: number | null
+  restrictedReason?: string | null
+  restrictedAt?: Date | string | null
+  restrictedBy?: number | null
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutAuthorInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedPosts?: Prisma.PostUncheckedCreateNestedManyWithoutModeratorInput
+  moderatedEvents?: Prisma.EventUncheckedCreateNestedManyWithoutModeratorInput
+  banLogs?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutUserInput
+  banActions?: Prisma.UserBanLogUncheckedCreateNestedManyWithoutModeratorInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPostViewsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPostViewsInput, Prisma.UserUncheckedCreateWithoutPostViewsInput>
+}
+
+export type UserUpsertWithoutPostViewsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPostViewsInput, Prisma.UserUncheckedUpdateWithoutPostViewsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPostViewsInput, Prisma.UserUncheckedCreateWithoutPostViewsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPostViewsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPostViewsInput, Prisma.UserUncheckedUpdateWithoutPostViewsInput>
+}
+
+export type UserUpdateWithoutPostViewsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUpdateManyWithoutModeratorNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPostViewsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  showContacts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bannedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  restrictedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restrictedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutAuthorNestedInput
+  eventRegistrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedPosts?: Prisma.PostUncheckedUpdateManyWithoutModeratorNestedInput
+  moderatedEvents?: Prisma.EventUncheckedUpdateManyWithoutModeratorNestedInput
+  banLogs?: Prisma.UserBanLogUncheckedUpdateManyWithoutUserNestedInput
+  banActions?: Prisma.UserBanLogUncheckedUpdateManyWithoutModeratorNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2516,6 +2956,8 @@ export type UserCountOutputType = {
   banLogs: number
   banActions: number
   favorites: number
+  likes: number
+  postViews: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2529,6 +2971,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   banLogs?: boolean | UserCountOutputTypeCountBanLogsArgs
   banActions?: boolean | UserCountOutputTypeCountBanActionsArgs
   favorites?: boolean | UserCountOutputTypeCountFavoritesArgs
+  likes?: boolean | UserCountOutputTypeCountLikesArgs
+  postViews?: boolean | UserCountOutputTypeCountPostViewsArgs
 }
 
 /**
@@ -2611,6 +3055,20 @@ export type UserCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.
   where?: Prisma.FavoriteWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LikeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPostViewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PostViewWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2645,6 +3103,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   banLogs?: boolean | Prisma.User$banLogsArgs<ExtArgs>
   banActions?: boolean | Prisma.User$banActionsArgs<ExtArgs>
   favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
+  likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  postViews?: boolean | Prisma.User$postViewsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2735,6 +3195,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   banLogs?: boolean | Prisma.User$banLogsArgs<ExtArgs>
   banActions?: boolean | Prisma.User$banActionsArgs<ExtArgs>
   favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
+  likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  postViews?: boolean | Prisma.User$postViewsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2753,6 +3215,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     banLogs: Prisma.$UserBanLogPayload<ExtArgs>[]
     banActions: Prisma.$UserBanLogPayload<ExtArgs>[]
     favorites: Prisma.$FavoritePayload<ExtArgs>[]
+    likes: Prisma.$LikePayload<ExtArgs>[]
+    postViews: Prisma.$PostViewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -3181,6 +3645,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   banLogs<T extends Prisma.User$banLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$banLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserBanLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   banActions<T extends Prisma.User$banActionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$banActionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserBanLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favorites<T extends Prisma.User$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  likes<T extends Prisma.User$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  postViews<T extends Prisma.User$postViewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postViewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3855,6 +4321,54 @@ export type User$favoritesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.FavoriteScalarFieldEnum | Prisma.FavoriteScalarFieldEnum[]
+}
+
+/**
+ * User.likes
+ */
+export type User$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Like
+   */
+  select?: Prisma.LikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Like
+   */
+  omit?: Prisma.LikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LikeInclude<ExtArgs> | null
+  where?: Prisma.LikeWhereInput
+  orderBy?: Prisma.LikeOrderByWithRelationInput | Prisma.LikeOrderByWithRelationInput[]
+  cursor?: Prisma.LikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LikeScalarFieldEnum | Prisma.LikeScalarFieldEnum[]
+}
+
+/**
+ * User.postViews
+ */
+export type User$postViewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PostView
+   */
+  select?: Prisma.PostViewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PostView
+   */
+  omit?: Prisma.PostViewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostViewInclude<ExtArgs> | null
+  where?: Prisma.PostViewWhereInput
+  orderBy?: Prisma.PostViewOrderByWithRelationInput | Prisma.PostViewOrderByWithRelationInput[]
+  cursor?: Prisma.PostViewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PostViewScalarFieldEnum | Prisma.PostViewScalarFieldEnum[]
 }
 
 /**

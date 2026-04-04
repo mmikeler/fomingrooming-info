@@ -3,8 +3,22 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { NotificationBell } from "../notification-bell";
-import { Dropdown, Avatar, Flex, Button as B, MenuProps, App } from "antd";
-import { User, LogOut, Shield, Settings } from "lucide-react";
+import {
+  Dropdown,
+  Avatar,
+  Flex,
+  Button as B,
+  MenuProps,
+  App,
+  Space,
+} from "antd";
+import {
+  User,
+  LogOut,
+  Shield,
+  Settings,
+  ArrowBigRightDash,
+} from "lucide-react";
 import Button from "./button";
 
 export default function UserAuthWidget() {
@@ -14,7 +28,7 @@ export default function UserAuthWidget() {
 
   const handleSignOut = async () => {
     try {
-      await signOut({ callbackUrl: "/" });
+      await signOut({ callbackUrl: "/in" });
       message.success("Вы успешно вышли из системы");
     } catch {
       message.error("Ошибка при выходе");
@@ -26,10 +40,16 @@ export default function UserAuthWidget() {
     const role = session?.user?.role || "USER";
     const items: MenuProps["items"] = [
       {
+        key: "portal-home",
+        icon: <ArrowBigRightDash size={16} />,
+        label: "На портал",
+        onClick: () => router.push("/in"),
+      },
+      {
         key: "profile",
         icon: <User size={16} />,
         label: "Профиль",
-        onClick: () => router.push("/profile"),
+        onClick: () => router.push("/in/profile"),
       },
     ];
 
@@ -107,9 +127,9 @@ export default function UserAuthWidget() {
           </Dropdown>
         </Flex>
       ) : (
-        <div className="flex flex-col gap-2 lg:flex-row">
+        <Space className="p-2">
           <Button
-            className="bg-primary hover:bg-primary/90 text-white"
+            className="bg-primary hover:bg-primary/90 px-4! py-3! text-white"
             style={{ fontSize: "10px" }}
             type="button"
             onClick={() => router.push("/auth/signin")}
@@ -117,14 +137,14 @@ export default function UserAuthWidget() {
             Войти
           </Button>
           <Button
-            className="bg-primary hover:bg-primary/90 text-white"
+            className="bg-primary hover:bg-primary/90 px-4! py-3! text-white"
             style={{ fontSize: "10px" }}
             type="button"
             onClick={() => router.push("/auth/signup")}
           >
             Регистрация
           </Button>
-        </div>
+        </Space>
       )}
     </>
   );

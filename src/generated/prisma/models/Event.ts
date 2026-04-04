@@ -28,12 +28,14 @@ export type AggregateEvent = {
 
 export type EventAvgAggregateOutputType = {
   id: number | null
+  viewsCount: number | null
   authorId: number | null
   moderatedBy: number | null
 }
 
 export type EventSumAggregateOutputType = {
   id: number | null
+  viewsCount: number | null
   authorId: number | null
   moderatedBy: number | null
 }
@@ -51,6 +53,7 @@ export type EventMinAggregateOutputType = {
   endDate: Date | null
   coverImage: string | null
   status: $Enums.EventStatus | null
+  viewsCount: number | null
   rejectionReason: string | null
   authorId: number | null
   moderatedAt: Date | null
@@ -72,6 +75,7 @@ export type EventMaxAggregateOutputType = {
   endDate: Date | null
   coverImage: string | null
   status: $Enums.EventStatus | null
+  viewsCount: number | null
   rejectionReason: string | null
   authorId: number | null
   moderatedAt: Date | null
@@ -93,6 +97,7 @@ export type EventCountAggregateOutputType = {
   endDate: number
   coverImage: number
   status: number
+  viewsCount: number
   rejectionReason: number
   authorId: number
   moderatedAt: number
@@ -105,12 +110,14 @@ export type EventCountAggregateOutputType = {
 
 export type EventAvgAggregateInputType = {
   id?: true
+  viewsCount?: true
   authorId?: true
   moderatedBy?: true
 }
 
 export type EventSumAggregateInputType = {
   id?: true
+  viewsCount?: true
   authorId?: true
   moderatedBy?: true
 }
@@ -128,6 +135,7 @@ export type EventMinAggregateInputType = {
   endDate?: true
   coverImage?: true
   status?: true
+  viewsCount?: true
   rejectionReason?: true
   authorId?: true
   moderatedAt?: true
@@ -149,6 +157,7 @@ export type EventMaxAggregateInputType = {
   endDate?: true
   coverImage?: true
   status?: true
+  viewsCount?: true
   rejectionReason?: true
   authorId?: true
   moderatedAt?: true
@@ -170,6 +179,7 @@ export type EventCountAggregateInputType = {
   endDate?: true
   coverImage?: true
   status?: true
+  viewsCount?: true
   rejectionReason?: true
   authorId?: true
   moderatedAt?: true
@@ -278,6 +288,7 @@ export type EventGroupByOutputType = {
   endDate: Date
   coverImage: string | null
   status: $Enums.EventStatus
+  viewsCount: number
   rejectionReason: string | null
   authorId: number
   moderatedAt: Date | null
@@ -322,6 +333,7 @@ export type EventWhereInput = {
   endDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   coverImage?: Prisma.StringNullableFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+  viewsCount?: Prisma.IntFilter<"Event"> | number
   rejectionReason?: Prisma.StringNullableFilter<"Event"> | string | null
   authorId?: Prisma.IntFilter<"Event"> | number
   moderatedAt?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
@@ -333,6 +345,8 @@ export type EventWhereInput = {
   registrations?: Prisma.EventRegistrationListRelationFilter
   moderationLogs?: Prisma.ModerationLogListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
+  likes?: Prisma.LikeListRelationFilter
+  views?: Prisma.PostViewListRelationFilter
 }
 
 export type EventOrderByWithRelationInput = {
@@ -348,6 +362,7 @@ export type EventOrderByWithRelationInput = {
   endDate?: Prisma.SortOrder
   coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  viewsCount?: Prisma.SortOrder
   rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -359,6 +374,8 @@ export type EventOrderByWithRelationInput = {
   registrations?: Prisma.EventRegistrationOrderByRelationAggregateInput
   moderationLogs?: Prisma.ModerationLogOrderByRelationAggregateInput
   favorites?: Prisma.FavoriteOrderByRelationAggregateInput
+  likes?: Prisma.LikeOrderByRelationAggregateInput
+  views?: Prisma.PostViewOrderByRelationAggregateInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -377,6 +394,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   endDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   coverImage?: Prisma.StringNullableFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+  viewsCount?: Prisma.IntFilter<"Event"> | number
   rejectionReason?: Prisma.StringNullableFilter<"Event"> | string | null
   authorId?: Prisma.IntFilter<"Event"> | number
   moderatedAt?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
@@ -388,6 +406,8 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   registrations?: Prisma.EventRegistrationListRelationFilter
   moderationLogs?: Prisma.ModerationLogListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
+  likes?: Prisma.LikeListRelationFilter
+  views?: Prisma.PostViewListRelationFilter
 }, "id" | "slug">
 
 export type EventOrderByWithAggregationInput = {
@@ -403,6 +423,7 @@ export type EventOrderByWithAggregationInput = {
   endDate?: Prisma.SortOrder
   coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  viewsCount?: Prisma.SortOrder
   rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -432,6 +453,7 @@ export type EventScalarWhereWithAggregatesInput = {
   endDate?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   coverImage?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
+  viewsCount?: Prisma.IntWithAggregatesFilter<"Event"> | number
   rejectionReason?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   authorId?: Prisma.IntWithAggregatesFilter<"Event"> | number
   moderatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
@@ -452,6 +474,7 @@ export type EventCreateInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   created?: Date | string
@@ -461,6 +484,8 @@ export type EventCreateInput = {
   registrations?: Prisma.EventRegistrationCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateInput = {
@@ -476,6 +501,7 @@ export type EventUncheckedCreateInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   authorId: number
   moderatedAt?: Date | string | null
@@ -485,6 +511,8 @@ export type EventUncheckedCreateInput = {
   registrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventUpdateInput = {
@@ -499,6 +527,7 @@ export type EventUpdateInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -508,6 +537,8 @@ export type EventUpdateInput = {
   registrations?: Prisma.EventRegistrationUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
@@ -523,6 +554,7 @@ export type EventUncheckedUpdateInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -532,6 +564,8 @@ export type EventUncheckedUpdateInput = {
   registrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyInput = {
@@ -547,6 +581,7 @@ export type EventCreateManyInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   authorId: number
   moderatedAt?: Date | string | null
@@ -567,6 +602,7 @@ export type EventUpdateManyMutationInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -586,6 +622,7 @@ export type EventUncheckedUpdateManyInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -617,6 +654,7 @@ export type EventCountOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  viewsCount?: Prisma.SortOrder
   rejectionReason?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrder
@@ -627,6 +665,7 @@ export type EventCountOrderByAggregateInput = {
 
 export type EventAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  viewsCount?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   moderatedBy?: Prisma.SortOrder
 }
@@ -644,6 +683,7 @@ export type EventMaxOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  viewsCount?: Prisma.SortOrder
   rejectionReason?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrder
@@ -665,6 +705,7 @@ export type EventMinOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  viewsCount?: Prisma.SortOrder
   rejectionReason?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrder
@@ -675,6 +716,7 @@ export type EventMinOrderByAggregateInput = {
 
 export type EventSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  viewsCount?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   moderatedBy?: Prisma.SortOrder
 }
@@ -831,6 +873,38 @@ export type EventUpdateOneWithoutFavoritesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutFavoritesInput, Prisma.EventUpdateWithoutFavoritesInput>, Prisma.EventUncheckedUpdateWithoutFavoritesInput>
 }
 
+export type EventCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutLikesInput, Prisma.EventUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutLikesInput
+  connect?: Prisma.EventWhereUniqueInput
+}
+
+export type EventUpdateOneWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutLikesInput, Prisma.EventUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.EventUpsertWithoutLikesInput
+  disconnect?: Prisma.EventWhereInput | boolean
+  delete?: Prisma.EventWhereInput | boolean
+  connect?: Prisma.EventWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutLikesInput, Prisma.EventUpdateWithoutLikesInput>, Prisma.EventUncheckedUpdateWithoutLikesInput>
+}
+
+export type EventCreateNestedOneWithoutViewsInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutViewsInput, Prisma.EventUncheckedCreateWithoutViewsInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutViewsInput
+  connect?: Prisma.EventWhereUniqueInput
+}
+
+export type EventUpdateOneWithoutViewsNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutViewsInput, Prisma.EventUncheckedCreateWithoutViewsInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutViewsInput
+  upsert?: Prisma.EventUpsertWithoutViewsInput
+  disconnect?: Prisma.EventWhereInput | boolean
+  delete?: Prisma.EventWhereInput | boolean
+  connect?: Prisma.EventWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutViewsInput, Prisma.EventUpdateWithoutViewsInput>, Prisma.EventUncheckedUpdateWithoutViewsInput>
+}
+
 export type EventCreateWithoutAuthorInput = {
   title: string
   slug: string
@@ -843,6 +917,7 @@ export type EventCreateWithoutAuthorInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   created?: Date | string
@@ -851,6 +926,8 @@ export type EventCreateWithoutAuthorInput = {
   registrations?: Prisma.EventRegistrationCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutAuthorInput = {
@@ -866,6 +943,7 @@ export type EventUncheckedCreateWithoutAuthorInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   moderatedBy?: number | null
@@ -874,6 +952,8 @@ export type EventUncheckedCreateWithoutAuthorInput = {
   registrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutAuthorInput = {
@@ -897,6 +977,7 @@ export type EventCreateWithoutModeratorInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   created?: Date | string
@@ -905,6 +986,8 @@ export type EventCreateWithoutModeratorInput = {
   registrations?: Prisma.EventRegistrationCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutModeratorInput = {
@@ -920,6 +1003,7 @@ export type EventUncheckedCreateWithoutModeratorInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   authorId: number
   moderatedAt?: Date | string | null
@@ -928,6 +1012,8 @@ export type EventUncheckedCreateWithoutModeratorInput = {
   registrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutModeratorInput = {
@@ -971,6 +1057,7 @@ export type EventScalarWhereInput = {
   endDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   coverImage?: Prisma.StringNullableFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+  viewsCount?: Prisma.IntFilter<"Event"> | number
   rejectionReason?: Prisma.StringNullableFilter<"Event"> | string | null
   authorId?: Prisma.IntFilter<"Event"> | number
   moderatedAt?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
@@ -1007,6 +1094,7 @@ export type EventCreateWithoutRegistrationsInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   created?: Date | string
@@ -1015,6 +1103,8 @@ export type EventCreateWithoutRegistrationsInput = {
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedEventsInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutRegistrationsInput = {
@@ -1030,6 +1120,7 @@ export type EventUncheckedCreateWithoutRegistrationsInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   authorId: number
   moderatedAt?: Date | string | null
@@ -1038,6 +1129,8 @@ export type EventUncheckedCreateWithoutRegistrationsInput = {
   updatedAt?: Date | string
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutRegistrationsInput = {
@@ -1068,6 +1161,7 @@ export type EventUpdateWithoutRegistrationsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1076,6 +1170,8 @@ export type EventUpdateWithoutRegistrationsInput = {
   moderator?: Prisma.UserUpdateOneWithoutModeratedEventsNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutRegistrationsInput = {
@@ -1091,6 +1187,7 @@ export type EventUncheckedUpdateWithoutRegistrationsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1099,6 +1196,8 @@ export type EventUncheckedUpdateWithoutRegistrationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutModerationLogsInput = {
@@ -1113,6 +1212,7 @@ export type EventCreateWithoutModerationLogsInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   created?: Date | string
@@ -1121,6 +1221,8 @@ export type EventCreateWithoutModerationLogsInput = {
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedEventsInput
   registrations?: Prisma.EventRegistrationCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutModerationLogsInput = {
@@ -1136,6 +1238,7 @@ export type EventUncheckedCreateWithoutModerationLogsInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   authorId: number
   moderatedAt?: Date | string | null
@@ -1144,6 +1247,8 @@ export type EventUncheckedCreateWithoutModerationLogsInput = {
   updatedAt?: Date | string
   registrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutModerationLogsInput = {
@@ -1174,6 +1279,7 @@ export type EventUpdateWithoutModerationLogsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1182,6 +1288,8 @@ export type EventUpdateWithoutModerationLogsInput = {
   moderator?: Prisma.UserUpdateOneWithoutModeratedEventsNestedInput
   registrations?: Prisma.EventRegistrationUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutModerationLogsInput = {
@@ -1197,6 +1305,7 @@ export type EventUncheckedUpdateWithoutModerationLogsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1205,6 +1314,8 @@ export type EventUncheckedUpdateWithoutModerationLogsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutFavoritesInput = {
@@ -1219,6 +1330,7 @@ export type EventCreateWithoutFavoritesInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   created?: Date | string
@@ -1227,6 +1339,8 @@ export type EventCreateWithoutFavoritesInput = {
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedEventsInput
   registrations?: Prisma.EventRegistrationCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutFavoritesInput = {
@@ -1242,6 +1356,7 @@ export type EventUncheckedCreateWithoutFavoritesInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   authorId: number
   moderatedAt?: Date | string | null
@@ -1250,6 +1365,8 @@ export type EventUncheckedCreateWithoutFavoritesInput = {
   updatedAt?: Date | string
   registrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutEventInput
   moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutFavoritesInput = {
@@ -1280,6 +1397,7 @@ export type EventUpdateWithoutFavoritesInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1288,6 +1406,8 @@ export type EventUpdateWithoutFavoritesInput = {
   moderator?: Prisma.UserUpdateOneWithoutModeratedEventsNestedInput
   registrations?: Prisma.EventRegistrationUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutFavoritesInput = {
@@ -1303,6 +1423,7 @@ export type EventUncheckedUpdateWithoutFavoritesInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1311,6 +1432,244 @@ export type EventUncheckedUpdateWithoutFavoritesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUncheckedUpdateManyWithoutEventNestedInput
+}
+
+export type EventCreateWithoutLikesInput = {
+  title: string
+  slug: string
+  description?: string | null
+  format: $Enums.EventFormat
+  type?: $Enums.EventType | null
+  city?: string | null
+  location?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  coverImage?: string | null
+  status?: $Enums.EventStatus
+  viewsCount?: number
+  rejectionReason?: string | null
+  moderatedAt?: Date | string | null
+  created?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.UserCreateNestedOneWithoutEventsInput
+  moderator?: Prisma.UserCreateNestedOneWithoutModeratedEventsInput
+  registrations?: Prisma.EventRegistrationCreateNestedManyWithoutEventInput
+  moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutEventInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewCreateNestedManyWithoutEventInput
+}
+
+export type EventUncheckedCreateWithoutLikesInput = {
+  id?: number
+  title: string
+  slug: string
+  description?: string | null
+  format: $Enums.EventFormat
+  type?: $Enums.EventType | null
+  city?: string | null
+  location?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  coverImage?: string | null
+  status?: $Enums.EventStatus
+  viewsCount?: number
+  rejectionReason?: string | null
+  authorId: number
+  moderatedAt?: Date | string | null
+  moderatedBy?: number | null
+  created?: Date | string
+  updatedAt?: Date | string
+  registrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutEventInput
+  moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutEventInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutEventInput
+  views?: Prisma.PostViewUncheckedCreateNestedManyWithoutEventInput
+}
+
+export type EventCreateOrConnectWithoutLikesInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutLikesInput, Prisma.EventUncheckedCreateWithoutLikesInput>
+}
+
+export type EventUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.EventUpdateWithoutLikesInput, Prisma.EventUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutLikesInput, Prisma.EventUncheckedCreateWithoutLikesInput>
+  where?: Prisma.EventWhereInput
+}
+
+export type EventUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.EventWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutLikesInput, Prisma.EventUncheckedUpdateWithoutLikesInput>
+}
+
+export type EventUpdateWithoutLikesInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  type?: Prisma.NullableEnumEventTypeFieldUpdateOperationsInput | $Enums.EventType | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
+  moderator?: Prisma.UserUpdateOneWithoutModeratedEventsNestedInput
+  registrations?: Prisma.EventRegistrationUpdateManyWithoutEventNestedInput
+  moderationLogs?: Prisma.ModerationLogUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  type?: Prisma.NullableEnumEventTypeFieldUpdateOperationsInput | $Enums.EventType | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  registrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutEventNestedInput
+  moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUncheckedUpdateManyWithoutEventNestedInput
+}
+
+export type EventCreateWithoutViewsInput = {
+  title: string
+  slug: string
+  description?: string | null
+  format: $Enums.EventFormat
+  type?: $Enums.EventType | null
+  city?: string | null
+  location?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  coverImage?: string | null
+  status?: $Enums.EventStatus
+  viewsCount?: number
+  rejectionReason?: string | null
+  moderatedAt?: Date | string | null
+  created?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.UserCreateNestedOneWithoutEventsInput
+  moderator?: Prisma.UserCreateNestedOneWithoutModeratedEventsInput
+  registrations?: Prisma.EventRegistrationCreateNestedManyWithoutEventInput
+  moderationLogs?: Prisma.ModerationLogCreateNestedManyWithoutEventInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeCreateNestedManyWithoutEventInput
+}
+
+export type EventUncheckedCreateWithoutViewsInput = {
+  id?: number
+  title: string
+  slug: string
+  description?: string | null
+  format: $Enums.EventFormat
+  type?: $Enums.EventType | null
+  city?: string | null
+  location?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  coverImage?: string | null
+  status?: $Enums.EventStatus
+  viewsCount?: number
+  rejectionReason?: string | null
+  authorId: number
+  moderatedAt?: Date | string | null
+  moderatedBy?: number | null
+  created?: Date | string
+  updatedAt?: Date | string
+  registrations?: Prisma.EventRegistrationUncheckedCreateNestedManyWithoutEventInput
+  moderationLogs?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutEventInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutEventInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutEventInput
+}
+
+export type EventCreateOrConnectWithoutViewsInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutViewsInput, Prisma.EventUncheckedCreateWithoutViewsInput>
+}
+
+export type EventUpsertWithoutViewsInput = {
+  update: Prisma.XOR<Prisma.EventUpdateWithoutViewsInput, Prisma.EventUncheckedUpdateWithoutViewsInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutViewsInput, Prisma.EventUncheckedCreateWithoutViewsInput>
+  where?: Prisma.EventWhereInput
+}
+
+export type EventUpdateToOneWithWhereWithoutViewsInput = {
+  where?: Prisma.EventWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutViewsInput, Prisma.EventUncheckedUpdateWithoutViewsInput>
+}
+
+export type EventUpdateWithoutViewsInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  type?: Prisma.NullableEnumEventTypeFieldUpdateOperationsInput | $Enums.EventType | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
+  moderator?: Prisma.UserUpdateOneWithoutModeratedEventsNestedInput
+  registrations?: Prisma.EventRegistrationUpdateManyWithoutEventNestedInput
+  moderationLogs?: Prisma.ModerationLogUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateWithoutViewsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  type?: Prisma.NullableEnumEventTypeFieldUpdateOperationsInput | $Enums.EventType | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  registrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutEventNestedInput
+  moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyAuthorInput = {
@@ -1326,6 +1685,7 @@ export type EventCreateManyAuthorInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   moderatedAt?: Date | string | null
   moderatedBy?: number | null
@@ -1346,6 +1706,7 @@ export type EventCreateManyModeratorInput = {
   endDate: Date | string
   coverImage?: string | null
   status?: $Enums.EventStatus
+  viewsCount?: number
   rejectionReason?: string | null
   authorId: number
   moderatedAt?: Date | string | null
@@ -1365,6 +1726,7 @@ export type EventUpdateWithoutAuthorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1373,6 +1735,8 @@ export type EventUpdateWithoutAuthorInput = {
   registrations?: Prisma.EventRegistrationUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutAuthorInput = {
@@ -1388,6 +1752,7 @@ export type EventUncheckedUpdateWithoutAuthorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1396,6 +1761,8 @@ export type EventUncheckedUpdateWithoutAuthorInput = {
   registrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateManyWithoutAuthorInput = {
@@ -1411,6 +1778,7 @@ export type EventUncheckedUpdateManyWithoutAuthorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moderatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1430,6 +1798,7 @@ export type EventUpdateWithoutModeratorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1438,6 +1807,8 @@ export type EventUpdateWithoutModeratorInput = {
   registrations?: Prisma.EventRegistrationUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutModeratorInput = {
@@ -1453,6 +1824,7 @@ export type EventUncheckedUpdateWithoutModeratorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1461,6 +1833,8 @@ export type EventUncheckedUpdateWithoutModeratorInput = {
   registrations?: Prisma.EventRegistrationUncheckedUpdateManyWithoutEventNestedInput
   moderationLogs?: Prisma.ModerationLogUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutEventNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutEventNestedInput
+  views?: Prisma.PostViewUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateManyWithoutModeratorInput = {
@@ -1476,6 +1850,7 @@ export type EventUncheckedUpdateManyWithoutModeratorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1492,12 +1867,16 @@ export type EventCountOutputType = {
   registrations: number
   moderationLogs: number
   favorites: number
+  likes: number
+  views: number
 }
 
 export type EventCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   registrations?: boolean | EventCountOutputTypeCountRegistrationsArgs
   moderationLogs?: boolean | EventCountOutputTypeCountModerationLogsArgs
   favorites?: boolean | EventCountOutputTypeCountFavoritesArgs
+  likes?: boolean | EventCountOutputTypeCountLikesArgs
+  views?: boolean | EventCountOutputTypeCountViewsArgs
 }
 
 /**
@@ -1531,6 +1910,20 @@ export type EventCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types
   where?: Prisma.FavoriteWhereInput
 }
 
+/**
+ * EventCountOutputType without action
+ */
+export type EventCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LikeWhereInput
+}
+
+/**
+ * EventCountOutputType without action
+ */
+export type EventCountOutputTypeCountViewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PostViewWhereInput
+}
+
 
 export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1545,6 +1938,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   endDate?: boolean
   coverImage?: boolean
   status?: boolean
+  viewsCount?: boolean
   rejectionReason?: boolean
   authorId?: boolean
   moderatedAt?: boolean
@@ -1556,6 +1950,8 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   registrations?: boolean | Prisma.Event$registrationsArgs<ExtArgs>
   moderationLogs?: boolean | Prisma.Event$moderationLogsArgs<ExtArgs>
   favorites?: boolean | Prisma.Event$favoritesArgs<ExtArgs>
+  likes?: boolean | Prisma.Event$likesArgs<ExtArgs>
+  views?: boolean | Prisma.Event$viewsArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -1572,6 +1968,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   endDate?: boolean
   coverImage?: boolean
   status?: boolean
+  viewsCount?: boolean
   rejectionReason?: boolean
   authorId?: boolean
   moderatedAt?: boolean
@@ -1595,6 +1992,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   endDate?: boolean
   coverImage?: boolean
   status?: boolean
+  viewsCount?: boolean
   rejectionReason?: boolean
   authorId?: boolean
   moderatedAt?: boolean
@@ -1618,6 +2016,7 @@ export type EventSelectScalar = {
   endDate?: boolean
   coverImage?: boolean
   status?: boolean
+  viewsCount?: boolean
   rejectionReason?: boolean
   authorId?: boolean
   moderatedAt?: boolean
@@ -1626,13 +2025,15 @@ export type EventSelectScalar = {
   updatedAt?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "format" | "type" | "city" | "location" | "startDate" | "endDate" | "coverImage" | "status" | "rejectionReason" | "authorId" | "moderatedAt" | "moderatedBy" | "created" | "updatedAt", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "format" | "type" | "city" | "location" | "startDate" | "endDate" | "coverImage" | "status" | "viewsCount" | "rejectionReason" | "authorId" | "moderatedAt" | "moderatedBy" | "created" | "updatedAt", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   moderator?: boolean | Prisma.Event$moderatorArgs<ExtArgs>
   registrations?: boolean | Prisma.Event$registrationsArgs<ExtArgs>
   moderationLogs?: boolean | Prisma.Event$moderationLogsArgs<ExtArgs>
   favorites?: boolean | Prisma.Event$favoritesArgs<ExtArgs>
+  likes?: boolean | Prisma.Event$likesArgs<ExtArgs>
+  views?: boolean | Prisma.Event$viewsArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1652,6 +2053,8 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     registrations: Prisma.$EventRegistrationPayload<ExtArgs>[]
     moderationLogs: Prisma.$ModerationLogPayload<ExtArgs>[]
     favorites: Prisma.$FavoritePayload<ExtArgs>[]
+    likes: Prisma.$LikePayload<ExtArgs>[]
+    views: Prisma.$PostViewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1666,6 +2069,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     endDate: Date
     coverImage: string | null
     status: $Enums.EventStatus
+    viewsCount: number
     rejectionReason: string | null
     authorId: number
     moderatedAt: Date | null
@@ -2071,6 +2475,8 @@ export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Ty
   registrations<T extends Prisma.Event$registrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderationLogs<T extends Prisma.Event$moderationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$moderationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModerationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favorites<T extends Prisma.Event$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  likes<T extends Prisma.Event$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  views<T extends Prisma.Event$viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2112,6 +2518,7 @@ export interface EventFieldRefs {
   readonly endDate: Prisma.FieldRef<"Event", 'DateTime'>
   readonly coverImage: Prisma.FieldRef<"Event", 'String'>
   readonly status: Prisma.FieldRef<"Event", 'EventStatus'>
+  readonly viewsCount: Prisma.FieldRef<"Event", 'Int'>
   readonly rejectionReason: Prisma.FieldRef<"Event", 'String'>
   readonly authorId: Prisma.FieldRef<"Event", 'Int'>
   readonly moderatedAt: Prisma.FieldRef<"Event", 'DateTime'>
@@ -2600,6 +3007,54 @@ export type Event$favoritesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.FavoriteScalarFieldEnum | Prisma.FavoriteScalarFieldEnum[]
+}
+
+/**
+ * Event.likes
+ */
+export type Event$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Like
+   */
+  select?: Prisma.LikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Like
+   */
+  omit?: Prisma.LikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LikeInclude<ExtArgs> | null
+  where?: Prisma.LikeWhereInput
+  orderBy?: Prisma.LikeOrderByWithRelationInput | Prisma.LikeOrderByWithRelationInput[]
+  cursor?: Prisma.LikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LikeScalarFieldEnum | Prisma.LikeScalarFieldEnum[]
+}
+
+/**
+ * Event.views
+ */
+export type Event$viewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PostView
+   */
+  select?: Prisma.PostViewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PostView
+   */
+  omit?: Prisma.PostViewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostViewInclude<ExtArgs> | null
+  where?: Prisma.PostViewWhereInput
+  orderBy?: Prisma.PostViewOrderByWithRelationInput | Prisma.PostViewOrderByWithRelationInput[]
+  cursor?: Prisma.PostViewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PostViewScalarFieldEnum | Prisma.PostViewScalarFieldEnum[]
 }
 
 /**

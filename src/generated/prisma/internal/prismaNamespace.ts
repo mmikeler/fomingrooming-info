@@ -391,7 +391,9 @@ export const ModelName = {
   Notification: 'Notification',
   ModerationLog: 'ModerationLog',
   UserBanLog: 'UserBanLog',
-  Favorite: 'Favorite'
+  Favorite: 'Favorite',
+  Like: 'Like',
+  PostView: 'PostView'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "event" | "eventRegistration" | "post" | "notification" | "moderationLog" | "userBanLog" | "favorite"
+    modelProps: "user" | "event" | "eventRegistration" | "post" | "notification" | "moderationLog" | "userBanLog" | "favorite" | "like" | "postView"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1003,6 +1005,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Like: {
+      payload: Prisma.$LikePayload<ExtArgs>
+      fields: Prisma.LikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>
+        }
+        findFirst: {
+          args: Prisma.LikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>
+        }
+        findMany: {
+          args: Prisma.LikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>[]
+        }
+        create: {
+          args: Prisma.LikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>
+        }
+        createMany: {
+          args: Prisma.LikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>[]
+        }
+        delete: {
+          args: Prisma.LikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>
+        }
+        update: {
+          args: Prisma.LikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>
+        }
+        deleteMany: {
+          args: Prisma.LikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>[]
+        }
+        upsert: {
+          args: Prisma.LikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikePayload>
+        }
+        aggregate: {
+          args: Prisma.LikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLike>
+        }
+        groupBy: {
+          args: Prisma.LikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostView: {
+      payload: Prisma.$PostViewPayload<ExtArgs>
+      fields: Prisma.PostViewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostViewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostViewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        findFirst: {
+          args: Prisma.PostViewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostViewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        findMany: {
+          args: Prisma.PostViewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>[]
+        }
+        create: {
+          args: Prisma.PostViewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        createMany: {
+          args: Prisma.PostViewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostViewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>[]
+        }
+        delete: {
+          args: Prisma.PostViewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        update: {
+          args: Prisma.PostViewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostViewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostViewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostViewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostViewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        aggregate: {
+          args: Prisma.PostViewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostView>
+        }
+        groupBy: {
+          args: Prisma.PostViewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostViewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostViewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostViewCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1080,6 +1230,7 @@ export const EventScalarFieldEnum = {
   endDate: 'endDate',
   coverImage: 'coverImage',
   status: 'status',
+  viewsCount: 'viewsCount',
   rejectionReason: 'rejectionReason',
   authorId: 'authorId',
   moderatedAt: 'moderatedAt',
@@ -1105,11 +1256,13 @@ export const PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
   slug: 'slug',
+  excerpt: 'excerpt',
   content: 'content',
   coverImage: 'coverImage',
   created: 'created',
   status: 'status',
   category: 'category',
+  viewsCount: 'viewsCount',
   rejectionReason: 'rejectionReason',
   authorId: 'authorId',
   moderatedAt: 'moderatedAt',
@@ -1169,6 +1322,29 @@ export const FavoriteScalarFieldEnum = {
 } as const
 
 export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
+
+
+export const LikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  eventId: 'eventId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type LikeScalarFieldEnum = (typeof LikeScalarFieldEnum)[keyof typeof LikeScalarFieldEnum]
+
+
+export const PostViewScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  views: 'views',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  eventId: 'eventId'
+} as const
+
+export type PostViewScalarFieldEnum = (typeof PostViewScalarFieldEnum)[keyof typeof PostViewScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1393,6 +1569,8 @@ export type GlobalOmitConfig = {
   moderationLog?: Prisma.ModerationLogOmit
   userBanLog?: Prisma.UserBanLogOmit
   favorite?: Prisma.FavoriteOmit
+  like?: Prisma.LikeOmit
+  postView?: Prisma.PostViewOmit
 }
 
 /* Types for Logging */

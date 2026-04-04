@@ -44,7 +44,7 @@ export default function SignIn() {
         }
       } else {
         message.success("Вход выполнен успешно");
-        router.push("/profile");
+        router.push("/in");
       }
     } catch (error) {
       message.error("Произошла ошибка при входе");

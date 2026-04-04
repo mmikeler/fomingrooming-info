@@ -57,3 +57,13 @@ export type UserBanLog = Prisma.UserBanLogModel
  * 
  */
 export type Favorite = Prisma.FavoriteModel
+/**
+ * Model Like
+ * 
+ */
+export type Like = Prisma.LikeModel
+/**
+ * Model PostView
+ * 
+ */
+export type PostView = Prisma.PostViewModel
