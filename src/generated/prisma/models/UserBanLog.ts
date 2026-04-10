@@ -214,7 +214,7 @@ export type UserBanLogGroupByOutputType = {
   _max: UserBanLogMaxAggregateOutputType | null
 }
 
-type GetUserBanLogGroupByPayload<T extends UserBanLogGroupByArgs> = Prisma.PrismaPromise<
+export type GetUserBanLogGroupByPayload<T extends UserBanLogGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserBanLogGroupByOutputType, T['by']> &
       {
@@ -1375,6 +1375,11 @@ export type UserBanLogFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Skip the first `n` UserBanLogs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of UserBanLogs.
+   */
   distinct?: Prisma.UserBanLogScalarFieldEnum | Prisma.UserBanLogScalarFieldEnum[]
 }
 

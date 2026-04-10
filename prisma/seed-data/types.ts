@@ -52,6 +52,8 @@ export interface SeedEvent {
   location?: string;
   startDate: string;
   endDate: string;
+  startRegDate: string;
+  endRegDate: string;
   status?: string;
   rejectionReason?: string;
   moderatedAt?: string;

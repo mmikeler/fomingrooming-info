@@ -8,6 +8,7 @@ import {
   message,
   Popconfirm,
   Tag,
+  Tooltip,
 } from "antd";
 import { createEvent } from "../actions/createEvent";
 import { deleteEvent } from "../actions/deleteEvent";
@@ -62,6 +63,7 @@ const formatLabels: Record<string, string> = {
 };
 
 import { formatDateShort } from "@/app/components/ui/date";
+import { Archive, ArchiveRestore, Edit, ThumbsUp, Trash2 } from "lucide-react";
 
 export function EventsTable({ events }: EventsTableProps) {
   const [isPending, startTransition] = useTransition();
@@ -142,35 +144,35 @@ export function EventsTable({ events }: EventsTableProps) {
   };
 
   const columns: TableColumnsType<Event> = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      align: "center",
-      width: 60,
-    },
+    // {
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   align: "center",
+    //   width: 60,
+    // },
     {
       title: "Название",
       dataIndex: "title",
       key: "title",
       render: (title: string, record) => (
-        <Link href={`/profile/events/my/${record.id}`}>{title}</Link>
+        <Link href={`/in/events/my/${record.id}`}>{title}</Link>
       ),
     },
-    {
-      title: "Формат",
-      dataIndex: "format",
-      key: "format",
-      render: (format: string) => formatLabels[format] || format,
-      align: "center",
-    },
-    {
-      title: "Дата",
-      dataIndex: "startDate",
-      key: "startDate",
-      render: (startDate: Date) => formatDateShort(startDate),
-      align: "center",
-    },
+    // {
+    //   title: "Формат",
+    //   dataIndex: "format",
+    //   key: "format",
+    //   render: (format: string) => formatLabels[format] || format,
+    //   align: "center",
+    // },
+    // {
+    //   title: "Дата",
+    //   dataIndex: "startDate",
+    //   key: "startDate",
+    //   render: (startDate: Date) => formatDateShort(startDate),
+    //   align: "center",
+    // },
     {
       title: "Статус",
       dataIndex: "status",
@@ -187,61 +189,75 @@ export function EventsTable({ events }: EventsTableProps) {
       ),
       align: "center",
     },
-    {
-      title: "Создано",
-      dataIndex: "created",
-      key: "created",
-      render: (created: Date) => formatDateShort(created),
-      align: "center",
-    },
+    // {
+    //   title: "Создано",
+    //   dataIndex: "created",
+    //   key: "created",
+    //   render: (created: Date) => formatDateShort(created),
+    //   align: "center",
+    // },
     {
       title: "Действия",
       key: "actions",
       render: (_, event) => (
         <Space.Compact>
           {event.status === "PUBLISHED" && (
-            <Button
-              href={`/events/${event.slug}`}
-              color="cyan"
-              variant="filled"
-            >
-              Перейти
-            </Button>
+            <Tooltip title="Опубликовать">
+              <Button
+                href={`/in/events/${event.slug}`}
+                color="cyan"
+                variant="filled"
+              >
+                <ThumbsUp size={16} />
+              </Button>
+            </Tooltip>
           )}
           {(event.status === "DRAFT" || event.status === "REJECTED") && (
             <>
-              <Button
-                color="primary"
-                variant="filled"
-                onClick={() => handleSubmitEvent(event.id)}
-                loading={isPending}
-              >
-                Опубликовать
-              </Button>
-              <Button href={`/profile/events/my/${event.id}`} variant="filled">
-                Редактировать
-              </Button>
+              <Tooltip title="Опубликовать">
+                <Button
+                  color="cyan"
+                  variant="filled"
+                  onClick={() => handleSubmitEvent(event.id)}
+                  loading={isPending}
+                >
+                  <ThumbsUp size={16} />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Редактировать">
+                <Button
+                  color="green"
+                  href={`/in/events/my/${event.id}`}
+                  variant="filled"
+                >
+                  <Edit size={16} />
+                </Button>
+              </Tooltip>
             </>
           )}
           {event.status === "ARCHIVED" && (
-            <Button
-              color="green"
-              variant="filled"
-              onClick={() => handleRestoreEvent(event.id)}
-              loading={isPending}
-            >
-              Восстановить
-            </Button>
+            <Tooltip title="Восстановить">
+              <Button
+                color="green"
+                variant="filled"
+                onClick={() => handleRestoreEvent(event.id)}
+                loading={isPending}
+              >
+                <ArchiveRestore size={16} />
+              </Button>
+            </Tooltip>
           )}
           {event.status !== "ARCHIVED" && event.status !== "PENDING" && (
-            <Button
-              color="orange"
-              variant="filled"
-              onClick={() => handleArchiveEvent(event.id)}
-              loading={isPending}
-            >
-              В архив
-            </Button>
+            <Tooltip title="Архивировать">
+              <Button
+                color="orange"
+                variant="filled"
+                onClick={() => handleArchiveEvent(event.id)}
+                loading={isPending}
+              >
+                <Archive size={16} />
+              </Button>
+            </Tooltip>
           )}
           {event.status !== "PUBLISHED" && event.status !== "PENDING" && (
             <Popconfirm
@@ -250,9 +266,11 @@ export function EventsTable({ events }: EventsTableProps) {
               cancelText="Нет"
               onConfirm={() => handleDeleteEvent(event.id)}
             >
-              <Button color="danger" variant="filled">
-                Удалить
-              </Button>
+              <Tooltip title="Удалить">
+                <Button color="danger" variant="filled">
+                  <Trash2 size={16} />
+                </Button>
+              </Tooltip>
             </Popconfirm>
           )}
         </Space.Compact>

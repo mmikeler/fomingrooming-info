@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { getAllFavorites } from "@/app/in/favorites/actions/favorites";
-import { FavoriteItemsList } from "./components/FavoriteItemsList";
+import FavoritePostsList from "./components/favoritesPostsList";
+import { getAllFavorites } from "./actions/favorites";
 
-export default async function FavoritePage() {
+export default async function FavoriteEventsPage() {
   const result = await getAllFavorites();
 
   // Если ошибка авторизации - редирект на страницу входа
@@ -19,12 +19,9 @@ export default async function FavoritePage() {
     );
   }
 
-  const items = result.data;
-
   return (
     <div className="container mx-auto p-4">
-      <h1 className="mb-6 text-2xl font-bold">Закладки</h1>
-      <FavoriteItemsList items={items} />
+      <FavoritePostsList posts={result.data} />
     </div>
   );
 }

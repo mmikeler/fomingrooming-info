@@ -17,6 +17,8 @@ export interface PublishedEvent {
   location: string | null;
   startDate: Date;
   endDate: Date;
+  startRegDate: Date;
+  endRegDate: Date;
   coverImage: string | null;
   author: {
     id: number;

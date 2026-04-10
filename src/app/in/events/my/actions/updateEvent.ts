@@ -27,6 +27,8 @@ interface UpdateEventData {
   location?: string | null;
   startDate?: Date;
   endDate?: Date;
+  startRegDate?: Date | null;
+  endRegDate?: Date | null;
   coverImage?: string | null;
 }
 
@@ -140,6 +142,14 @@ export async function updateEvent(
           data.location !== undefined ? data.location : existingEvent.location,
         startDate: data.startDate ?? existingEvent.startDate,
         endDate: data.endDate ?? existingEvent.endDate,
+        startRegDate:
+          data.startRegDate !== undefined
+            ? (data.startRegDate ?? undefined)
+            : existingEvent.startRegDate,
+        endRegDate:
+          data.endRegDate !== undefined
+            ? (data.endRegDate ?? undefined)
+            : existingEvent.endRegDate,
         ...(data.coverImage !== undefined && { coverImage: data.coverImage }),
       },
       select: {
@@ -153,13 +163,15 @@ export async function updateEvent(
         location: true,
         startDate: true,
         endDate: true,
+        startRegDate: true,
+        endRegDate: true,
         coverImage: true,
         status: true,
       },
     });
 
     // Обновление кэша
-    revalidatePath("/profile/events/my");
+    revalidatePath("/in/events/my");
 
     return updatedEvent;
   });
@@ -249,7 +261,7 @@ export async function submitEvent(
     });
 
     // Обновление кэша
-    revalidatePath("/profile/events");
+    revalidatePath("/in/events");
     revalidatePath("/moderation");
 
     return updatedEvent;
@@ -314,7 +326,7 @@ export async function archiveEvent(
     });
 
     // Обновление кэша
-    revalidatePath("/profile/events");
+    revalidatePath("/in/events");
 
     return updatedEvent;
   });
@@ -385,7 +397,7 @@ export async function restoreEvent(
     });
 
     // Обновление кэша
-    revalidatePath("/profile/events");
+    revalidatePath("/in/events");
 
     return updatedEvent;
   });

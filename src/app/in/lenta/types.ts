@@ -39,6 +39,9 @@ export interface FeedItem {
   location?: string | null;
   startDate?: Date;
   endDate?: Date;
+  startRegDate?: Date;
+  endRegDate?: Date;
+  // Регистрации
   registrationsCount?: number;
   // Избранное
   isFavorite: boolean;

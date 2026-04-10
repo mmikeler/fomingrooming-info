@@ -168,6 +168,8 @@ export async function getFeedItem(
           location: event.location,
           startDate: event.startDate,
           endDate: event.endDate,
+          startRegDate: event.startRegDate,
+          endRegDate: event.endRegDate,
           registrationsCount: event._count.registrations,
           isFavorite,
           isLiked,

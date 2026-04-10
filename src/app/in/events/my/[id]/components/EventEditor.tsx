@@ -22,26 +22,7 @@ import { EventStatus, EventType } from "@/generated/prisma/enums";
 import { slugify } from "@/lib/slug";
 import { EventCoverUploader } from "../../components/EventCoverUploader";
 import dayjs from "dayjs";
-
-interface Event {
-  id: number;
-  title: string;
-  slug: string;
-  description: string | null;
-  format: "ONLINE" | "OFFLINE";
-  type: EventType | null;
-  city: string | null;
-  location: string | null;
-  startDate: Date;
-  endDate: Date;
-  coverImage: string | null;
-  status: EventStatus;
-  rejectionReason: string | null;
-}
-
-interface EventEditorProps {
-  event: Event;
-}
+import { Event } from "@/generated/prisma/client";
 
 // Markdown editor - динамическая загрузка
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
@@ -62,7 +43,7 @@ const statusLabels: Record<EventStatus, string> = {
   ARCHIVED: "В архиве",
 };
 
-export function EventEditor({ event }: EventEditorProps) {
+export function EventEditor({ event }: { event: Event }) {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState<string>(event.description || "");
   const [slug, setSlug] = useState<string>(event.slug);
@@ -95,6 +76,8 @@ export function EventEditor({ event }: EventEditorProps) {
     slug?: string;
     city?: string;
     location?: string;
+    startRegDate?: dayjs.Dayjs;
+    endRegDate?: dayjs.Dayjs;
   }) => {
     if (!canEdit) {
       message.error("Нельзя редактировать мероприятие в текущем статусе");
@@ -112,6 +95,8 @@ export function EventEditor({ event }: EventEditorProps) {
         city: values.city || null,
         location: values.location || null,
         coverImage: coverImage,
+        startRegDate: values.startRegDate ? values.startRegDate.toDate() : null,
+        endRegDate: values.endRegDate ? values.endRegDate.toDate() : null,
       });
       if (result.success) {
         message.success("Мероприятие сохранено");
@@ -147,6 +132,8 @@ export function EventEditor({ event }: EventEditorProps) {
         city: values.city || null,
         location: values.location || null,
         coverImage: coverImage,
+        startRegDate: values.startRegDate ? values.startRegDate.toDate() : null,
+        endRegDate: values.endRegDate ? values.endRegDate.toDate() : null,
       });
 
       // Затем отправляем на модерацию
@@ -157,7 +144,7 @@ export function EventEditor({ event }: EventEditorProps) {
             ? "Мероприятие опубликовано"
             : "Мероприятие отправлено на модерацию",
         );
-        router.push("/profile/events");
+        router.push("/in/events/my");
       } else {
         message.error(result.error?.message || "Ошибка");
       }
@@ -193,6 +180,10 @@ export function EventEditor({ event }: EventEditorProps) {
           location: event.location,
           startDate: dayjs(event.startDate),
           endDate: dayjs(event.endDate),
+          startRegDate: event.startRegDate
+            ? dayjs(event.startRegDate)
+            : undefined,
+          endRegDate: event.endRegDate ? dayjs(event.endRegDate) : undefined,
         }}
         onFinish={onFinish}
       >
@@ -347,6 +338,28 @@ export function EventEditor({ event }: EventEditorProps) {
               format="YYYY-MM-DD HH:mm"
               disabled={!canEdit}
               style={{ width: "100%" }}
+            />
+          </Form.Item>
+        </Flex>
+
+        <Flex gap={16}>
+          <Form.Item label="Начало регистрации" name="startRegDate">
+            <DatePicker
+              showTime={{ format: "HH:mm" }}
+              format="YYYY-MM-DD HH:mm"
+              disabled={!canEdit}
+              style={{ width: "100%" }}
+              placeholder="Выберите дату"
+            />
+          </Form.Item>
+
+          <Form.Item label="Окончание регистрации" name="endRegDate">
+            <DatePicker
+              showTime={{ format: "HH:mm" }}
+              format="YYYY-MM-DD HH:mm"
+              disabled={!canEdit}
+              style={{ width: "100%" }}
+              placeholder="Выберите дату"
             />
           </Form.Item>
         </Flex>

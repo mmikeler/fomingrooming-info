@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Button, Spin, Tooltip } from "antd";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { toggleFavorite } from "@/app/in/favorites/actions/favorites";
-import type { FavoriteItemType } from "@/app/in/favorites/actions/favorites";
 import { Bookmark } from "lucide-react";
+import {
+  FavoriteItemType,
+  toggleFavorite,
+} from "../in/favorites/actions/favorites";
 
 interface FavoriteButtonProps {
   /** ID записи (мероприятия, поста и т.д.) */

@@ -206,6 +206,8 @@ export async function getFeedItems(
         location: e.location,
         startDate: e.startDate,
         endDate: e.endDate,
+        startRegDate: e.startRegDate,
+        endRegDate: e.endRegDate,
         registrationsCount: e._count.registrations,
         isFavorite: favoriteEventIds.includes(e.id),
         isLiked: likedEventIds.includes(e.id),

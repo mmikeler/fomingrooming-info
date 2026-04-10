@@ -11,13 +11,6 @@ export default function EventStatusTag({ event }: { event: FeedItem }) {
     new Date(event.endDate) >= new Date();
   const isPast = event.endDate && new Date(event.endDate) < new Date();
 
-  const getStatusColor = () => {
-    if (isOngoing) return "bg-green-500";
-    if (isUpcoming) return "bg-blue-500";
-    if (isPast) return "bg-gray-400";
-    return "bg-gray-500";
-  };
-
   const getStatusText = () => {
     if (isOngoing) return "Идет сейчас";
     if (isUpcoming) {

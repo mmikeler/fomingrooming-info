@@ -7,6 +7,7 @@ import {
   message,
   Popconfirm,
   Tag,
+  Tooltip,
 } from "antd";
 import { createPost } from "../actions/createPost";
 import { deletePost } from "../actions/deletePost";
@@ -15,6 +16,14 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import Link from "next/link";
 import { PostStatus } from "@/generated/prisma/enums";
+import {
+  Archive,
+  ArchiveRestore,
+  Edit,
+  ExternalLink,
+  ThumbsUp,
+  Trash2,
+} from "lucide-react";
 
 interface Post {
   id: number;
@@ -56,7 +65,7 @@ export function PostsTable({ posts }: PostsTableProps) {
         const result = await createPost();
         if (result.success) {
           message.success("Пост создан");
-          router.push(`/in/posts/${result.data.id}`);
+          router.push(`/in/posts/my/${result.data.id}`);
         } else {
           message.error(result.error?.message || "Ошибка");
         }
@@ -127,31 +136,31 @@ export function PostsTable({ posts }: PostsTableProps) {
   };
 
   const columns: TableColumnsType<Post> = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      align: "center",
-      width: 60,
-    },
+    // {
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   align: "center",
+    //   width: 60,
+    // },
     {
       title: "Заголовок",
       dataIndex: "title",
       key: "title",
       render: (title: string, record) => (
-        <Link href={`/profile/posts/${record.id}`}>{title}</Link>
+        <Link href={`/in/posts/my/${record.id}`}>{title}</Link>
       ),
     },
-    {
-      title: "Содержание",
-      dataIndex: "content",
-      key: "content",
-      render: (text: string | null) => {
-        const content = text || "";
-        const length = content.replace(/[^\p{L}\p{N}]/gu, "").length;
-        return <span>{length} знаков</span>;
-      },
-    },
+    // {
+    //   title: "Содержание",
+    //   dataIndex: "content",
+    //   key: "content",
+    //   render: (text: string | null) => {
+    //     const content = text || "";
+    //     const length = content.replace(/[^\p{L}\p{N}]/gu, "").length;
+    //     return <span>{length} знаков</span>;
+    //   },
+    // },
     {
       title: "Статус",
       dataIndex: "status",
@@ -181,44 +190,60 @@ export function PostsTable({ posts }: PostsTableProps) {
       render: (_, post) => (
         <Space.Compact>
           {post.status === "PUBLISHED" && (
-            <Button href={`/blog/${post.slug}`} color="cyan" variant="filled">
-              Перейти
+            <Button
+              href={`/in/posts/${post.slug}`}
+              color="cyan"
+              variant="filled"
+            >
+              <ExternalLink size={16} />
             </Button>
           )}
           {(post.status === "DRAFT" || post.status === "REJECTED") && (
             <>
-              <Button
-                color="primary"
-                variant="filled"
-                onClick={() => handleSubmitPost(post.id)}
-                loading={isPending}
-              >
-                Опубликовать
-              </Button>
-              <Button href={`/profile/posts/${post.id}`} variant="filled">
-                Редактировать
-              </Button>
+              <Tooltip title="Опубликовать">
+                <Button
+                  color="primary"
+                  variant="filled"
+                  onClick={() => handleSubmitPost(post.id)}
+                  loading={isPending}
+                >
+                  <ThumbsUp size={16} />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Редактировать">
+                <Button
+                  href={`/in/posts/my/${post.id}`}
+                  color="green"
+                  variant="filled"
+                >
+                  <Edit size={16} />
+                </Button>
+              </Tooltip>
             </>
           )}
           {post.status === "ARCHIVED" && (
-            <Button
-              color="green"
-              variant="filled"
-              onClick={() => handleRestorePost(post.id)}
-              loading={isPending}
-            >
-              Восстановить
-            </Button>
+            <Tooltip title="Восстановить">
+              <Button
+                color="green"
+                variant="filled"
+                onClick={() => handleRestorePost(post.id)}
+                loading={isPending}
+              >
+                <ArchiveRestore size={16} />
+              </Button>
+            </Tooltip>
           )}
           {post.status !== "ARCHIVED" && post.status !== "PENDING" && (
-            <Button
-              color="orange"
-              variant="filled"
-              onClick={() => handleArchivePost(post.id)}
-              loading={isPending}
-            >
-              В архив
-            </Button>
+            <Tooltip title="Архивировать">
+              <Button
+                color="orange"
+                variant="filled"
+                onClick={() => handleArchivePost(post.id)}
+                loading={isPending}
+              >
+                <Archive size={16} />
+              </Button>
+            </Tooltip>
           )}
           {post.status !== "PUBLISHED" && post.status !== "PENDING" && (
             <Popconfirm
@@ -227,9 +252,11 @@ export function PostsTable({ posts }: PostsTableProps) {
               cancelText="Нет"
               onConfirm={() => handleDeletePost(post.id)}
             >
-              <Button color="danger" variant="filled">
-                Удалить
-              </Button>
+              <Tooltip title="Удалить">
+                <Button color="danger" variant="filled">
+                  <Trash2 size={16} />
+                </Button>
+              </Tooltip>
             </Popconfirm>
           )}
         </Space.Compact>

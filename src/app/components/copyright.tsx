@@ -1,9 +1,8 @@
-import pkg from "../../../package.json";
-
 export function Copyright() {
   return (
-    <span>
-      © ИП Иванов ИИ {new Date().getFullYear()} {pkg.version}
-    </span>
+    <>
+      <div className="">© ИП Иванов И.И. {new Date().getFullYear()}</div>
+      <div className="">Версия: 0.21.0</div>
+    </>
   );
 }

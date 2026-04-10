@@ -215,7 +215,7 @@ export type PostViewGroupByOutputType = {
   _max: PostViewMaxAggregateOutputType | null
 }
 
-type GetPostViewGroupByPayload<T extends PostViewGroupByArgs> = Prisma.PrismaPromise<
+export type GetPostViewGroupByPayload<T extends PostViewGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PostViewGroupByOutputType, T['by']> &
       {
@@ -1465,6 +1465,11 @@ export type PostViewFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Skip the first `n` PostViews.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of PostViews.
+   */
   distinct?: Prisma.PostViewScalarFieldEnum | Prisma.PostViewScalarFieldEnum[]
 }
 

@@ -41,17 +41,19 @@
 │   Notification      │       │       Event         │
 ├─────────────────────┤       ├─────────────────────┤
 │ id (PK)             │       │ id (PK)             │
-│ userId (FK)         │◄─────┤ authorId (FK)       │
+│ userId (FK)         │ ◄─────┤ authorId (FK)       │
 │ title               │       │ moderatedBy (FK)    │
 │ message             │       │ title               │
 │ isRead              │       │ description         │
 │ type                │       │ format              │
 │ createdAt           │       │ type                │
 └─────────────────────┘       │ city                │
-                               │ startDate           │
-                               │ endDate             │
-                               │ status              │  ┌──────────────────┐
-                               └─────────────────────┘  │EventRegistration │
+                              │ startDate           │
+                              │ endDate             │
+                              │ startRegDate        |
+                              | endRegDate          |
+                              | status              │   ┌──────────────────┐
+                              └─────────────────────┘   │EventRegistration │
                                         │               ├──────────────────┤
                                         │               │ id (PK)          │
                                         └──────────────►│ eventId (FK)     │
@@ -166,6 +168,8 @@
 | location        | String?     | Место проведения (адрес, площадка)           |
 | startDate       | DateTime    | Дата и время начала                          |
 | endDate         | DateTime    | Дата и время окончания                       |
+| startRegDate    | DateTime    | Дата начала регистрации                      |
+| endRegDate      | DateTime    | Дата конца регистрации                       |
 | coverImage      | String?     | Обложка мероприятия                          |
 | status          | EventStatus | Статус публикации                            |
 | viewsCount      | Int         | Количество просмотров                        |

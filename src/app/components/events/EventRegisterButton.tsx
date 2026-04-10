@@ -7,9 +7,11 @@ import {
   registerForEvent,
   unregisterFromEvent,
 } from "@/app/in/events/my/actions/registerEvent";
+import { FeedItem } from "@/app/in/lenta/types";
+import { formatDate } from "../ui/date";
 
 interface RegisterButtonProps {
-  eventId: number;
+  event: FeedItem;
   isRegistered: boolean;
   isLoggedIn: boolean;
   isAuthor: boolean;
@@ -17,7 +19,7 @@ interface RegisterButtonProps {
 }
 
 export function RegisterButton({
-  eventId,
+  event,
   isRegistered,
   isLoggedIn,
   isAuthor,
@@ -28,6 +30,10 @@ export function RegisterButton({
   const [registered, setRegistered] = useState(isRegistered);
   const { message } = App.useApp();
 
+  const { startRegDate, endRegDate } = event;
+  const isRegStart = startRegDate ? new Date(startRegDate) < new Date() : null;
+  const isRegEnd = endRegDate ? new Date(endRegDate) < new Date() : null;
+
   const handleRegister = async () => {
     if (!isLoggedIn) {
       message.info("Для регистрации необходимо войти в систему");
@@ -37,7 +43,7 @@ export function RegisterButton({
 
     setLoading(true);
     try {
-      const result = await registerForEvent(eventId);
+      const result = await registerForEvent(event.id);
 
       if (result.success) {
         setRegistered(true);
@@ -56,7 +62,7 @@ export function RegisterButton({
   const handleUnregister = async () => {
     setLoading(true);
     try {
-      const result = await unregisterFromEvent(eventId);
+      const result = await unregisterFromEvent(event.id);
 
       if (result.success) {
         setRegistered(false);
@@ -101,9 +107,25 @@ export function RegisterButton({
     );
   }
 
+  if (isRegEnd) {
+    return (
+      <Button type="default" disabled>
+        Регистрация завершена {formatDate(endRegDate || "")}
+      </Button>
+    );
+  }
+
+  if (!isRegStart) {
+    return (
+      <Button type="default" disabled>
+        Регистрация c {formatDate(startRegDate || "")}
+      </Button>
+    );
+  }
+
   return (
     <Button type="primary" onClick={handleRegister} loading={loading}>
-      Зарегистрироваться
+      Зарегистрироваться до {formatDate(endRegDate || "")}
     </Button>
   );
 }

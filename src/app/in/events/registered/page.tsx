@@ -13,7 +13,7 @@ export default async function RegisteredEventsPage() {
     // Для других ошибок показываем сообщение
     return (
       <div className="container mx-auto p-4">
-        <h1 className="mb-4 text-2xl font-bold">Мои регистрации</h1>
+        <h1 className="mb-4 text-2xl font-bold">Участие в мероприятиях</h1>
         <p className="text-red-500">Ошибка: {result.error.message}</p>
       </div>
     );
@@ -22,8 +22,8 @@ export default async function RegisteredEventsPage() {
   const events = result.data;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="mb-6 text-2xl font-bold">Мои регистрации</h1>
+    <div className="container mx-auto max-w-185 p-4">
+      <h1 className="mb-6 text-2xl font-bold">Участие в мероприятиях</h1>
       <RegisteredEventsList events={events} />
     </div>
   );

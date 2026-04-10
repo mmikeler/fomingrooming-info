@@ -62,6 +62,8 @@ export async function createEvent(): Promise<ActionResult<CreatedEvent>> {
         location: null,
         startDate: new Date(),
         endDate: new Date(),
+        startRegDate: new Date(),
+        endRegDate: new Date(),
         coverImage: null,
         status: EventStatus.DRAFT,
         authorId: parseInt(session.user.id),
@@ -76,7 +78,7 @@ export async function createEvent(): Promise<ActionResult<CreatedEvent>> {
     });
 
     // Обновление кэша
-    revalidatePath("/profile/events");
+    revalidatePath("/in/events/my");
 
     return event;
   });

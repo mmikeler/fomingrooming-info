@@ -32,7 +32,7 @@ export function FiltersPanel({
   onFilterChange,
 }: FiltersPanelProps) {
   return (
-    <div className="mb-6 rounded-xl bg-white p-4 shadow-sm">
+    <div id="events_filters" className="mb-6 rounded-xl bg-white p-4 shadow-sm">
       {/* Поиск */}
       <div className="">
         <label className="mb-1 block text-sm font-medium text-gray-700">

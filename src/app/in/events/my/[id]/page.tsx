@@ -36,23 +36,7 @@ export default async function EventEditPage({ params }: PageProps) {
 
   return (
     <div className="container mx-auto p-4">
-      <EventEditor
-        event={{
-          id: event.id,
-          title: event.title,
-          slug: event.slug,
-          description: event.description,
-          format: event.format,
-          type: event.type,
-          city: event.city,
-          location: event.location,
-          startDate: event.startDate,
-          endDate: event.endDate,
-          coverImage: event.coverImage,
-          status: event.status,
-          rejectionReason: event.rejectionReason,
-        }}
-      />
+      <EventEditor event={event} />
     </div>
   );
 }

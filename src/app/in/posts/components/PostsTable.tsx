@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Table,
-  Button,
-  Space,
-  TableColumnsType,
-  message,
-  Popconfirm,
-  Tag,
-} from "antd";
+import { Table, Button, Space, TableColumnsType, Tag } from "antd";
 import { useTransition } from "react";
 import Link from "next/link";
 import type { PostStatus, PostCategory } from "@/generated/prisma/enums";

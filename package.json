@@ -1,6 +1,6 @@
 {
   "name": "fomingrooming-info",
-  "version": "0.19.0",
+  "version": "0.21.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -21,7 +21,7 @@
     "@ant-design/icons": "^6.1.0",
     "@auth/prisma-adapter": "^2.11.1",
     "@prisma/adapter-better-sqlite3": "^7.2.0",
-    "@prisma/client": "^7.2.0",
+    "@prisma/client": "^7.7.0",
     "@types/bcryptjs": "^2.4.6",
     "@uiw/react-md-editor": "^4.0.11",
     "antd": "^6.1.1",
@@ -32,7 +32,6 @@
     "next-auth": "^4.24.13",
     "next-remove-imports": "^1.0.12",
     "nodemailer": "^7.0.13",
-    "prisma": "^7.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "rehype-sanitize": "^6.0.0",
@@ -51,6 +50,7 @@
     "eslint-config-next": "16.1.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "prisma": "^7.7.0",
     "tailwindcss": "^4",
     "tsx": "^4.19.0",
     "typescript": "^5"

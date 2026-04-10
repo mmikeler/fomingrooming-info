@@ -40,7 +40,9 @@ export default function PostCard({
     >
       {showViewportTracker && <PostViewportTracker postId={post.id} />}
       <div className="border-b">
-        <Title level={3}>{post.title}</Title>
+        <Title level={isPreview ? 3 : 1} className="text-2xl!">
+          {post.title}
+        </Title>
       </div>
 
       <PostMeta post={post} />

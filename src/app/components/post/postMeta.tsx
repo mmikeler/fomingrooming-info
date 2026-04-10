@@ -24,16 +24,6 @@ export default function PostMeta({ post }: { post: FeedItem }) {
           <EventFormatTag event={post} />
           <EventTypeTag type={post.eventType || "VEBINAR"} />
           <EventStatusTag event={post} />
-          <div className="ms-auto flex gap-4">
-            <EventRegTag event={post} />
-            <RegisterButton
-              eventId={post.id}
-              isRegistered={post.isRegistered || false}
-              isLoggedIn={isLoggedIn}
-              isAuthor={post.isAuthor}
-              isEnded={isEnded}
-            />
-          </div>
         </Flex>
 
         {/* Опциональный раздел с локацией */}
@@ -81,6 +71,21 @@ export default function PostMeta({ post }: { post: FeedItem }) {
               </span>
             </Space>
           </Tooltip>
+        </div>
+        <div className="mx-auto mt-4 flex items-center justify-between gap-4">
+          <Space>
+            <span>Участники:</span>
+            <EventRegTag event={post} />
+          </Space>
+          <div className="">
+            <RegisterButton
+              event={post}
+              isRegistered={post.isRegistered || false}
+              isLoggedIn={isLoggedIn}
+              isAuthor={post.isAuthor}
+              isEnded={isEnded}
+            />
+          </div>
         </div>
       </div>
     );

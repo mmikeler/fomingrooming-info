@@ -108,6 +108,8 @@ model Event {
   location        String?
   startDate       DateTime
   endDate         DateTime
+  startRegDate    DateTime
+  endRegDate      DateTime
   coverImage      String?
   status          EventStatus         @default(DRAFT)
   viewsCount      Int                 @default(0)

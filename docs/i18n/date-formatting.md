@@ -78,9 +78,9 @@ new Date(date).toLocaleDateString();
 
 **Использование:**
 
-- [`src/app/profile/posts/components/PostsTable.tsx`](../../src/app/profile/posts/components/PostsTable.tsx:172)
+- [`src/app/in/posts/components/PostsTable.tsx`](../../src/app/in/posts/components/PostsTable.tsx:172)
 - [`src/app/components/blog-widget.tsx`](../../src/app/components/blog-widget.tsx:54)
-- [`src/app/blog/[slug]/page.tsx`](../../src/app/blog/[slug]/page.tsx:61)
+- [`src/app/in/posts/[slug]/page.tsx`](../../src/app/in/posts/[slug]/page.tsx:61)
 
 ## Рекомендации
 

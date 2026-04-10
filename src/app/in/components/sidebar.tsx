@@ -1,5 +1,6 @@
 "use client";
 
+import { Copyright } from "@/app/components/copyright";
 import { Divider, Flex, Menu, MenuProps, Space } from "antd";
 import Sider from "antd/es/layout/Sider";
 import {
@@ -159,11 +160,7 @@ export default function ProfileSidebar() {
       icon: <Calendars size={iconSize} />,
       children: [
         {
-          label: (
-            <Link target="_blank" href="/in/events">
-              Поиск
-            </Link>
-          ),
+          label: <Link href="/in/events">Поиск</Link>,
           key: "events_search",
           icon: <CalendarSearch size={iconSize} />,
         },
@@ -235,8 +232,7 @@ export default function ProfileSidebar() {
           <Divider />
 
           <Space vertical className="text-[10px] text-gray-400!">
-            <div className="">© ИП Иванов ИИ 2026</div>
-            <div className="">Версия: 0.16.0</div>
+            <Copyright />
           </Space>
         </>
       )}
