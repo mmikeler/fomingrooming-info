@@ -13,6 +13,7 @@ import {
   FilePlusCorner,
   FileSearchCorner,
   Home,
+  Images,
   Newspaper,
   UserRound,
 } from "lucide-react";
@@ -33,6 +34,7 @@ const menuKeyToPath: Record<string, string> = {
   events_my: "/in/events/my",
   events_registered: "/in/events/registered",
   favorites: "/in/favorites",
+  files: "/in/files",
   // Добавляйте новые пункты здесь
 };
 
@@ -60,12 +62,14 @@ export default function ProfileSidebar() {
   const selectedKey = getSelectedKey();
   const iconSize = 18;
 
+  // Ключи недоступные без авторизации
   const protectedKeys = [
     "profile",
     "posts_my",
     "events_my",
     "events_registered",
     "favorites",
+    "files",
   ];
 
   // Функция для проверки, является ли ключ защищённым
@@ -183,6 +187,11 @@ export default function ProfileSidebar() {
       label: <Link href="/in/favorites">Закладки</Link>,
       key: "favorites",
       icon: <Bookmark size={iconSize} />,
+    },
+    {
+      label: <Link href="/in/files">Файлы</Link>,
+      key: "files",
+      icon: <Images size={iconSize} />,
     },
   ];
 
