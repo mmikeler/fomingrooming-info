@@ -59,7 +59,7 @@ export default function UserAuthWidget() {
         key: "moderation",
         icon: <Shield size={16} />,
         label: "Модерация",
-        onClick: () => router.push("/moderation"),
+        onClick: () => router.push("/admin/moderation"),
       });
     }
 

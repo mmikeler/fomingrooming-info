@@ -351,6 +351,23 @@ export type EnumFavoriteTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel>
 }
 
+export type EnumADV_PLACESFilter<$PrismaModel = never> = {
+  equals?: $Enums.ADV_PLACES | Prisma.EnumADV_PLACESFieldRefInput<$PrismaModel>
+  in?: $Enums.ADV_PLACES[]
+  notIn?: $Enums.ADV_PLACES[]
+  not?: Prisma.NestedEnumADV_PLACESFilter<$PrismaModel> | $Enums.ADV_PLACES
+}
+
+export type EnumADV_PLACESWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ADV_PLACES | Prisma.EnumADV_PLACESFieldRefInput<$PrismaModel>
+  in?: $Enums.ADV_PLACES[]
+  notIn?: $Enums.ADV_PLACES[]
+  not?: Prisma.NestedEnumADV_PLACESWithAggregatesFilter<$PrismaModel> | $Enums.ADV_PLACES
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumADV_PLACESFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumADV_PLACESFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[]
@@ -703,6 +720,23 @@ export type NestedEnumFavoriteTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFavoriteTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumADV_PLACESFilter<$PrismaModel = never> = {
+  equals?: $Enums.ADV_PLACES | Prisma.EnumADV_PLACESFieldRefInput<$PrismaModel>
+  in?: $Enums.ADV_PLACES[]
+  notIn?: $Enums.ADV_PLACES[]
+  not?: Prisma.NestedEnumADV_PLACESFilter<$PrismaModel> | $Enums.ADV_PLACES
+}
+
+export type NestedEnumADV_PLACESWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ADV_PLACES | Prisma.EnumADV_PLACESFieldRefInput<$PrismaModel>
+  in?: $Enums.ADV_PLACES[]
+  notIn?: $Enums.ADV_PLACES[]
+  not?: Prisma.NestedEnumADV_PLACESWithAggregatesFilter<$PrismaModel> | $Enums.ADV_PLACES
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumADV_PLACESFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumADV_PLACESFilter<$PrismaModel>
 }
 
 

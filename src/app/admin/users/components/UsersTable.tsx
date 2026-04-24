@@ -12,13 +12,16 @@ import {
   Modal,
   Input,
 } from "antd";
-import { updateUserRole } from "../actions/updateUserRole";
-import { restrictUser, banUser, unbanUser } from "../actions/manageUserStatus";
+import { updateUserRole } from "../../actions/updateUserRole";
+import {
+  restrictUser,
+  banUser,
+  unbanUser,
+} from "../../actions/manageUserStatus";
 import { canAssignRole, ROLE_HIERARCHY } from "@/lib/permissions";
 import { UserRole, AccountStatus } from "@/generated/prisma/enums";
 import {
   WarningOutlined,
-  LockOutlined,
   UnlockOutlined,
   StopOutlined,
 } from "@ant-design/icons";
@@ -244,7 +247,7 @@ export function UsersTable({
       key: "status",
       render: (status: AccountStatus, record: User) => {
         return (
-          <Space direction="vertical" size={0}>
+          <Space orientation="vertical" size={0}>
             <Tag color={statusColors[status]}>{statusLabels[status]}</Tag>
             {status === "RESTRICTED" && record.restrictedReason && (
               <span style={{ fontSize: "12px", color: "#666" }}>

@@ -393,7 +393,8 @@ export const ModelName = {
   UserBanLog: 'UserBanLog',
   Favorite: 'Favorite',
   Like: 'Like',
-  PostView: 'PostView'
+  PostView: 'PostView',
+  ADV: 'ADV'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "event" | "eventRegistration" | "post" | "notification" | "moderationLog" | "userBanLog" | "favorite" | "like" | "postView"
+    modelProps: "user" | "event" | "eventRegistration" | "post" | "notification" | "moderationLog" | "userBanLog" | "favorite" | "like" | "postView" | "aDV"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1153,6 +1154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ADV: {
+      payload: Prisma.$ADVPayload<ExtArgs>
+      fields: Prisma.ADVFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ADVFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ADVFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>
+        }
+        findFirst: {
+          args: Prisma.ADVFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ADVFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>
+        }
+        findMany: {
+          args: Prisma.ADVFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>[]
+        }
+        create: {
+          args: Prisma.ADVCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>
+        }
+        createMany: {
+          args: Prisma.ADVCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ADVCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>[]
+        }
+        delete: {
+          args: Prisma.ADVDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>
+        }
+        update: {
+          args: Prisma.ADVUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>
+        }
+        deleteMany: {
+          args: Prisma.ADVDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ADVUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ADVUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>[]
+        }
+        upsert: {
+          args: Prisma.ADVUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ADVPayload>
+        }
+        aggregate: {
+          args: Prisma.ADVAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateADV>
+        }
+        groupBy: {
+          args: Prisma.ADVGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ADVGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ADVCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ADVCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1349,6 +1424,17 @@ export const PostViewScalarFieldEnum = {
 export type PostViewScalarFieldEnum = (typeof PostViewScalarFieldEnum)[keyof typeof PostViewScalarFieldEnum]
 
 
+export const ADVScalarFieldEnum = {
+  id: 'id',
+  place: 'place',
+  src: 'src',
+  url: 'url',
+  comment: 'comment'
+} as const
+
+export type ADVScalarFieldEnum = (typeof ADVScalarFieldEnum)[keyof typeof ADVScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1463,6 +1549,13 @@ export type EnumFavoriteTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'ADV_PLACES'
+ */
+export type EnumADV_PLACESFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ADV_PLACES'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1573,6 +1666,7 @@ export type GlobalOmitConfig = {
   favorite?: Prisma.FavoriteOmit
   like?: Prisma.LikeOmit
   postView?: Prisma.PostViewOmit
+  aDV?: Prisma.ADVOmit
 }
 
 /* Types for Logging */

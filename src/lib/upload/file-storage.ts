@@ -1,6 +1,6 @@
 import { UserRole } from "@/generated/prisma/enums";
 
-export type UploadType = "avatar" | "post-cover" | "event-cover";
+export type UploadType = "avatar" | "post-cover" | "event-cover" | "shared";
 
 export interface UploadPathOptions {
   userId: number;
@@ -23,12 +23,8 @@ export function getUploadPath(options: UploadPathOptions): string {
   const monthYear = `${String(now.getMonth() + 1).padStart(2, "0")}-${now.getFullYear()}`;
 
   // Админы используют общее хранилище
-  if (userRole === "ADMIN" || userRole === "SUPERADMIN") {
-    if (type === "post-cover") {
-      return `uploads/shared/${monthYear}`;
-    }
-    // Для аватарок админов - просто shared/avatars
-    return `uploads/shared`;
+  if (userRole === "ADMIN" || userRole === "SUPERADMIN" || type === "shared") {
+    return `uploads/shared/${monthYear}`;
   }
 
   // Обычные пользователи - персональная папка

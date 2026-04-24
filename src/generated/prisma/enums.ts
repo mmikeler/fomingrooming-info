@@ -95,3 +95,20 @@ export const FavoriteType = {
 } as const
 
 export type FavoriteType = (typeof FavoriteType)[keyof typeof FavoriteType]
+
+
+export const ADV_PLACES = {
+  FP_SIDER_ONE: 'FP_SIDER_ONE',
+  FP_SIDER_TWO: 'FP_SIDER_TWO',
+  FP_SIDER_THREE: 'FP_SIDER_THREE',
+  FP_CONTENT_ONE: 'FP_CONTENT_ONE',
+  FP_CONTENT_TWO: 'FP_CONTENT_TWO',
+  FP_CONTENT_THREE: 'FP_CONTENT_THREE',
+  TOPBAR: 'TOPBAR',
+  SIDER: 'SIDER',
+  ALL: 'ALL',
+  POSTS: 'POSTS',
+  EVENTS: 'EVENTS'
+} as const
+
+export type ADV_PLACES = (typeof ADV_PLACES)[keyof typeof ADV_PLACES]

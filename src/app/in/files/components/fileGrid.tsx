@@ -1,12 +1,13 @@
 "use client";
 
 import { formatDate } from "@/app/components/ui/date";
-import { CloseCircleOutlined, CloseOutlined } from "@ant-design/icons";
-import { Card, Modal, Tooltip } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import { Card, Modal } from "antd";
 import Image from "next/image";
 import { useState } from "react";
+import GalleryItem from "./galleryItem";
 
-interface MediaFile {
+export interface MediaFile {
   id: string;
   name: string;
   url: string;
@@ -34,32 +35,7 @@ export function FileGrid({ files }: FileGridProps) {
     <>
       <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
         {files.map((file) => (
-          <Tooltip
-            key={file.id}
-            title={
-              <>
-                <div className="mt-2 text-sm">{file.name}</div>
-                <div className="text-xs text-gray-100">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB
-                </div>
-              </>
-            }
-          >
-            <div
-              onClick={() => setChangedFile(file)}
-              className="group relative cursor-pointer"
-            >
-              <div className="aspect-square overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
-                <Image
-                  src={file.url}
-                  alt={file.name}
-                  width={150}
-                  height={150}
-                  className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                />
-              </div>
-            </div>
-          </Tooltip>
+          <GalleryItem key={file.id} file={file} action={setChangedFile} />
         ))}
       </div>
 
@@ -94,7 +70,7 @@ export function FileGrid({ files }: FileGridProps) {
               <CloseOutlined />
             </div>
           }
-          actions={["Удалить"]}
+          actions={[]}
         >
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between text-sm">

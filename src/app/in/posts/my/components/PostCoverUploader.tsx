@@ -99,7 +99,7 @@ export function PostCoverUploader({
     <div className="flex flex-col items-start gap-4">
       <div className="w-full">
         {previewUrl ? (
-          <div className="relative h-[200px] w-full overflow-hidden rounded-lg bg-gray-100">
+          <div className="relative h-50 w-full overflow-hidden rounded-lg bg-gray-100">
             <Image
               src={previewUrl}
               alt="Обложка поста"
@@ -113,7 +113,7 @@ export function PostCoverUploader({
             )}
           </div>
         ) : (
-          <div className="flex h-[200px] w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
+          <div className="flex h-50 w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
             <span className="text-gray-400">Обложка не установлена</span>
           </div>
         )}

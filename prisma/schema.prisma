@@ -279,3 +279,30 @@ model PostView {
 
   @@index([postId])
 }
+
+enum ADV_PLACES {
+  // FRONTPAGE
+  FP_SIDER_ONE
+  FP_SIDER_TWO
+  FP_SIDER_THREE
+  FP_CONTENT_ONE
+  FP_CONTENT_TWO
+  FP_CONTENT_THREE
+  // TOPBAR
+  TOPBAR
+  // SIDEBAR
+  SIDER
+  // ЛЕНТЫ
+  ALL
+  POSTS
+  EVENTS
+}
+
+// Модель рекламного блока
+model ADV {
+  id      Int        @id @default(autoincrement())
+  place   ADV_PLACES
+  src     String
+  url     String
+  comment String
+}

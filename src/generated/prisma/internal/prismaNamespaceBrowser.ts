@@ -60,7 +60,8 @@ export const ModelName = {
   UserBanLog: 'UserBanLog',
   Favorite: 'Favorite',
   Like: 'Like',
-  PostView: 'PostView'
+  PostView: 'PostView',
+  ADV: 'ADV'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -234,6 +235,17 @@ export const PostViewScalarFieldEnum = {
 } as const
 
 export type PostViewScalarFieldEnum = (typeof PostViewScalarFieldEnum)[keyof typeof PostViewScalarFieldEnum]
+
+
+export const ADVScalarFieldEnum = {
+  id: 'id',
+  place: 'place',
+  src: 'src',
+  url: 'url',
+  comment: 'comment'
+} as const
+
+export type ADVScalarFieldEnum = (typeof ADVScalarFieldEnum)[keyof typeof ADVScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -91,3 +91,8 @@ export type Like = Prisma.LikeModel
  * 
  */
 export type PostView = Prisma.PostViewModel
+/**
+ * Model ADV
+ * 
+ */
+export type ADV = Prisma.ADVModel
