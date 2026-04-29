@@ -29,21 +29,19 @@ export default function Home() {
         <div className="mt-7 flex gap-8 lg:flex-row">
           {/* Сайдбар - скрывается на мобильных */}
           <div className="hidden w-full max-w-50 shrink-0 lg:block">
-            <div className="mb-5 h-75 w-full">
-              <ADS place="FP_SIDER_ONE" />
-            </div>
+            <ADS place="FP_SIDER_ONE" className="mb-5 h-75 w-full" />
+
             <div id="news">
               <Title level={2}>Новости</Title>
               <NEWS_BAR />
             </div>
-            <div className="my-5 h-75 w-full">
-              <ADS place="FP_SIDER_TWO" />
-            </div>
+
+            <ADS place="FP_SIDER_TWO" className="my-5 h-75 w-full" />
+
             <Title level={2}>Статьи</Title>
             <NEWS_BAR categories={["ARTICLE"]} count={5} />
-            <div className="my-5 h-75 w-full">
-              <ADS place="FP_SIDER_THREE" />
-            </div>
+
+            <ADS place="FP_SIDER_THREE" className="my-5 h-75 w-full" />
           </div>
           {/* Основной контент */}
           <div className="w-full min-w-0">
@@ -71,8 +69,8 @@ export default function Home() {
                 </div>
               </div>
             </section>
-            <section className="my-8 h-40 w-full">
-              <ADS place="FP_CONTENT_ONE" />
+            <section>
+              <ADS place="FP_CONTENT_ONE" className="my-8 h-40 w-full" />
             </section>
             <section id="market" className="mt-10 p-2 lg:p-0">
               <Title level={2} className="text-center lg:text-left">
@@ -95,8 +93,8 @@ export default function Home() {
                 <ACTUAL_POSTS />
               </div>
             </section>
-            <section className="my-8 h-40 w-full">
-              <ADS place="FP_CONTENT_TWO" />
+            <section>
+              <ADS place="FP_CONTENT_TWO" className="my-8 h-40 w-full" />
             </section>
             <section className="mt-10 p-2 lg:p-0">
               <Title level={2} className="text-center lg:text-left">
@@ -114,8 +112,8 @@ export default function Home() {
                 <USEFUL_POSTS />
               </div>
             </section>
-            <section className="my-8 h-40 w-full">
-              <ADS place="FP_CONTENT_THREE" />
+            <section>
+              <ADS place="FP_CONTENT_THREE" className="my-8 h-40 w-full" />
             </section>
           </div>
         </div>
