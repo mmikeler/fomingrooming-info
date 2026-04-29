@@ -38,6 +38,7 @@ export type ADVMinAggregateOutputType = {
   id: number | null
   place: $Enums.ADV_PLACES | null
   src: string | null
+  mobileSrc: string | null
   url: string | null
   comment: string | null
 }
@@ -46,6 +47,7 @@ export type ADVMaxAggregateOutputType = {
   id: number | null
   place: $Enums.ADV_PLACES | null
   src: string | null
+  mobileSrc: string | null
   url: string | null
   comment: string | null
 }
@@ -54,6 +56,7 @@ export type ADVCountAggregateOutputType = {
   id: number
   place: number
   src: number
+  mobileSrc: number
   url: number
   comment: number
   _all: number
@@ -72,6 +75,7 @@ export type ADVMinAggregateInputType = {
   id?: true
   place?: true
   src?: true
+  mobileSrc?: true
   url?: true
   comment?: true
 }
@@ -80,6 +84,7 @@ export type ADVMaxAggregateInputType = {
   id?: true
   place?: true
   src?: true
+  mobileSrc?: true
   url?: true
   comment?: true
 }
@@ -88,6 +93,7 @@ export type ADVCountAggregateInputType = {
   id?: true
   place?: true
   src?: true
+  mobileSrc?: true
   url?: true
   comment?: true
   _all?: true
@@ -183,6 +189,7 @@ export type ADVGroupByOutputType = {
   id: number
   place: $Enums.ADV_PLACES
   src: string
+  mobileSrc: string
   url: string
   comment: string
   _count: ADVCountAggregateOutputType | null
@@ -214,6 +221,7 @@ export type ADVWhereInput = {
   id?: Prisma.IntFilter<"ADV"> | number
   place?: Prisma.EnumADV_PLACESFilter<"ADV"> | $Enums.ADV_PLACES
   src?: Prisma.StringFilter<"ADV"> | string
+  mobileSrc?: Prisma.StringFilter<"ADV"> | string
   url?: Prisma.StringFilter<"ADV"> | string
   comment?: Prisma.StringFilter<"ADV"> | string
 }
@@ -222,6 +230,7 @@ export type ADVOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   place?: Prisma.SortOrder
   src?: Prisma.SortOrder
+  mobileSrc?: Prisma.SortOrder
   url?: Prisma.SortOrder
   comment?: Prisma.SortOrder
 }
@@ -233,6 +242,7 @@ export type ADVWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ADVWhereInput | Prisma.ADVWhereInput[]
   place?: Prisma.EnumADV_PLACESFilter<"ADV"> | $Enums.ADV_PLACES
   src?: Prisma.StringFilter<"ADV"> | string
+  mobileSrc?: Prisma.StringFilter<"ADV"> | string
   url?: Prisma.StringFilter<"ADV"> | string
   comment?: Prisma.StringFilter<"ADV"> | string
 }, "id">
@@ -241,6 +251,7 @@ export type ADVOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   place?: Prisma.SortOrder
   src?: Prisma.SortOrder
+  mobileSrc?: Prisma.SortOrder
   url?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   _count?: Prisma.ADVCountOrderByAggregateInput
@@ -257,28 +268,32 @@ export type ADVScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"ADV"> | number
   place?: Prisma.EnumADV_PLACESWithAggregatesFilter<"ADV"> | $Enums.ADV_PLACES
   src?: Prisma.StringWithAggregatesFilter<"ADV"> | string
+  mobileSrc?: Prisma.StringWithAggregatesFilter<"ADV"> | string
   url?: Prisma.StringWithAggregatesFilter<"ADV"> | string
   comment?: Prisma.StringWithAggregatesFilter<"ADV"> | string
 }
 
 export type ADVCreateInput = {
   place: $Enums.ADV_PLACES
-  src: string
-  url: string
-  comment: string
+  src?: string
+  mobileSrc?: string
+  url?: string
+  comment?: string
 }
 
 export type ADVUncheckedCreateInput = {
   id?: number
   place: $Enums.ADV_PLACES
-  src: string
-  url: string
-  comment: string
+  src?: string
+  mobileSrc?: string
+  url?: string
+  comment?: string
 }
 
 export type ADVUpdateInput = {
   place?: Prisma.EnumADV_PLACESFieldUpdateOperationsInput | $Enums.ADV_PLACES
   src?: Prisma.StringFieldUpdateOperationsInput | string
+  mobileSrc?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -287,6 +302,7 @@ export type ADVUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   place?: Prisma.EnumADV_PLACESFieldUpdateOperationsInput | $Enums.ADV_PLACES
   src?: Prisma.StringFieldUpdateOperationsInput | string
+  mobileSrc?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -294,14 +310,16 @@ export type ADVUncheckedUpdateInput = {
 export type ADVCreateManyInput = {
   id?: number
   place: $Enums.ADV_PLACES
-  src: string
-  url: string
-  comment: string
+  src?: string
+  mobileSrc?: string
+  url?: string
+  comment?: string
 }
 
 export type ADVUpdateManyMutationInput = {
   place?: Prisma.EnumADV_PLACESFieldUpdateOperationsInput | $Enums.ADV_PLACES
   src?: Prisma.StringFieldUpdateOperationsInput | string
+  mobileSrc?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -310,6 +328,7 @@ export type ADVUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   place?: Prisma.EnumADV_PLACESFieldUpdateOperationsInput | $Enums.ADV_PLACES
   src?: Prisma.StringFieldUpdateOperationsInput | string
+  mobileSrc?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -318,6 +337,7 @@ export type ADVCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   place?: Prisma.SortOrder
   src?: Prisma.SortOrder
+  mobileSrc?: Prisma.SortOrder
   url?: Prisma.SortOrder
   comment?: Prisma.SortOrder
 }
@@ -330,6 +350,7 @@ export type ADVMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   place?: Prisma.SortOrder
   src?: Prisma.SortOrder
+  mobileSrc?: Prisma.SortOrder
   url?: Prisma.SortOrder
   comment?: Prisma.SortOrder
 }
@@ -338,6 +359,7 @@ export type ADVMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   place?: Prisma.SortOrder
   src?: Prisma.SortOrder
+  mobileSrc?: Prisma.SortOrder
   url?: Prisma.SortOrder
   comment?: Prisma.SortOrder
 }
@@ -356,6 +378,7 @@ export type ADVSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   id?: boolean
   place?: boolean
   src?: boolean
+  mobileSrc?: boolean
   url?: boolean
   comment?: boolean
 }, ExtArgs["result"]["aDV"]>
@@ -364,6 +387,7 @@ export type ADVSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   id?: boolean
   place?: boolean
   src?: boolean
+  mobileSrc?: boolean
   url?: boolean
   comment?: boolean
 }, ExtArgs["result"]["aDV"]>
@@ -372,6 +396,7 @@ export type ADVSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   id?: boolean
   place?: boolean
   src?: boolean
+  mobileSrc?: boolean
   url?: boolean
   comment?: boolean
 }, ExtArgs["result"]["aDV"]>
@@ -380,11 +405,12 @@ export type ADVSelectScalar = {
   id?: boolean
   place?: boolean
   src?: boolean
+  mobileSrc?: boolean
   url?: boolean
   comment?: boolean
 }
 
-export type ADVOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "place" | "src" | "url" | "comment", ExtArgs["result"]["aDV"]>
+export type ADVOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "place" | "src" | "mobileSrc" | "url" | "comment", ExtArgs["result"]["aDV"]>
 
 export type $ADVPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ADV"
@@ -393,6 +419,7 @@ export type $ADVPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     id: number
     place: $Enums.ADV_PLACES
     src: string
+    mobileSrc: string
     url: string
     comment: string
   }, ExtArgs["result"]["aDV"]>
@@ -821,6 +848,7 @@ export interface ADVFieldRefs {
   readonly id: Prisma.FieldRef<"ADV", 'Int'>
   readonly place: Prisma.FieldRef<"ADV", 'ADV_PLACES'>
   readonly src: Prisma.FieldRef<"ADV", 'String'>
+  readonly mobileSrc: Prisma.FieldRef<"ADV", 'String'>
   readonly url: Prisma.FieldRef<"ADV", 'String'>
   readonly comment: Prisma.FieldRef<"ADV", 'String'>
 }

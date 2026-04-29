@@ -3,15 +3,25 @@
 
 import { ADV } from "@/generated/prisma/client";
 import { ADV_PLACES } from "@/generated/prisma/enums";
-import { App, Button, Divider, Form, FormInstance, Input, Tooltip } from "antd";
-import { Save, Trash } from "lucide-react";
-import { deleteADV, updateADV } from "../actions/adv";
+import {
+  App,
+  Divider,
+  Form,
+  FormInstance,
+  Input,
+  Space,
+  Tag,
+  Tooltip,
+} from "antd";
+import { MessageCircleWarning } from "lucide-react";
+import { updateADV } from "../actions/adv";
 import { useRef, useState } from "react";
 import { SETTINGS } from "./settings";
 import { sanitizeUrl, sanitizeInput } from "@/utils/sanitize";
 import { ADV_ITEM_IMAGE } from "./advItemImage";
+import ADV_ITEM_OPTIONS from "./advItemOptions";
 
-type FormValues = {
+export type FormValues = {
   src: string;
   url: string;
   comment: string;
@@ -21,11 +31,19 @@ export function ADV_ITEM({ place, value }: { place: ADV_PLACES; value: ADV }) {
   const { message } = App.useApp();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance<FormValues>>(null);
+  const [isMobileMode, setIsMobileMode] = useState(false);
+
+  // Проверяем заполненность элемента
+  const isEmpty = !value.url || !value.src;
+
   // Извлекаем размеры блока
-  const size: number[] = SETTINGS[place].size
+  const size: number[] = (
+    isMobileMode ? SETTINGS[place].mobileSize : SETTINGS[place].size
+  )
     .split("x")
     .map((n) => parseInt(n));
 
+  // Сохранение элемента
   const onFinish = async (values: FormValues) => {
     try {
       setLoading(true);
@@ -57,16 +75,28 @@ export function ADV_ITEM({ place, value }: { place: ADV_PLACES; value: ADV }) {
     }
   };
 
-  const sendForm = () => {
-    if (formRef.current) {
-      formRef.current.submit();
-    }
-  };
-
   return (
     <div className="">
-      <Divider>#{value.id}</Divider>
-      <div className="text-[14px] text-gray-500">Ваш баннер:</div>
+      <Divider>
+        <Space>
+          <span>#{value.id}</span>
+          {isEmpty && (
+            <Tooltip title="У элемента отсутствует одно из обязательных полей. В этом случае он показываться не будет.">
+              <MessageCircleWarning size={20} color="orange" />
+            </Tooltip>
+          )}
+        </Space>
+      </Divider>
+      <div className="mb-1 flex items-center justify-between text-[14px] text-gray-500">
+        <div className="">
+          <span className="text-red-600">*</span>Ваш баннер:
+        </div>
+        {isMobileMode ? (
+          <Tag color={"cyan"}>Мобильный</Tag>
+        ) : (
+          <Tag color={"blue"}>Полный</Tag>
+        )}
+      </div>
       <div className="flex gap-2 pb-5">
         <Form
           ref={formRef}
@@ -76,17 +106,17 @@ export function ADV_ITEM({ place, value }: { place: ADV_PLACES; value: ADV }) {
           className="w-full max-w-[calc(100%-50px)]"
         >
           <div
-            className={`relative mx-auto max-w-full overflow-hidden object-cover`}
-            style={{ width: size[0], height: size[1] }}
+            className={`relative mx-auto w-full overflow-hidden object-cover`}
+            style={{ maxWidth: size[0], aspectRatio: size[0] / size[1] }}
           >
-            <ADV_ITEM_IMAGE adv={value} />
+            <ADV_ITEM_IMAGE adv={value} isMobileMode={isMobileMode} />
           </div>
           <div className="mt-5">
             <Form.Item
               label="Ссылка, куда ведёт баннер"
               name="url"
               rules={[
-                { required: false, message: "Введите URL" },
+                { required: true, message: "Введите URL" },
                 { type: "url", message: "Введите корректный URL" },
                 { max: 300, message: "Максимум 500 символов" },
               ]}
@@ -116,30 +146,13 @@ export function ADV_ITEM({ place, value }: { place: ADV_PLACES; value: ADV }) {
             </Form.Item>
           </div>
         </Form>
-        <div className="flex w-full max-w-12 flex-col items-center justify-start gap-1 border-l border-gray-200 pl-2">
-          <Tooltip title="Удалить элемент">
-            <Button
-              style={{ padding: "5px 12px" }}
-              color="danger"
-              variant="solid"
-              onClick={() => deleteADV(value)}
-            >
-              <Trash size={16} />
-            </Button>
-          </Tooltip>
-          <div className="mx-auto my-1 h-px w-5 bg-gray-300"></div>
-          <Tooltip title="Сохранить элемент">
-            <Button
-              color="green"
-              variant="solid"
-              style={{ padding: "5px 12px" }}
-              onClick={sendForm}
-              loading={loading}
-            >
-              <Save size={16} />
-            </Button>
-          </Tooltip>
-        </div>
+        <ADV_ITEM_OPTIONS
+          value={value}
+          formRef={formRef}
+          loading={loading}
+          isMobileMode={isMobileMode}
+          setIsMobileMode={setIsMobileMode}
+        />
       </div>
     </div>
   );

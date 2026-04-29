@@ -241,6 +241,7 @@ export const ADVScalarFieldEnum = {
   id: 'id',
   place: 'place',
   src: 'src',
+  mobileSrc: 'mobileSrc',
   url: 'url',
   comment: 'comment'
 } as const

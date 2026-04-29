@@ -30,19 +30,19 @@ export default function Home() {
           {/* Сайдбар - скрывается на мобильных */}
           <div className="hidden w-full max-w-50 shrink-0 lg:block">
             <div className="mb-5 h-75 w-full">
-              <ADS place="HOMEPAGE_SIDEBAR_1" />
+              <ADS place="FP_SIDER_ONE" />
             </div>
             <div id="news">
               <Title level={2}>Новости</Title>
               <NEWS_BAR />
             </div>
             <div className="my-5 h-75 w-full">
-              <ADS place="HOMEPAGE_SIDEBAR_2" />
+              <ADS place="FP_SIDER_TWO" />
             </div>
             <Title level={2}>Статьи</Title>
             <NEWS_BAR categories={["ARTICLE"]} count={5} />
             <div className="my-5 h-75 w-full">
-              <ADS place="HOMEPAGE_SIDEBAR_3" />
+              <ADS place="FP_SIDER_THREE" />
             </div>
           </div>
           {/* Основной контент */}
@@ -72,7 +72,7 @@ export default function Home() {
               </div>
             </section>
             <section className="my-8 h-40 w-full">
-              <ADS place="HOMEPAGE_CONTENT_1" />
+              <ADS place="FP_CONTENT_ONE" />
             </section>
             <section id="market" className="mt-10 p-2 lg:p-0">
               <Title level={2} className="text-center lg:text-left">
@@ -95,6 +95,9 @@ export default function Home() {
                 <ACTUAL_POSTS />
               </div>
             </section>
+            <section className="my-8 h-40 w-full">
+              <ADS place="FP_CONTENT_TWO" />
+            </section>
             <section className="mt-10 p-2 lg:p-0">
               <Title level={2} className="text-center lg:text-left">
                 Заметки
@@ -110,6 +113,9 @@ export default function Home() {
               <div className="mt-8">
                 <USEFUL_POSTS />
               </div>
+            </section>
+            <section className="my-8 h-40 w-full">
+              <ADS place="FP_CONTENT_THREE" />
             </section>
           </div>
         </div>

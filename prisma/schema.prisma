@@ -300,9 +300,10 @@ enum ADV_PLACES {
 
 // Модель рекламного блока
 model ADV {
-  id      Int        @id @default(autoincrement())
-  place   ADV_PLACES
-  src     String
-  url     String
-  comment String
+  id        Int        @id @default(autoincrement())
+  place     ADV_PLACES
+  src       String     @default("")
+  mobileSrc String     @default("")
+  url       String     @default("")
+  comment   String     @default("")
 }

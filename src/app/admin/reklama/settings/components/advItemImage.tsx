@@ -9,10 +9,16 @@ import SharedGallery from "./sharedGallery";
 
 //
 
-export function ADV_ITEM_IMAGE({ adv }: { adv: ADV }) {
+export function ADV_ITEM_IMAGE({
+  adv,
+  isMobileMode,
+}: {
+  adv: ADV;
+  isMobileMode: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const { message } = App.useApp();
-  const { src } = adv;
+  const { src, mobileSrc } = adv;
 
   const handleChangeImage = async (newSrc: string) => {
     // Basic URL validation for image source
@@ -23,7 +29,10 @@ export function ADV_ITEM_IMAGE({ adv }: { adv: ADV }) {
       return;
     }
 
-    const res = await updateADV({ ...adv, src: newSrc });
+    const res = await updateADV({
+      ...adv,
+      [isMobileMode ? "mobileSrc" : "src"]: newSrc,
+    });
 
     if (res !== undefined && !res.success) {
       message.error({
@@ -50,7 +59,7 @@ export function ADV_ITEM_IMAGE({ adv }: { adv: ADV }) {
               width={"100%"}
               height={"100%"}
               style={{ objectFit: "cover" }}
-              src={src}
+              src={isMobileMode ? mobileSrc : src}
               alt=""
               preview={false}
             />

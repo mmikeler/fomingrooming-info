@@ -10,9 +10,6 @@ export async function createADV(place: ADV_PLACES) {
     await prisma.aDV.create({
       data: {
         place: place,
-        src: "",
-        url: "",
-        comment: "",
       },
     });
 
@@ -28,6 +25,7 @@ export async function updateADV(adv: ADV) {
       where: { id: adv.id },
       data: {
         src: adv.src || "",
+        mobileSrc: adv.mobileSrc || "",
         url: adv.url || "",
         comment: adv.comment || "",
       },
