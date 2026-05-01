@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Fragment } from "react";
 import { Spin, Empty } from "antd";
 import { FiltersPanel, type EventFilters } from "./FiltersPanel";
 import {
@@ -10,6 +10,7 @@ import {
 } from "../actions/getPublishedEvents";
 import PostCard from "@/app/components/post/postCard";
 import type { FeedItem } from "@/app/in/lenta/actions/getFeedItems";
+import ADS from "@/app/components/ads/ads";
 
 /**
  * Преобразование PublishedEvent в формат FeedItem для PostCard
@@ -131,6 +132,9 @@ export default function EventsList() {
     search: null,
   });
   const observerRef = useRef<HTMLDivElement>(null);
+
+  // Частота размещения рекламы
+  const AD_FREQUENCY = 3; // Размещать каждые 3 поста
 
   // Загрузка начальных данных
   useEffect(() => {
@@ -294,12 +298,18 @@ export default function EventsList() {
 
       {/* Список ивентов */}
       <div className="mx-auto flex max-w-185 flex-col gap-10">
-        {events.map((event) => (
-          <PostCard
-            key={event.id}
-            post={transformEventForCard(event)}
-            isPreview={false}
-          />
+        {events.map((event, index) => (
+          <Fragment key={index}>
+            <PostCard
+              key={event.id}
+              post={transformEventForCard(event)}
+              isPreview={false}
+            />
+            {/* Рекламное место */}
+            {index % AD_FREQUENCY === 0 && (
+              <ADS place="EVENTS" className="h-50 w-full" />
+            )}
+          </Fragment>
         ))}
       </div>
 

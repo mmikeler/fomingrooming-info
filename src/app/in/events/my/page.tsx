@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { getUserEvents } from "./actions/getUserEvents";
 import { EventsTable } from "./components/EventsTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function EventsPage() {
   const result = await getUserEvents();
 

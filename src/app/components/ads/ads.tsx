@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import getAdvData from "./getAdvData";
 import { ADV } from "@/generated/prisma/client";
+import { SETTINGS } from "@/app/admin/reklama/settings/components/settings";
 
 /**
  * Компонент для отображения рекламного баннера с ротацией.
@@ -25,7 +26,7 @@ export default function ADS({
   const [ADVData, setADVData] = useState<ADV[]>([]);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const ROTATE_TIME = 10000;
+  const ROTATE_TIME = 3000;
 
   // Получение данных рекламного места
   const getData = async () => {
@@ -67,13 +68,15 @@ export default function ADS({
 
   const adv = ADVData[count];
 
-  if (loading) {
+  if (loading || !adv) {
     return <div className="pulse bg-gray-300"></div>;
   }
 
   if (ADVData.length === 0) return null;
 
-  //const size = SETTINGS[place].size.split("x");
+  const size = SETTINGS[place].size.split("x");
+  const mobileSize = SETTINGS[place].mobileSize.split("x");
+  const hasMobileSrc = adv && !!adv.mobileSrc;
 
   // Обработка нажатия на рекламу
   const onHandleClick = (event: React.MouseEvent) => {
@@ -91,7 +94,24 @@ export default function ADS({
         onClick={(e) => onHandleClick(e)}
         className="relative block h-full w-full rounded-lg bg-rose-100"
       >
-        <Image src={adv?.src} alt="" fill style={{ objectFit: "cover" }} />
+        <Image
+          className="hidden lg:block"
+          src={adv?.src}
+          alt=""
+          fill
+          sizes={`${size[0]}px ${size[1]}px`}
+          unoptimized
+          style={{ objectFit: "cover" }}
+        />
+        <Image
+          className="lg:hidden"
+          src={hasMobileSrc ? adv.mobileSrc : adv.src}
+          alt=""
+          fill
+          sizes={`${mobileSize[0]}px ${mobileSize[1]}px`}
+          unoptimized
+          style={{ objectFit: "cover" }}
+        />
       </Link>
     </div>
   );

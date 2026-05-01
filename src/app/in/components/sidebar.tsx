@@ -1,8 +1,11 @@
 "use client";
 
+import ADS from "@/app/components/ads/ads";
 import { Copyright } from "@/app/components/copyright";
+import { useIsMobile } from "@/components/is-mobile-context";
 import { Divider, Flex, Menu, MenuProps, Space } from "antd";
 import Sider from "antd/es/layout/Sider";
+import { create } from "lodash";
 import {
   Bookmark,
   CalendarCheck2,
@@ -14,13 +17,15 @@ import {
   FileSearchCorner,
   Home,
   Images,
+  MenuIcon,
   Newspaper,
   UserRound,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -42,7 +47,13 @@ export default function ProfileSidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
   const isAuthenticated = !!session;
-  const [collapsed, setCollapsed] = useState(false);
+  const isUseMobile = useIsMobile();
+  const [collapsedValue, setCollapsedValue] = useState(isUseMobile);
+
+  // Синхронизируем состояние collapsed с изменением isUseMobile
+  useEffect(() => {
+    setCollapsedValue(isUseMobile);
+  }, [isUseMobile]);
 
   // Определяем активный пункт меню на основе текущего пути
   const getSelectedKey = (): string | undefined => {
@@ -200,51 +211,73 @@ export default function ProfileSidebar() {
     ? baseItems
     : filterProtectedItems(baseItems);
 
+  const [mobileBarElement, setMobileBarElement] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const element = document.getElementById("mobileBar");
+    setMobileBarElement(element);
+  }, []);
+
   const siderStyle: React.CSSProperties = {
     overflow: "auto",
-    height: "100vh",
-    position: "sticky",
+    height: "calc(100dvh - 50px)",
+    position: isUseMobile ? "fixed" : "sticky",
     insetInlineStart: 0,
-    top: 0,
-    scrollbarWidth: "thin",
+    top: isUseMobile ? "50px" : 0,
+    left: isUseMobile && collapsedValue ? "-50px" : "0",
+    scrollbarWidth: "none",
     scrollbarGutter: "stable",
+    zIndex: 1000,
   };
 
   return (
-    <Sider
-      style={siderStyle}
-      theme="light"
-      collapsible={true}
-      collapsedWidth={60}
-      onCollapse={(collapsed) => setCollapsed(collapsed)}
-    >
-      <Menu
-        defaultOpenKeys={["events", "posts"]}
-        selectedKeys={selectedKey ? [selectedKey] : []}
-        items={items}
-        mode="inline"
-      />
-      {!collapsed && (
-        <>
-          <Divider />
-          <Flex gap="small" wrap>
-            <Link className="text-xs text-(--foreground)!" href="/">
-              О проекте
-            </Link>
-            <Link className="text-xs text-(--foreground)!" href="/">
-              Реклама на сайте
-            </Link>
-            <Link className="text-xs text-(--foreground)!" href="/">
-              Техподдержка
-            </Link>
-          </Flex>
-          <Divider />
+    <>
+      <Sider
+        style={siderStyle}
+        theme="light"
+        collapsible={true}
+        defaultCollapsed={collapsedValue}
+        collapsed={collapsedValue}
+        collapsedWidth={50}
+        onCollapse={(collapsedValue) => setCollapsedValue(collapsedValue)}
+      >
+        <Menu
+          defaultOpenKeys={[]}
+          selectedKeys={selectedKey ? [selectedKey] : []}
+          items={items}
+          mode="inline"
+        />
+        {!collapsedValue && (
+          <div className="p-2">
+            <ADS place="SIDER" className="mt-5 mb-4 h-47 w-47" />
 
-          <Space vertical className="text-[10px] text-gray-400!">
-            <Copyright />
-          </Space>
-        </>
-      )}
-    </Sider>
+            <Flex gap="small" wrap>
+              <Link className="text-xs text-(--foreground)!" href="/">
+                О проекте
+              </Link>
+              <Link className="text-xs text-(--foreground)!" href="/">
+                Реклама на сайте
+              </Link>
+              <Link className="text-xs text-(--foreground)!" href="/">
+                Техподдержка
+              </Link>
+            </Flex>
+            <Divider />
+
+            <Space vertical className="mb-20 text-[10px] text-gray-400!">
+              <Copyright />
+            </Space>
+          </div>
+        )}
+      </Sider>
+
+      {mobileBarElement &&
+        createPortal(
+          <div onClick={() => setCollapsedValue(!collapsedValue)}>
+            <MenuIcon size="30" color="white" />
+          </div>,
+          mobileBarElement,
+        )}
+    </>
   );
 }

@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Fragment } from "react";
 import { Spin, Alert } from "antd";
-import { CalendarDays, Newspaper, FileText } from "lucide-react";
 import {
   getFeedItems,
   type FeedItem,
@@ -10,6 +9,7 @@ import {
 } from "../actions/getFeedItems";
 import { FeedFilters } from "./FeedFilters";
 import PostCard from "@/app/components/post/postCard";
+import ADS from "@/app/components/ads/ads";
 
 /** Интерфейс пропсов */
 interface FeedListProps {
@@ -17,34 +17,6 @@ interface FeedListProps {
   initialHasMore: boolean;
   initialNextCursor: string | null; // ISO date string
   initialFilter?: FeedFilterType;
-}
-
-/** Получить иконку и цвет для типа контента */
-function getTypeIndicator(type: FeedItem["type"], category?: string) {
-  switch (type) {
-    case "EVENT":
-      return {
-        icon: <CalendarDays className="text-blue-500" size={20} />,
-        bgColor: "bg-blue-100",
-      };
-    case "POST":
-      if (category === "NEWS") {
-        return {
-          icon: <Newspaper className="text-green-500" size={20} />,
-          bgColor: "bg-green-100",
-        };
-      } else {
-        return {
-          icon: <FileText className="text-purple-500" size={20} />,
-          bgColor: "bg-purple-100",
-        };
-      }
-    default:
-      return {
-        icon: <FileText className="text-gray-500" size={20} />,
-        bgColor: "bg-gray-100",
-      };
-  }
 }
 
 /** Основной компонент списка ленты */
@@ -63,6 +35,9 @@ export default function FeedList({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const observerTarget = useRef<HTMLDivElement>(null);
+
+  // Частота размещения рекламы
+  const AD_FREQUENCY = 3; // Размещать каждые 3 поста
 
   // Функция загрузки данных
   const loadData = useCallback(
@@ -159,23 +134,20 @@ export default function FeedList({
 
       <div className="flex flex-col gap-6">
         {items.map((item, index) => {
-          const indicator = getTypeIndicator(item.type, item.category);
           return (
-            <div
-              key={`${item.type}-${item.id}-${index}`}
-              className="flex items-start gap-3"
-            >
-              {/* Иконка-индикатор слева */}
-              <div
-                className={`flex shrink-0 items-center justify-center rounded-lg p-2 ${indicator.bgColor}`}
-              >
-                {indicator.icon}
+            <Fragment key={`${item.type}-${item.id}-${index}`}>
+              <div className="flex items-start gap-3">
+                {/* Карточка */}
+                <div className="flex-1">
+                  <PostCard post={item} />
+                </div>
               </div>
-              {/* Карточка */}
-              <div className="flex-1">
-                <PostCard post={item} />
-              </div>
-            </div>
+
+              {/* Рекламное место */}
+              {index % AD_FREQUENCY === 0 && (
+                <ADS place="ALL" className="h-50 w-full" />
+              )}
+            </Fragment>
           );
         })}
 

@@ -175,7 +175,7 @@ export function NotificationBell() {
     >
       <Button type="text" className="relative p-2">
         <Badge count={unreadCount} size="small" offset={[-2, 2]}>
-          <Bell size={20} className="text-white lg:text-(--foreground)" />
+          <Bell size={20} className="lg:text-(--foreground)" />
         </Badge>
       </Button>
     </Dropdown>

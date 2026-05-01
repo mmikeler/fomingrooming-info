@@ -20,6 +20,9 @@ export function Header() {
           <div className="rounded bg-white">
             <UserAuthWidget />
           </div>
+
+          {/* Место для мобильного меню */}
+          <div id="mobileBar" className="lg:hidden"></div>
         </Flex>
       </div>
     </AntHeader>

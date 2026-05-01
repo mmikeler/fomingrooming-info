@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Fragment } from "react";
 import { Spin, Empty } from "antd";
 import {
   getPublishedPosts,
@@ -10,6 +10,7 @@ import { PostsFiltersPanel } from "./PostsFiltersPanel";
 import type { PostFilters } from "./PostsFiltersPanel";
 import PostCard from "@/app/components/post/postCard";
 import type { FeedItem } from "@/app/in/lenta/actions/getFeedItems";
+import ADS from "@/app/components/ads/ads";
 
 /**
  * Преобразование PublishedPost в формат для PostCard
@@ -63,6 +64,9 @@ export default function PostsList() {
     search: null,
   });
   const observerRef = useRef<HTMLDivElement>(null);
+
+  // Частота размещения рекламы
+  const AD_FREQUENCY = 3; // Размещать каждые 3 поста
 
   // Загрузка начальных данных
   useEffect(() => {
@@ -216,8 +220,14 @@ export default function PostsList() {
 
       {/* Список постов в виде карточек */}
       <div className="flex flex-col gap-5">
-        {posts.map((post) => (
-          <PostCard key={post.id} post={transformPostForCard(post)} />
+        {posts.map((post, index) => (
+          <Fragment key={post.id}>
+            <PostCard post={transformPostForCard(post)} />
+            {/* Рекламное место */}
+            {index % AD_FREQUENCY === 0 && (
+              <ADS place="POSTS" className="h-50 w-full" />
+            )}
+          </Fragment>
         ))}
       </div>
 

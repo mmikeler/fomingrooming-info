@@ -107,7 +107,7 @@ export default function UserAuthWidget() {
               className="flex items-center gap-2 hover:bg-gray-100"
             >
               <span
-                className="hidden sm:inline"
+                className="hidden lg:inline"
                 style={{ color: "var(--foreground)" }}
               >
                 {session.user.name || "Пользователь"}
