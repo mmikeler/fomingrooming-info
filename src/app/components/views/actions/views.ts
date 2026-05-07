@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { action } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
+import { FeedItem } from "@/app/in/lenta/types";
 
 /**
  * Зарегистрировать просмотр поста
@@ -12,18 +13,26 @@ import type { ActionResult } from "@/lib/errors";
  */
 export async function trackPostView(
   postId: number,
+  postType: FeedItem["type"],
 ): Promise<ActionResult<{ viewsCount: number }>> {
   return action(async () => {
-    // Увеличиваем счётчик просмотров
-    const updated = await prisma.post.update({
-      where: { id: postId },
-      data: {
-        viewsCount: {
-          increment: 1,
-        },
-      },
-      select: { viewsCount: true },
-    });
+    let updated;
+
+    switch (postType) {
+      case "EVENT":
+        updated = await prisma.event.update({
+          where: { id: postId },
+          data: { viewsCount: { increment: 1 } },
+          select: { viewsCount: true },
+        });
+        break;
+      default:
+        updated = await prisma.post.update({
+          where: { id: postId },
+          data: { viewsCount: { increment: 1 } },
+          select: { viewsCount: true },
+        });
+    }
 
     return { viewsCount: updated.viewsCount };
   });

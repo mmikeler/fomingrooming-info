@@ -47,7 +47,7 @@ export default function ADS({
     if (ADVData.length > 1) {
       setTimeout(() => {
         setCount((prev) => {
-          if (count === ADVData.length - 1) {
+          if (prev === ADVData.length - 1) {
             return 0;
           }
           return prev + 1;

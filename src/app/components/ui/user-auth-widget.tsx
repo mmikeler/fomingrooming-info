@@ -12,13 +12,7 @@ import {
   App,
   Space,
 } from "antd";
-import {
-  User,
-  LogOut,
-  Shield,
-  Settings,
-  ArrowBigRightDash,
-} from "lucide-react";
+import { User, LogOut, Shield, Settings, Newspaper } from "lucide-react";
 import Button from "./button";
 
 export default function UserAuthWidget() {
@@ -41,8 +35,8 @@ export default function UserAuthWidget() {
     const items: MenuProps["items"] = [
       {
         key: "portal-home",
-        icon: <ArrowBigRightDash size={16} />,
-        label: "На портал",
+        icon: <Newspaper size={16} />,
+        label: "Лента",
         onClick: () => router.push("/in"),
       },
       {

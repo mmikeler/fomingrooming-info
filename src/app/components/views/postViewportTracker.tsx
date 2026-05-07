@@ -5,6 +5,8 @@ import { trackPostView } from "@/app/components/views/actions/views";
 
 interface PostViewportTrackerProps {
   postId: number;
+  postType: "POST" | "EVENT";
+  children: React.ReactNode;
 }
 
 /**
@@ -13,6 +15,8 @@ interface PostViewportTrackerProps {
  */
 export default function PostViewportTracker({
   postId,
+  postType = "POST",
+  children,
 }: PostViewportTrackerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [tracked, setTracked] = useState(false);
@@ -26,7 +30,7 @@ export default function PostViewportTracker({
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.5 },
+      { threshold: 1, rootMargin: "0px" },
     );
 
     if (elementRef.current) {
@@ -46,7 +50,7 @@ export default function PostViewportTracker({
       // Начинаем отсчёт 10 секунд видимости
       timerRef.current = setTimeout(() => {
         setTracked(true);
-        trackPostView(postId).catch(console.error);
+        trackPostView(postId, postType).catch(console.error);
       }, 10000);
     }
 
@@ -55,11 +59,8 @@ export default function PostViewportTracker({
         clearTimeout(timerRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, postId, tracked]);
 
-  return (
-    <div ref={elementRef} style={{ display: "contents" }}>
-      {/* Этот компонент ничего не рендерит, только отслеживает */}
-    </div>
-  );
+  return <div ref={elementRef}>{children}</div>;
 }

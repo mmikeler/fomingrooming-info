@@ -54,7 +54,7 @@ export async function getFeedItem(
 
       if (post) {
         // Параллельно получаем избранное, лайки и просмотры
-        const [favoriteResult, likesResult, viewsResult] = await Promise.all([
+        const [favoriteResult, likesResult] = await Promise.all([
           // Избранное
           userId
             ? prisma.favorite.findFirst({
@@ -70,17 +70,11 @@ export async function getFeedItem(
                 })
               : Promise.resolve(null),
           ]),
-          // Просмотры
-          prisma.postView.aggregate({
-            where: { postId: post.id },
-            _sum: { views: true },
-          }),
         ]);
 
         const isFavorite = !!favoriteResult;
         const likesCount = likesResult[0];
         const isLiked = !!likesResult[1];
-        const viewsCount = viewsResult._sum.views || 0;
 
         feedItem = {
           id: post.id,
@@ -96,7 +90,7 @@ export async function getFeedItem(
           isFavorite,
           isLiked,
           likesCount,
-          viewsCount,
+          viewsCount: post.viewsCount,
           isAuthor: userId === post.authorId,
         };
       }
@@ -174,7 +168,7 @@ export async function getFeedItem(
           isFavorite,
           isLiked,
           likesCount,
-          viewsCount: 0, // События пока без просмотров
+          viewsCount: event.viewsCount,
           isAuthor: userId === event.authorId,
           isRegistered,
         };

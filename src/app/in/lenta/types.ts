@@ -60,10 +60,23 @@ export interface FeedItem {
 export type FeedFilterType = "ALL" | "EVENT" | "NEWS" | "ARTICLE";
 
 /** Параметры для получения элементов ленты */
-export interface GetFeedItemsParams {
+export interface GetFeedParams {
   /** Курсор для пагинации (дата последнего элемента) */
   cursor?: string; // ISO date string
   limit?: number;
+  query?: {
+    post: {
+      category?: PostCategory;
+      search?: string;
+    };
+    event: {
+      format?: EventFormat;
+      type?: EventType;
+      startDate?: Date;
+      endDate?: Date;
+      city?: string;
+    };
+  };
   filter?: FeedFilterType;
 }
 

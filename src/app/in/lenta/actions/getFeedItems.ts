@@ -9,70 +9,108 @@ import type {
   FeedItem,
   FeedItemType,
   FeedFilterType,
-  GetFeedItemsParams,
+  GetFeedParams,
   GetFeedItemsResult,
 } from "../types";
+import { Event, Post } from "@/generated/prisma/client";
 
 /** Экспорт общих типов */
 export type {
   FeedItem,
   FeedItemType,
   FeedFilterType,
-  GetFeedItemsParams,
+  GetFeedParams,
   GetFeedItemsResult,
 };
+
+/** Тип для подготовленных постов */
+interface PreparePost extends Post {
+  author: {
+    id: number;
+    name: string;
+    slug: string;
+    avatar: string | null;
+  };
+}
+
+/** Тип для подготовленных мероприятий */
+interface PrepareEvent extends Event {
+  author: {
+    id: number;
+    name: string;
+    slug: string;
+    avatar: string | null;
+  };
+  _count: {
+    registrations: number;
+  };
+}
 
 /**
  * Получить элементы ленты (посты и мероприятия)
  * Объединение происходит в JavaScript
  * Сортировка по дате (для постов - created, для событий - startDate)
  */
-export async function getFeedItems(
-  params: GetFeedItemsParams = {},
+export async function getFeed(
+  params: GetFeedParams = {},
 ): Promise<ActionResult<GetFeedItemsResult>> {
   try {
-    const { cursor, limit = 10, filter = "ALL" } = params;
+    const {
+      cursor,
+      limit = 10,
+      query = { post: {}, event: {} },
+      filter = "ALL",
+    } = params;
 
     // Получаем сессию для проверки избранного
     const session = await getServerSession(authOptions);
     const userId = session?.user?.id ? parseInt(session.user.id) : null;
 
     // Получаем опубликованные посты
-    const posts = await prisma.post.findMany({
-      where: { status: "PUBLISHED" },
-      include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            avatar: true,
+    let posts: PreparePost[] = [];
+    if (filter !== "EVENT") {
+      posts = await prisma.post.findMany({
+        where: {
+          status: "PUBLISHED",
+          ...query.post,
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              avatar: true,
+            },
           },
         },
-      },
-      orderBy: { created: "desc" },
-      take: limit + 1,
-    });
+        orderBy: { created: "desc" },
+        take: limit + 1,
+      });
+    }
 
     // Получаем опубликованные мероприятия
-    const events = await prisma.event.findMany({
-      where: { status: "PUBLISHED" },
-      include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            avatar: true,
+    let events: PrepareEvent[] = [];
+    if (filter === "EVENT" || filter === "ALL") {
+      events = await prisma.event.findMany({
+        where: { status: "PUBLISHED", ...query.event },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              avatar: true,
+            },
+          },
+          _count: {
+            select: { registrations: true },
           },
         },
-        _count: {
-          select: { registrations: true },
-        },
-      },
-      orderBy: { startDate: "desc" },
-      take: limit + 1,
-    });
+        orderBy: { startDate: "desc" },
+        take: limit + 1,
+      });
+    }
 
     // Получаем ID избранных элементов
     let favoritePostIds: number[] = [];
@@ -155,23 +193,6 @@ export async function getFeedItems(
       }
     }
 
-    // Получаем количество просмотров для постов
-    const postViewsCounts: Record<number, number> = {};
-    if (postIds.length > 0) {
-      const postViews = await prisma.postView.groupBy({
-        by: ["postId"],
-        where: { postId: { in: postIds } },
-        _count: {
-          views: true,
-        },
-      });
-      for (const pv of postViews) {
-        if (pv.postId !== null) {
-          postViewsCounts[pv.postId] = pv._count.views;
-        }
-      }
-    }
-
     // Объединяем посты и события
     const allItems: FeedItem[] = [
       ...posts.map((p) => ({
@@ -188,7 +209,7 @@ export async function getFeedItems(
         isFavorite: favoritePostIds.includes(p.id),
         isLiked: likedPostIds.includes(p.id),
         likesCount: postLikesCounts[p.id] || 0,
-        viewsCount: postViewsCounts[p.id] || 0,
+        viewsCount: p.viewsCount,
         isAuthor: userId === p.authorId,
       })),
       ...events.map((e) => ({
@@ -212,7 +233,7 @@ export async function getFeedItems(
         isFavorite: favoriteEventIds.includes(e.id),
         isLiked: likedEventIds.includes(e.id),
         likesCount: eventLikesCounts[e.id] || 0,
-        viewsCount: 0, // События пока без просмотров
+        viewsCount: e.viewsCount,
         isAuthor: userId === e.authorId,
         isRegistered: registeredEventIds.includes(e.id),
       })),

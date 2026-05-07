@@ -53,4 +53,8 @@ db/*.db
 # plans
 /plans
 
-#/src/generated/prisma
+#skills
+skills-lock.json
+
+#agents
+.agents

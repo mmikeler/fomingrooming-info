@@ -17,8 +17,11 @@ export function PostPermalink({ post }: { post: FeedItem }) {
 
   return (
     <Divider titlePlacement="right">
-      <Link href={targetPath} className="flex items-center gap-1">
-        <span className="text-[14px]">Подробнее</span>
+      <Link
+        href={targetPath}
+        className="flex items-center gap-1 rounded-lg bg-rose-500! px-3 py-1 text-white! hover:bg-rose-600!"
+      >
+        <span className="text-[14px]">Перейти</span>
         <ChevronsRight size={16} />
       </Link>
     </Divider>

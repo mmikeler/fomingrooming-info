@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback, Fragment } from "react";
 import { Spin, Alert } from "antd";
 import {
-  getFeedItems,
+  getFeed,
   type FeedItem,
   type FeedFilterType,
 } from "../actions/getFeedItems";
@@ -49,10 +49,20 @@ export default function FeedList({
       setError(null);
 
       try {
-        const result = await getFeedItems({
+        const query = {
+          post: {},
+          event: {},
+        };
+
+        if (currentFilter === "NEWS" || currentFilter === "ARTICLE") {
+          query.post = { category: currentFilter };
+        }
+
+        const result = await getFeed({
           cursor: cursor ?? undefined,
           limit: 10,
           filter: currentFilter,
+          query,
         });
 
         if (result.success && result.data) {
@@ -89,7 +99,7 @@ export default function FeedList({
     setError(null);
 
     try {
-      const result = await getFeedItems({
+      const result = await getFeed({
         cursor: nextCursor,
         limit: 10,
         filter,

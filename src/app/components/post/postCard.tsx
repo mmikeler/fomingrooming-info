@@ -23,35 +23,33 @@ export default function PostCard({
 }) {
   const content = post.content || post.description || "";
 
-  // Только для постов (не для событий)
-  const showViewportTracker = post.type === "POST";
-
   return (
-    <Card
-      title={<PostAuthorAvatar userData={post.author} />}
-      cover={<PostMainImage post={post} />}
-      extra={
-        <FavoriteButton
-          itemId={post.id}
-          type={post.type}
-          initialIsFavorite={post.isFavorite}
-        />
-      }
-    >
-      {showViewportTracker && <PostViewportTracker postId={post.id} />}
-      <div className="border-b">
-        <Title level={isPreview ? 3 : 1} className="text-2xl!">
-          {post.title}
-        </Title>
-      </div>
+    <PostViewportTracker postId={post.id} postType={post.type}>
+      <Card
+        title={<PostAuthorAvatar userData={post.author} />}
+        cover={<PostMainImage post={post} />}
+        extra={
+          <FavoriteButton
+            itemId={post.id}
+            type={post.type}
+            initialIsFavorite={post.isFavorite}
+          />
+        }
+      >
+        <div className="border-b">
+          <Title level={isPreview ? 3 : 1} className="text-2xl!">
+            {post.title}
+          </Title>
+        </div>
 
-      <PostMeta post={post} />
+        <PostMeta post={post} />
 
-      <PostContent isPreview={isPreview} content={content} />
+        <PostContent isPreview={isPreview} content={content} />
 
-      <PostPermalink post={post} />
+        <PostPermalink post={post} />
 
-      <PostFooter post={post} />
-    </Card>
+        <PostFooter post={post} />
+      </Card>
+    </PostViewportTracker>
   );
 }
