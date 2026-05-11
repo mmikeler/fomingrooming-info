@@ -68,7 +68,7 @@ export async function getFeed(
 
     // Получаем опубликованные посты
     let posts: PreparePost[] = [];
-    if (filter !== "EVENT") {
+    if (filter !== "EVENT" && query.post) {
       posts = await prisma.post.findMany({
         where: {
           status: "PUBLISHED",
@@ -91,7 +91,7 @@ export async function getFeed(
 
     // Получаем опубликованные мероприятия
     let events: PrepareEvent[] = [];
-    if (filter === "EVENT" || filter === "ALL") {
+    if (filter === "EVENT" || (filter === "ALL" && query.event)) {
       events = await prisma.event.findMany({
         where: { status: "PUBLISHED", ...query.event },
         include: {

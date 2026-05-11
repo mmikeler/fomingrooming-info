@@ -1,8 +1,10 @@
+// Страница с закладками пользователя
+
 import { redirect } from "next/navigation";
 import FavoritePostsList from "./components/favoritesPostsList";
 import { getAllFavorites } from "./actions/favorites";
 
-export default async function FavoriteEventsPage() {
+export default async function FavoritePage() {
   const result = await getAllFavorites();
 
   // Если ошибка авторизации - редирект на страницу входа

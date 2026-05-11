@@ -2,7 +2,7 @@
 
 // Универсальный компонент для отображения карточек любого типа постов
 
-import { FeedItem } from "@/app/in/lenta/actions/getFeedItems";
+import { FeedItem } from "@/app/in/lenta/actions/getFeed";
 import { Card } from "antd";
 import PostAuthorAvatar from "./postAuthorAvatar";
 import PostMainImage from "./postMainImage";
@@ -24,32 +24,32 @@ export default function PostCard({
   const content = post.content || post.description || "";
 
   return (
-    <PostViewportTracker postId={post.id} postType={post.type}>
-      <Card
-        title={<PostAuthorAvatar userData={post.author} />}
-        cover={<PostMainImage post={post} />}
-        extra={
-          <FavoriteButton
-            itemId={post.id}
-            type={post.type}
-            initialIsFavorite={post.isFavorite}
-          />
-        }
-      >
-        <div className="border-b">
-          <Title level={isPreview ? 3 : 1} className="text-2xl!">
-            {post.title}
-          </Title>
-        </div>
+    <Card
+      title={<PostAuthorAvatar userData={post.author} />}
+      cover={<PostMainImage post={post} />}
+      extra={
+        <FavoriteButton
+          itemId={post.id}
+          type={post.type}
+          initialIsFavorite={post.isFavorite}
+        />
+      }
+    >
+      <div className="border-b">
+        <Title level={isPreview ? 3 : 1} className="text-2xl!">
+          {post.title}
+        </Title>
+      </div>
 
-        <PostMeta post={post} />
+      <PostMeta isPreview={isPreview} post={post} />
 
-        <PostContent isPreview={isPreview} content={content} />
+      <PostContent isPreview={isPreview} content={content} />
 
-        <PostPermalink post={post} />
+      <PostPermalink post={post} />
 
+      <PostViewportTracker postId={post.id} postType={post.type}>
         <PostFooter post={post} />
-      </Card>
-    </PostViewportTracker>
+      </PostViewportTracker>
+    </Card>
   );
 }

@@ -30,6 +30,7 @@ export interface SeedUser {
 export interface SeedPost {
   title: string;
   slug: string;
+  coverImage?: string;
   content: string;
   published?: boolean;
   status?: string;
@@ -40,6 +41,7 @@ export interface SeedPost {
   moderatedBy?: number;
   /** Reference to SeedUser.id (temporary string ID) */
   authorId: string;
+  viewsCount?: number;
 }
 
 export interface SeedEvent {
@@ -47,6 +49,7 @@ export interface SeedEvent {
   slug: string;
   description?: string;
   format: "ONLINE" | "OFFLINE";
+  coverImage?: string;
   type?: EventType;
   city?: string;
   location?: string;
@@ -58,6 +61,7 @@ export interface SeedEvent {
   rejectionReason?: string;
   moderatedAt?: string;
   moderatedBy?: number;
+  viewsCount?: number;
   /** Reference to SeedUser.id (temporary string ID) */
   authorId: string;
 }

@@ -18,7 +18,7 @@ export default function ViewsCounter({ post }: ViewsCounterProps) {
     <>
       <span className="flex items-center gap-1">
         <Eye size={18} />
-        {viewsCount > 0 ? viewsCount : 0}
+        {viewsCount}
       </span>
     </>
   );

@@ -1,4 +1,4 @@
-import { FeedItem } from "@/app/in/lenta/actions/getFeedItems";
+import { FeedItem } from "@/app/in/lenta/actions/getFeed";
 import Image from "next/image";
 import Link from "next/link";
 

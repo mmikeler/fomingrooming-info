@@ -4,7 +4,7 @@ import { Card } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, MapPin, Users, Monitor, PawPrint } from "lucide-react";
-import type { FeedItem } from "../actions/getFeedItems";
+import type { FeedItem } from "../actions/getFeed";
 import { getExcerpt } from "@/app/components/ui/excerpt";
 import {
   extractFirstImageFromContent,

@@ -65,11 +65,12 @@ export interface GetFeedParams {
   cursor?: string; // ISO date string
   limit?: number;
   query?: {
-    post: {
+    post?: {
       category?: PostCategory;
       search?: string;
+      slug?: string;
     };
-    event: {
+    event?: {
       format?: EventFormat;
       type?: EventType;
       startDate?: Date;

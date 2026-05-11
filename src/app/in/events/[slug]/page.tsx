@@ -8,10 +8,8 @@ import {
   generateContentMetadata,
   type PostMetadataInput,
 } from "@/lib/metadata";
-import {
-  getFeedItem,
-  getPublishedEvent,
-} from "@/app/in/lenta/actions/getFeedItem";
+import { getFeedItem } from "@/app/in/lenta/actions/getFeedItem";
+import Recommendations from "@/app/components/recommendations";
 
 export async function generateMetadata({
   params,
@@ -21,7 +19,7 @@ export async function generateMetadata({
   const { slug } = await params;
 
   // Пробуем найти мероприятие
-  const eventResult = await getPublishedEvent(slug);
+  const eventResult = await getFeedItem({ idOrSlug: slug, type: "EVENT" });
 
   if (eventResult.success && eventResult.data) {
     const event = eventResult.data;
@@ -66,6 +64,9 @@ export default async function SingleEventPage({
     return (
       <div className="container mx-auto min-h-[calc(100dvh-130px)] max-w-185 p-6">
         <PostCard post={event} isPreview={false} />
+        <div className="my-10">
+          <Recommendations record={event} limit={2} />
+        </div>
       </div>
     );
   }

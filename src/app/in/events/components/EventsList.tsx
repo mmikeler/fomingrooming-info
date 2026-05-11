@@ -9,7 +9,7 @@ import {
   PublishedEvent,
 } from "../actions/getPublishedEvents";
 import PostCard from "@/app/components/post/postCard";
-import type { FeedItem } from "@/app/in/lenta/actions/getFeedItems";
+import type { FeedItem } from "@/app/in/lenta/actions/getFeed";
 import ADS from "@/app/components/ads/ads";
 
 /**
@@ -303,7 +303,7 @@ export default function EventsList() {
             <PostCard
               key={event.id}
               post={transformEventForCard(event)}
-              isPreview={false}
+              isPreview={true}
             />
             {/* Рекламное место */}
             {index % AD_FREQUENCY === 0 && (

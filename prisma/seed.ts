@@ -159,6 +159,7 @@ async function main() {
         title: post.title,
         slug: post.slug,
         content: post.content,
+        coverImage: post.coverImage || null,
         status: status as
           | "DRAFT"
           | "PENDING"
@@ -172,6 +173,7 @@ async function main() {
         moderatedBy: post.moderatedBy
           ? userIdMap.get(String(post.moderatedBy))
           : undefined,
+        viewsCount: post.viewsCount || 0,
       },
     });
     postIdMap.set(i + 1, createdPost.id); // 1-based index for JSON reference
@@ -202,6 +204,7 @@ async function main() {
         slug: event.slug,
         description: event.description || null,
         format: event.format,
+        coverImage: event.coverImage || null,
         type: event.type || null,
         city: event.city || null,
         location: event.location || null,
@@ -223,6 +226,7 @@ async function main() {
         moderatedBy: event.moderatedBy
           ? userIdMap.get(String(event.moderatedBy))
           : undefined,
+        viewsCount: event.viewsCount || 0,
       },
     });
     eventIdMap.set(i + 1, createdEvent.id);

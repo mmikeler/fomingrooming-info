@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 
 export function PostPermalink({ post }: { post: FeedItem }) {
   const pathname = usePathname();
-  const targetPath = `/in/${post.type === "POST" ? "posts" : "events"}/${post.slug}`;
+  const targetPath = PostLink(post);
   const isCurrentPage = pathname === targetPath;
 
   if (isCurrentPage) {
@@ -26,4 +26,8 @@ export function PostPermalink({ post }: { post: FeedItem }) {
       </Link>
     </Divider>
   );
+}
+
+export function PostLink(post: FeedItem) {
+  return `/in/${post.type === "POST" ? "posts" : "events"}/${post.slug}`;
 }

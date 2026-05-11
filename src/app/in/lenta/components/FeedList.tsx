@@ -6,7 +6,7 @@ import {
   getFeed,
   type FeedItem,
   type FeedFilterType,
-} from "../actions/getFeedItems";
+} from "../actions/getFeed";
 import { FeedFilters } from "./FeedFilters";
 import PostCard from "@/app/components/post/postCard";
 import ADS from "@/app/components/ads/ads";

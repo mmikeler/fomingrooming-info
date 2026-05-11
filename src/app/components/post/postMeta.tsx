@@ -13,9 +13,15 @@ import EventPlaceTag from "../events/EventPlaceTag";
 import { RegisterButton } from "../events/EventRegisterButton";
 import { useState } from "react";
 
-export default function PostMeta({ post }: { post: FeedItem }) {
+export default function PostMeta({
+  post,
+  isPreview = true,
+}: {
+  post: FeedItem;
+  isPreview: boolean;
+}) {
   const { data: session } = useSession();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(!isPreview);
   const isLoggedIn = !!session;
 
   if (post.type === "EVENT") {

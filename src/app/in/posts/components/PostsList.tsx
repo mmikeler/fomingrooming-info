@@ -9,7 +9,7 @@ import {
 import { PostsFiltersPanel } from "./PostsFiltersPanel";
 import type { PostFilters } from "./PostsFiltersPanel";
 import PostCard from "@/app/components/post/postCard";
-import type { FeedItem } from "@/app/in/lenta/actions/getFeedItems";
+import type { FeedItem } from "@/app/in/lenta/actions/getFeed";
 import ADS from "@/app/components/ads/ads";
 
 /**

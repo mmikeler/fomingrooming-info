@@ -211,7 +211,9 @@ export default function ProfileSidebar() {
     ? baseItems
     : filterProtectedItems(baseItems);
 
-  const [mobileBarElement, setMobileBarElement] = useState<HTMLElement | null>(null);
+  const [mobileBarElement, setMobileBarElement] = useState<HTMLElement | null>(
+    null,
+  );
 
   useEffect(() => {
     const element = document.getElementById("mobileBar");
@@ -234,7 +236,7 @@ export default function ProfileSidebar() {
     <>
       <Sider
         style={siderStyle}
-        theme="light"
+        theme={isUseMobile ? "dark" : "light"}
         collapsible={true}
         defaultCollapsed={collapsedValue}
         collapsed={collapsedValue}
@@ -243,6 +245,7 @@ export default function ProfileSidebar() {
       >
         <Menu
           defaultOpenKeys={[]}
+          theme={isUseMobile ? "dark" : "light"}
           selectedKeys={selectedKey ? [selectedKey] : []}
           items={items}
           mode="inline"

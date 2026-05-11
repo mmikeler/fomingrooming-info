@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { trackPostView } from "@/app/components/views/actions/views";
+import { FeedItemType } from "@/app/in/lenta/types";
 
 interface PostViewportTrackerProps {
   postId: number;
-  postType: "POST" | "EVENT";
+  postType: FeedItemType;
   children: React.ReactNode;
 }
 

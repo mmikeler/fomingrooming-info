@@ -1,15 +1,12 @@
-import { notFound } from "next/navigation";
-import Content from "./components/content";
-import { CalendarOutlined, UserOutlined } from "@ant-design/icons";
-import { Space } from "antd";
 import { Metadata } from "next";
-import Image from "next/image";
-import ViewTracker from "@/app/components/views/viewTracker";
 import {
   generateContentMetadata,
   type PostMetadataInput,
 } from "@/lib/metadata";
-import { getPublishedPost } from "@/app/in/lenta/actions/getFeedItem";
+import PostCard from "@/app/components/post/postCard";
+import { Empty } from "antd";
+import { getFeedItem } from "../../lenta/actions/getFeedItem";
+import Recommendations from "@/app/components/recommendations";
 
 export async function generateMetadata({
   params,
@@ -18,7 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const result = await getPublishedPost(slug);
+  const result = await getFeedItem({ idOrSlug: slug, type: "POST" });
 
   if (!result.success || !result.data) {
     return {};
@@ -53,43 +50,24 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const result = await getPublishedPost(slug);
+  const result = await getFeedItem({ idOrSlug: slug, type: "POST" });
 
   if (!result.success || !result.data) {
-    notFound();
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Empty description="Запись не найдена" />
+      </div>
+    );
   }
 
   const post = result.data;
 
   return (
-    <div className="container mx-auto min-h-[calc(100dvh-130px)] p-6">
-      <ViewTracker postId={post.id} />
-      <article className="mx-auto my-10 max-w-225">
-        <div className="flex items-center justify-between text-stone-500">
-          <Space size="small">
-            <UserOutlined />
-            <span>{post.author.name}</span>
-          </Space>
-          <Space size="small">
-            <CalendarOutlined />
-            <time>{new Date(post.date).toLocaleDateString()}</time>
-          </Space>
-        </div>
-        <div className="mt-2">
-          {/* Обложка поста */}
-          {post.coverImage && (
-            <div className="relative mb-6 h-75 w-full overflow-hidden rounded-lg">
-              <Image
-                src={post.coverImage}
-                alt="Обложка статьи"
-                fill
-                className="object-cover"
-              />
-            </div>
-          )}
-        </div>
-        <Content content={post.content || ""} />
-      </article>
+    <div className="container mx-auto min-h-[calc(100dvh-130px)] max-w-185 p-6">
+      <PostCard post={post} isPreview={false} />
+      <div className="my-10">
+        <Recommendations record={post} limit={2} />
+      </div>
     </div>
   );
 }
