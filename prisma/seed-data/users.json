@@ -4,28 +4,32 @@
     "email": "superadmin@e.com",
     "name": "Superadmin",
     "password": "superadmin123",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-4"
   },
   {
     "id": 2,
     "email": "admin@e.com",
     "name": "Admin User",
     "password": "admin123",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-10"
   },
   {
     "id": 3,
     "email": "moderator@e.com",
     "name": "Moderator",
     "password": "moderator123",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-5"
   },
   {
     "id": 4,
     "email": "author@e.com",
     "name": "Author User",
     "password": "author123",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-6"
   },
   {
     "id": 5,

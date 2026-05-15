@@ -2,13 +2,14 @@
  * TypeScript types for seed data
  */
 
-import { EventType } from "@/generated/prisma/enums";
+import { ADV_PLACES, EventType } from "@/generated/prisma/enums";
 
 export interface SeedUser {
   /** Temporary ID for mapping posts to authors */
   id: number;
   email: string;
   name: string;
+  avatar?: string;
   /** Plain text password (will be hashed during seed) */
   password: string;
   /** Account status: ACTIVE, RESTRICTED, BANNED */
@@ -104,4 +105,12 @@ export interface SeedEventRegistration {
   eventIndex: number;
   /** Reference to SeedUser.id (temporary ID) */
   userId: number;
+}
+
+export interface SeedAdv {
+  place: ADV_PLACES;
+  src: string;
+  mobileSrc: string;
+  url: string;
+  comment: string;
 }

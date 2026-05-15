@@ -5,7 +5,6 @@ import { Copyright } from "@/app/components/copyright";
 import { useIsMobile } from "@/components/is-mobile-context";
 import { Divider, Flex, Menu, MenuProps, Space } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { create } from "lodash";
 import {
   Bookmark,
   CalendarCheck2,
@@ -32,7 +31,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 // Карта соответствия ключей меню путям
 const menuKeyToPath: Record<string, string> = {
   lenta: "/in/lenta",
-  profile: "/in/profile",
+  profile: "/in/u",
   posts_search: "/in/posts",
   posts_my: "/in/posts/my",
   events_search: "/in/events",
@@ -145,7 +144,7 @@ export default function ProfileSidebar() {
       icon: <Newspaper size={iconSize} />,
     },
     {
-      label: <Link href="/in/profile">Профиль</Link>,
+      label: <Link href={`/in/u/${session?.user.slug}`}>Профиль</Link>,
       key: "profile",
       icon: <UserRound size={iconSize} />,
     },

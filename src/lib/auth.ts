@@ -79,6 +79,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: user.id.toString(),
+          slug: user.slug,
           email: user.email,
           name: user.name,
           role: user.role,
@@ -94,6 +95,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.slug = user.slug;
         token.role = user.role;
         token.status = user.status;
         token.city = user.city || null;
@@ -105,6 +107,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
+        session.user.slug = token.slug as string;
         session.user.role = token.role as
           | "USER"
           | "AUTHOR"

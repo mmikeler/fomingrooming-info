@@ -12,7 +12,7 @@ export default function PostAuthorAvatar({
   return (
     <Link
       target="_blank"
-      href={`/u/${slug}`}
+      href={`/in/u/${slug}`}
       onClick={(e) => e.stopPropagation()}
       className="mt-auto flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600"
     >

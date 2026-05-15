@@ -7,6 +7,7 @@ declare module "next-auth" {
       email: string;
       name?: string | null;
       image?: string | null;
+      slug: string;
       role: "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN";
       status: "ACTIVE" | "RESTRICTED" | "BANNED";
       city?: string | null;
@@ -16,6 +17,7 @@ declare module "next-auth" {
 
   interface JWT {
     id: string;
+    slug: string;
     role: "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN";
     status: "ACTIVE" | "RESTRICTED" | "BANNED";
     city?: string | null;
@@ -27,6 +29,7 @@ declare module "next-auth" {
     id: string;
     email: string;
     name: string;
+    slug: string;
     role: "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN";
     status: "ACTIVE" | "RESTRICTED" | "BANNED";
     city?: string | null;

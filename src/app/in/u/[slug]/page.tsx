@@ -2,14 +2,18 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
-import { Avatar, Empty } from "antd";
+import { Avatar, Empty, Tooltip } from "antd";
 import {
   UserOutlined,
   CalendarOutlined,
   EnvironmentOutlined,
 } from "@ant-design/icons";
-import Image from "next/image";
 import { ContactButton } from "./components/ContactButton";
+import { ShortCard } from "./components/shortcard";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import Button from "@/app/components/ui/button";
+import { Settings } from "lucide-react";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -56,6 +60,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  */
 export default async function UserProfilePage({ params }: Props) {
   const { slug } = await params;
+  const session = await getServerSession(authOptions);
+
+  const isOwner = session?.user?.slug === slug;
 
   const user = await prisma.user.findUnique({
     where: { slug },
@@ -66,31 +73,24 @@ export default async function UserProfilePage({ params }: Props) {
       phone: true,
       avatar: true,
       slug: true,
+      description: true,
       createdAt: true,
       showContacts: true,
+      _count: {
+        select: {
+          posts: true,
+          events: true,
+        },
+      },
       posts: {
         where: { status: "PUBLISHED" },
         orderBy: { created: "desc" },
-        take: 10,
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          created: true,
-          coverImage: true,
-        },
+        take: 3,
       },
       events: {
         where: { status: "PUBLISHED" },
-        orderBy: { startDate: "desc" },
-        take: 10,
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          startDate: true,
-          coverImage: true,
-        },
+        orderBy: { created: "desc" },
+        take: 3,
       },
     },
   });
@@ -106,7 +106,7 @@ export default async function UserProfilePage({ params }: Props) {
         <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
             {/* Аватар */}
-            <div className="max-w-50 shrink-0">
+            <div className="relative max-w-50 shrink-0">
               {user.avatar ? (
                 <Avatar
                   size={200}
@@ -120,13 +120,23 @@ export default async function UserProfilePage({ params }: Props) {
                   className="bg-gray-300"
                 />
               )}
+              <div className="absolute -bottom-1 left-0 w-100">
+                <span className="rounded-full bg-sky-600 px-3 py-1 text-sm text-sky-100">
+                  @{user.slug}
+                </span>
+              </div>
             </div>
 
             {/* Информация о пользователе */}
-            <div className="flex-1 text-center sm:text-left">
-              <h1 className="mb-2 text-3xl font-bold">{user.name}</h1>
+            <div className="relative flex-1 text-center sm:text-left">
+              <h1 className="mb-0 text-3xl font-bold">{user.name}</h1>
 
-              <div className="mb-4 flex flex-wrap justify-center gap-4 text-gray-600 sm:justify-start">
+              {/* Описание */}
+              <div className="mt-0 flex items-end gap-4">
+                <span>{user.description && user.description}</span>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-2 text-gray-600">
                 {user.city && (
                   <span className="flex items-center gap-1">
                     <EnvironmentOutlined />
@@ -140,52 +150,39 @@ export default async function UserProfilePage({ params }: Props) {
                 </span>
               </div>
 
-              {/* Ссылка на профиль */}
-              <div className="mt-4">
-                <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
-                  @{user.slug}
-                </span>
-              </div>
-
               {/* Блок контактов */}
               <ContactButton
                 slug={user.slug}
                 showContacts={user.showContacts}
               />
+
+              {/* Ссылка на настройки профиля */}
+              {isOwner && (
+                <Link href={`/in/u/${slug}/settings`}>
+                  <Tooltip title="Настроить профиль">
+                    <Button
+                      title="Настроить профиль"
+                      className="ms-auto mt-1 flex items-center gap-2 p-3!"
+                    >
+                      <Settings size={20} color="white" />
+                    </Button>
+                  </Tooltip>
+                </Link>
+              )}
             </div>
           </div>
         </div>
 
         {/* Публикации пользователя */}
         <div className="rounded-2xl bg-white p-6 shadow-sm">
-          <h2 className="mb-6 text-2xl font-bold">Публикации</h2>
+          <h2 className="mb-6 text-2xl font-bold">
+            Публикации ({user._count.posts})
+          </h2>
 
           {user.posts.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {user.posts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/blog/${post.slug}`}
-                  className="group block overflow-hidden rounded-xl border transition-shadow hover:shadow-md"
-                >
-                  {post.coverImage && (
-                    <div className="aspect-video w-full overflow-hidden">
-                      <Image
-                        src={post.coverImage}
-                        alt={post.title}
-                        className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                      />
-                    </div>
-                  )}
-                  <div className="p-4">
-                    <h3 className="mb-2 line-clamp-2 text-lg font-semibold transition-colors group-hover:text-blue-600">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {new Date(post.created).toLocaleDateString("ru-RU")}
-                    </p>
-                  </div>
-                </Link>
+                <ShortCard key={post.id} record={post} />
               ))}
             </div>
           ) : (
@@ -198,34 +195,14 @@ export default async function UserProfilePage({ params }: Props) {
 
         {/* Мероприятия пользователя */}
         <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm">
-          <h2 className="mb-6 text-2xl font-bold">Мероприятия</h2>
+          <h2 className="mb-6 text-2xl font-bold">
+            Мероприятия ({user._count.events})
+          </h2>
 
           {user.events.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {user.events.map((event) => (
-                <Link
-                  key={event.id}
-                  href={`/events/${event.slug}`}
-                  className="group block overflow-hidden rounded-xl border transition-shadow hover:shadow-md"
-                >
-                  {event.coverImage && (
-                    <div className="aspect-video w-full overflow-hidden">
-                      <Image
-                        src={event.coverImage}
-                        alt={event.title}
-                        className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                      />
-                    </div>
-                  )}
-                  <div className="p-4">
-                    <h3 className="mb-2 line-clamp-2 text-lg font-semibold transition-colors group-hover:text-blue-600">
-                      {event.title}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {new Date(event.startDate).toLocaleDateString("ru-RU")}
-                    </p>
-                  </div>
-                </Link>
+                <ShortCard key={event.id} record={event} />
               ))}
             </div>
           ) : (

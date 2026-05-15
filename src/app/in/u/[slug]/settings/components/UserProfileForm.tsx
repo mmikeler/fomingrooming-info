@@ -10,6 +10,7 @@ import { getUser } from "../actions/getUser";
 import { checkUserSlug } from "../actions/checkUserSlug";
 import { AvatarUploader } from "./AvatarUploader";
 import { ChangePasswordForm } from "./ChangePasswordForm";
+import TextArea from "antd/es/input/TextArea";
 
 interface UserData {
   id: number;
@@ -19,6 +20,7 @@ interface UserData {
   phone: string | null;
   avatar: string | null;
   slug: string;
+  description: string;
   showContacts: boolean;
 }
 
@@ -51,6 +53,7 @@ export function UserProfileForm() {
         phone: user.phone,
         avatar: user.avatar,
         slug: user.slug || "",
+        description: user.description || "",
         showContacts: user.showContacts ?? false,
       });
       setAvatar(user.avatar);
@@ -69,6 +72,7 @@ export function UserProfileForm() {
         phone: values.phone || undefined,
         avatar: avatar,
         slug: values.slug || "",
+        description: values.description,
         showContacts: values.showContacts ?? false,
       });
 
@@ -95,11 +99,13 @@ export function UserProfileForm() {
           phone: values.phone || null,
           avatar: avatar,
           slug: values.slug || "",
+          description: values.description,
           showContacts: values.showContacts ?? false,
         }));
       } else {
         message.error(result.error?.message || "Ошибка при обновлении профиля");
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       message.error("Произошла ошибка при обновлении профиля");
     } finally {
@@ -145,6 +151,7 @@ export function UserProfileForm() {
           // Откатываем локальное состояние при ошибке
           setAvatar(userData?.avatar || null);
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         message.error("Ошибка при обновлении аватарки");
         // Откатываем локальное состояние при ошибке
@@ -232,6 +239,7 @@ export function UserProfileForm() {
                         `Slug занят. Предложен: ${result.data.suggestedSlug}`,
                       );
                     }
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   } catch (error) {
                     // Игнорируем ошибки валидации
                   } finally {
@@ -262,6 +270,7 @@ export function UserProfileForm() {
               {
                 max: 100,
                 message: "Название города не должно превышать 100 символов",
+                required: true,
               },
             ]}
           >
@@ -283,7 +292,27 @@ export function UserProfileForm() {
           >
             <Input
               placeholder="+7 999 123-45-67"
-              className="py-2 text-xl! font-semibold"
+              className="py-2 font-semibold"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="О себе"
+            name="description"
+            rules={[
+              {
+                pattern: /[а-яА-ЯёЁa-zA-Z0-9]+$/,
+                message: "Недопустимые символы",
+              },
+              {
+                max: 200,
+                message: "Максимум 200 символов",
+              },
+            ]}
+          >
+            <TextArea
+              showCount
+              placeholder="Пара слов о себе. Должность, профессия, опыт."
             />
           </Form.Item>
 

@@ -43,7 +43,7 @@ export default function UserAuthWidget() {
         key: "profile",
         icon: <User size={16} />,
         label: "Профиль",
-        onClick: () => router.push("/in/profile"),
+        onClick: () => router.push(`/in/u/${session?.user.slug}`),
       },
     ];
 

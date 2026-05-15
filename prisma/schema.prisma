@@ -42,6 +42,7 @@ model User {
   phone                    String?
   showContacts             Boolean             @default(false)
   avatar                   String?
+  description              String              @default("")
   role                     UserRole            @default(USER)
   emailVerified            DateTime?
   verificationToken        String?

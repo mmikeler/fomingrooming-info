@@ -13,6 +13,7 @@ import {
   SeedModerationLog,
   SeedEvent,
   SeedEventRegistration,
+  SeedAdv,
 } from "./seed-data/types";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -55,6 +56,10 @@ function loadSeedData() {
     ),
   );
 
+  const adv: SeedAdv[] = JSON.parse(
+    fs.readFileSync(path.join(seedDataDir, "adv.json"), "utf-8"),
+  );
+
   return {
     users,
     posts,
@@ -62,6 +67,7 @@ function loadSeedData() {
     notifications,
     moderationLogs,
     eventRegistrations,
+    adv,
   };
 }
 
@@ -81,9 +87,10 @@ async function main() {
     notifications,
     moderationLogs,
     eventRegistrations,
+    adv,
   } = loadSeedData();
   console.log(
-    `Loaded ${users.length} users, ${posts.length} posts, ${events.length} events, ${notifications.length} notifications, ${moderationLogs.length} moderation logs, ${eventRegistrations.length} event registrations`,
+    `Loaded ${users.length} users, ${posts.length} posts, ${events.length} events, ${notifications.length} notifications, ${moderationLogs.length} moderation logs, ${eventRegistrations.length} event registrations ${adv.length} adv`,
   );
 
   // Clear existing data
@@ -94,6 +101,7 @@ async function main() {
   await prisma.notification.deleteMany();
   await prisma.post.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.aDV.deleteMany();
 
   // Create users and build ID mapping (string -> number)
   console.log("Creating users...");
@@ -117,6 +125,7 @@ async function main() {
         slug: slugify(userData.name),
         password: await hash(userData.password, 10),
         role: role as "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN",
+        avatar: userData.avatar || null,
         emailVerified: new Date(),
         showContacts: true,
         // Account status fields
@@ -324,6 +333,17 @@ async function main() {
     });
   }
   console.log(`  Created ${eventRegistrations.length} event registrations`);
+
+  // Create adv item
+  console.log("Creating adv item...");
+  for (const item of adv) {
+    await prisma.aDV.create({
+      data: {
+        ...item,
+      },
+    });
+  }
+  console.log(`  Created ${adv.length} adv items`);
 
   console.log("Seed completed successfully!");
 }
