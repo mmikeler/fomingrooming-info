@@ -254,13 +254,16 @@ export default function ProfileSidebar() {
             <ADS place="SIDER" className="mt-5 mb-4 h-47 w-47" />
 
             <Flex gap="small" wrap>
-              <Link className="text-xs text-(--foreground)!" href="/">
+              <Link className="text-xs text-(--foreground)!" href="/in/p/about">
                 О проекте
               </Link>
-              <Link className="text-xs text-(--foreground)!" href="/">
+              <Link
+                className="text-xs text-(--foreground)!"
+                href="/in/p/reklama"
+              >
                 Реклама на сайте
               </Link>
-              <Link className="text-xs text-(--foreground)!" href="/">
+              <Link className="text-xs text-(--foreground)!" href="/in/p/help">
                 Техподдержка
               </Link>
             </Flex>

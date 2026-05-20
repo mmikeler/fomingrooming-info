@@ -28,6 +28,7 @@ export interface FeedItem {
     name: string;
     slug: string;
     avatar: string | null;
+    description: string | null;
   };
   // Для постов
   content?: string | null;

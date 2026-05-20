@@ -126,6 +126,7 @@ async function main() {
         password: await hash(userData.password, 10),
         role: role as "USER" | "AUTHOR" | "MODERATOR" | "ADMIN" | "SUPERADMIN",
         avatar: userData.avatar || null,
+        description: userData.description || "",
         emailVerified: new Date(),
         showContacts: true,
         // Account status fields

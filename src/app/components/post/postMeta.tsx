@@ -1,7 +1,7 @@
 "use client";
 
 import { FeedItem } from "@/app/in/lenta/actions/getFeedItem";
-import { Flex, Space, Tooltip } from "antd";
+import { Flex, Space, Tag, Tooltip } from "antd";
 import { EventTypeTag } from "../events/EventTypeTag";
 import EventFormatTag from "../events/EventFormarTag";
 import EventStatusTag from "../events/EventStatusTag";
@@ -32,20 +32,19 @@ export default function PostMeta({
           <EventFormatTag event={post} />
           <EventTypeTag type={post.eventType || "VEBINAR"} />
           <EventStatusTag event={post} />
-        </Flex>
 
-        {!open && (
           <div
-            className="mt-5 flex cursor-pointer items-center justify-center border-y bg-gray-100 py-1"
-            onClick={() => setOpen(true)}
+            className="ms-auto cursor-pointer"
+            onClick={() => setOpen(!open)}
           >
-            <Space>
-              <ChevronsDown size={"14px"} />
-              <span>Раскрыть данные мероприятия</span>
-              <ChevronsDown size={"14px"} />
-            </Space>
+            <Tag color={"volcano"} variant="outlined">
+              <Space>
+                <span>Детали мероприятия</span>
+                <ChevronsDown size={"14px"} />
+              </Space>
+            </Tag>
           </div>
-        )}
+        </Flex>
 
         {open && (
           <div className="">

@@ -1,4 +1,4 @@
-import { getFeed } from "@/app/feed/actions/getFeed";
+import { getFeed } from "./actions/getFeed";
 import FeedList from "./components/FeedList";
 
 /**

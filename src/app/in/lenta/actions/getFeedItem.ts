@@ -47,6 +47,7 @@ export async function getFeedItem(
               name: true,
               slug: true,
               avatar: true,
+              description: true,
             },
           },
         },
@@ -107,6 +108,7 @@ export async function getFeedItem(
               name: true,
               slug: true,
               avatar: true,
+              description: true,
             },
           },
           _count: {
@@ -226,6 +228,7 @@ export async function getPublishedPost(
             name: true,
             slug: true,
             avatar: true,
+            description: true,
           },
         },
       },
@@ -358,6 +361,7 @@ export async function getPublishedEvent(
             name: true,
             slug: true,
             avatar: true,
+            description: true,
           },
         },
         _count: {

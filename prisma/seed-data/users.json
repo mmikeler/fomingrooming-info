@@ -5,7 +5,8 @@
     "name": "Superadmin",
     "password": "superadmin123",
     "status": "ACTIVE",
-    "avatar": "https://picsum.dev/200/200?seed=user-profile-4"
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-4",
+    "description": "Молодой Бог"
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "name": "Admin User",
     "password": "admin123",
     "status": "ACTIVE",
-    "avatar": "https://picsum.dev/200/200?seed=user-profile-10"
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-10",
+    "description": "Правая рука"
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "name": "Moderator",
     "password": "moderator123",
     "status": "ACTIVE",
-    "avatar": "https://picsum.dev/200/200?seed=user-profile-5"
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-5",
+    "description": "Левая рука"
   },
   {
     "id": 4,
@@ -29,14 +32,17 @@
     "name": "Author User",
     "password": "author123",
     "status": "ACTIVE",
-    "avatar": "https://picsum.dev/200/200?seed=user-profile-6"
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-6",
+    "description": "200 лет груминга"
   },
   {
     "id": 5,
     "email": "user@e.com",
     "name": "User",
     "password": "user123",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "avatar": "https://picsum.dev/200/200?seed=user-profile-12",
+    "description": "Скромный начинающий грумер"
   },
   {
     "id": 6,

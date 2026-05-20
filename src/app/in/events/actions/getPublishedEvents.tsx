@@ -25,6 +25,7 @@ export interface PublishedEvent {
     name: string;
     slug: string;
     avatar: string | null;
+    description: string | null;
   };
   _count: {
     registrations: number;
@@ -229,6 +230,7 @@ export async function getPublishedEvents(
             name: true,
             slug: true,
             avatar: true,
+            description: true,
           },
         },
         _count: {

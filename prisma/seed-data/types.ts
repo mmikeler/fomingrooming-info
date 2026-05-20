@@ -10,6 +10,7 @@ export interface SeedUser {
   email: string;
   name: string;
   avatar?: string;
+  description?: string;
   /** Plain text password (will be hashed during seed) */
   password: string;
   /** Account status: ACTIVE, RESTRICTED, BANNED */

@@ -21,6 +21,7 @@ export interface PublishedPost {
     name: string;
     slug: string;
     avatar: string | null;
+    description: string | null;
   };
 }
 
@@ -112,6 +113,7 @@ export async function getPublishedPosts(
             name: true,
             slug: true,
             avatar: true,
+            description: true,
           },
         },
       },

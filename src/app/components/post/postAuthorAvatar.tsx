@@ -7,7 +7,7 @@ export default function PostAuthorAvatar({
 }: {
   userData: FeedItem["author"];
 }) {
-  const { slug, avatar, name } = userData;
+  const { slug, avatar, name, description } = userData;
 
   return (
     <Link
@@ -27,7 +27,12 @@ export default function PostAuthorAvatar({
           </span>
         </div>
       )}
-      <span className="hover:underline">{name}</span>
+      <div>
+        <span className="block hover:underline">{name}</span>
+        <span className="-mt-0.5 block text-xs font-light text-stone-400">
+          {description}
+        </span>
+      </div>
     </Link>
   );
 }

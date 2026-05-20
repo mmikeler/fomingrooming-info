@@ -12,5 +12,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/profile/:path*", "/admin/:path*"], // Protect these routes
+  matcher: ["/in/u/[slug]/settings/:path*", "/admin/:path*"], // Protect these routes
 };
