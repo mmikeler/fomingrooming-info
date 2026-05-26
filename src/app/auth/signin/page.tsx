@@ -3,9 +3,19 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button, Form, Input, Card, Typography, App, Alert } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Card,
+  Typography,
+  App,
+  Alert,
+  Divider,
+} from "antd";
 import Link from "next/link";
 import { Mail } from "lucide-react";
+//import { VK_Auth } from "./components/vkAuth";
 
 const { Title } = Typography;
 
@@ -62,7 +72,7 @@ export default function SignIn() {
 
         {showUnverifiedAlert && (
           <Alert
-            message="Email не подтверждён"
+            title="Email не подтверждён"
             description={
               <span>
                 Пожалуйста, подтвердите ваш email. Если письмо не пришло, вы
@@ -120,7 +130,27 @@ export default function SignIn() {
           </Form.Item>
         </Form>
 
-        <div className="text-center">
+        <Divider>или</Divider>
+
+        <div className="wrap flex flex-col items-center justify-center gap-4">
+          <div
+            role="button"
+            className="block w-full cursor-pointer rounded-lg border border-stone-100 bg-stone-800 p-3 text-center font-bold text-white"
+            onClick={() => signIn("yandex", { callbackUrl: "/in" })}
+          >
+            Продолжить через <span className="text-red-500">Яндекс ID</span>
+          </div>
+          {/* <div
+            role="button"
+            className="block w-full cursor-pointer rounded-lg border border-sky-600 bg-[#2688eb] p-3 text-center font-bold text-white"
+            onClick={() => signIn("vk", { callbackUrl: "/in" })}
+          >
+            Продолжить через <span>Вконтакте</span>
+          </div>
+          <VK_Auth /> */}
+        </div>
+
+        <div className="mt-5 text-center">
           <p>
             Нет аккаунта?{" "}
             <Link

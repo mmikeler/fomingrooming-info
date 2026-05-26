@@ -126,7 +126,7 @@ export default function UserAuthWidget() {
             className="bg-primary hover:bg-primary/90 px-4! py-3! text-white"
             style={{ fontSize: "10px" }}
             type="button"
-            onClick={() => router.push("/auth/signin")}
+            onClick={() => router.push("/api/auth/signin")}
           >
             Войти
           </Button>

@@ -1,14 +1,25 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+//import VkProvider from "next-auth/providers/vk";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 import { logger } from "./logger";
+import Yandex from "next-auth/providers/yandex";
 
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
   providers: [
+    //НЕ РАБОТАЕТ НА УРОВНЕ ВК
+    // VkProvider({
+    //   clientId: process.env.VK_CLIENT_ID!,
+    //   clientSecret: process.env.VK_CLIENT_SECRET!,
+    // }),
+    Yandex({
+      clientId: "ac83984321d845149585437fcac09dde",
+      clientSecret: "f3ac94a94c7e4e8cab2250182eb33afe",
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -92,6 +103,43 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ user, account }) {
+      // При входе через Яндекс провайдер перенаправляем новых пользователей
+      // на страницу регистрации
+      if (account?.provider === "yandex" && user.email) {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
+
+        if (!existingUser) {
+          logger.info("Redirecting new Yandex user to registration", {
+            email: user.email,
+          });
+          // Возвращаем URL для перенаправления на страницу регистрации с pre-filled email
+          return `/auth/signup?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.name || "")}&provider=yandex`;
+        }
+
+        // Для существующего пользователя - подтягиваем slug
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email },
+          select: {
+            id: true,
+            slug: true,
+            email: true,
+            name: true,
+            role: true,
+            status: true,
+          },
+        });
+
+        if (dbUser && dbUser.slug) {
+          user.slug = dbUser.slug;
+          user.role = dbUser.role;
+        }
+      }
+
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
