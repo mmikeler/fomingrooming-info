@@ -5,7 +5,8 @@
 import { Button, Form, Input, Card, Typography, App, Alert } from "antd";
 import Link from "next/link";
 import { register } from "../actions/register";
-import { registerOAuthUser } from "../actions/registerOAuthUser";
+import { registerYandexOAuthUser } from "../actions/registerYandexOAuthUser";
+import { registerVKOAuthUser } from "../actions/registerVKOAuthUser";
 import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -22,7 +23,16 @@ export default function SignupForm() {
 
   const prefillEmail = searchParams.get("email") || "";
   const prefillName = searchParams.get("name") || "";
-  const isOAuth = searchParams.get("provider") === "yandex";
+  const prefillAvatar = searchParams.get("avatar") || "";
+  const prefillCity = searchParams.get("city") || "";
+  const provider = searchParams.get("provider");
+
+  const isYandexOAuth = provider === "yandex";
+  const isVKOAuth = provider === "vk";
+  const isOAuth = isYandexOAuth || isVKOAuth;
+
+  // VK OAuth specific params
+  const vkUserId = searchParams.get("vkUserId") || "";
 
   // Предзаполняем форму из query-параметров
   useEffect(() => {
@@ -48,9 +58,25 @@ export default function SignupForm() {
 
     setLoading(true);
     try {
-      if (isOAuth) {
-        // Регистрация через OAuth - без пароля
-        const result = await registerOAuthUser({
+      if (isVKOAuth) {
+        // Регистрация через VK OAuth
+        const result = await registerVKOAuthUser({
+          vkUserId: parseInt(vkUserId, 10),
+          name: values.name,
+          email: values.email || undefined,
+          avatar: prefillAvatar || null,
+          city: prefillCity || null,
+        });
+
+        if (result.success) {
+          message.success("Регистрация прошла успешно!", 2);
+          setRegistrationIsSuccessful(true);
+        } else {
+          message.error(result.error.message || "Ошибка при регистрации");
+        }
+      } else if (isYandexOAuth) {
+        // Регистрация через Yandex OAuth - без пароля
+        const result = await registerYandexOAuthUser({
           name: values.name,
           email: values.email,
         });
@@ -94,9 +120,18 @@ export default function SignupForm() {
             <Title level={3}>Теперь вы можете войти</Title>
           </div>
           <div
-            className="w-full cursor-pointer rounded-lg border-yellow-300 bg-yellow-200 p-2 text-center font-bold hover:opacity-80"
+            className="w-full cursor-pointer rounded-lg border-sky-500 bg-sky-400 p-2 text-center font-bold text-white hover:opacity-80"
             role="button"
-            onClick={() => signIn("yandex", { callbackUrl: "/in" })}
+            onClick={() => {
+              if (isVKOAuth) {
+                signIn("vk", {
+                  slug: `vk-${vkUserId}`,
+                  callbackUrl: "/in",
+                });
+              } else {
+                signIn("yandex", { callbackUrl: "/in" });
+              }
+            }}
           >
             Войти
           </div>
@@ -114,7 +149,9 @@ export default function SignupForm() {
 
         {isOAuth && (
           <Alert
-            title="Регистрация через Яндекс"
+            title={
+              isVKOAuth ? "Регистрация через VK ID" : "Регистрация через Яндекс"
+            }
             description="Заполните имя для завершения регистрации. Пароль не требуется."
             type="info"
             showIcon
@@ -142,11 +179,17 @@ export default function SignupForm() {
             label="Email"
             name="email"
             rules={[
-              { required: true, message: "Пожалуйста, введите email" },
+              {
+                required: !isVKOAuth,
+                message: "Пожалуйста, введите email",
+              },
               { type: "email", message: "Введите корректный email" },
             ]}
           >
-            <Input placeholder="your@email.com" disabled={isOAuth} />
+            <Input
+              placeholder="your@email.com"
+              disabled={isOAuth && !isVKOAuth}
+            />
           </Form.Item>
 
           {!isOAuth && (

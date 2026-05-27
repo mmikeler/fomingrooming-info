@@ -40,6 +40,15 @@ export const PostStatus = {
 export type PostStatus = (typeof PostStatus)[keyof typeof PostStatus]
 
 
+export const UserProvider = {
+  YANDEX: 'YANDEX',
+  VK: 'VK',
+  SELF: 'SELF'
+} as const
+
+export type UserProvider = (typeof UserProvider)[keyof typeof UserProvider]
+
+
 export const EventFormat = {
   ONLINE: 'ONLINE',
   OFFLINE: 'OFFLINE'

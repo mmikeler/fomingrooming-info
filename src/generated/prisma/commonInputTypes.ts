@@ -87,6 +87,13 @@ export type DateTimeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedDateTimeFilter<$PrismaModel> | Date | string
 }
 
+export type EnumUserProviderFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserProvider | Prisma.EnumUserProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.UserProvider[]
+  notIn?: $Enums.UserProvider[]
+  not?: Prisma.NestedEnumUserProviderFilter<$PrismaModel> | $Enums.UserProvider
+}
+
 export type EnumAccountStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.AccountStatus | Prisma.EnumAccountStatusFieldRefInput<$PrismaModel>
   in?: $Enums.AccountStatus[]
@@ -204,6 +211,16 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type EnumUserProviderWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserProvider | Prisma.EnumUserProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.UserProvider[]
+  notIn?: $Enums.UserProvider[]
+  not?: Prisma.NestedEnumUserProviderWithAggregatesFilter<$PrismaModel> | $Enums.UserProvider
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumUserProviderFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumUserProviderFilter<$PrismaModel>
 }
 
 export type EnumAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -441,6 +458,13 @@ export type NestedDateTimeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedDateTimeFilter<$PrismaModel> | Date | string
 }
 
+export type NestedEnumUserProviderFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserProvider | Prisma.EnumUserProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.UserProvider[]
+  notIn?: $Enums.UserProvider[]
+  not?: Prisma.NestedEnumUserProviderFilter<$PrismaModel> | $Enums.UserProvider
+}
+
 export type NestedEnumAccountStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.AccountStatus | Prisma.EnumAccountStatusFieldRefInput<$PrismaModel>
   in?: $Enums.AccountStatus[]
@@ -564,6 +588,16 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumUserProviderWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserProvider | Prisma.EnumUserProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.UserProvider[]
+  notIn?: $Enums.UserProvider[]
+  not?: Prisma.NestedEnumUserProviderWithAggregatesFilter<$PrismaModel> | $Enums.UserProvider
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumUserProviderFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumUserProviderFilter<$PrismaModel>
 }
 
 export type NestedEnumAccountStatusWithAggregatesFilter<$PrismaModel = never> = {

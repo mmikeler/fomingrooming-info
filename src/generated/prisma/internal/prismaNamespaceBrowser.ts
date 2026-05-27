@@ -94,6 +94,7 @@ export const UserScalarFieldEnum = {
   verificationTokenExpires: 'verificationTokenExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  provider: 'provider',
   status: 'status',
   banReason: 'banReason',
   bannedAt: 'bannedAt',

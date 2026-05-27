@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
@@ -15,7 +15,7 @@ import {
 } from "antd";
 import Link from "next/link";
 import { Mail } from "lucide-react";
-//import { VK_Auth } from "./components/vkAuth";
+import { VK_Auth } from "./components/vkAuth";
 
 const { Title } = Typography;
 
@@ -56,6 +56,7 @@ export default function SignIn() {
         message.success("Вход выполнен успешно");
         router.push("/in");
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       message.error("Произошла ошибка при входе");
     } finally {
@@ -64,104 +65,107 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <Title level={2}>Вход</Title>
-        </div>
-
-        {showUnverifiedAlert && (
-          <Alert
-            title="Email не подтверждён"
-            description={
-              <span>
-                Пожалуйста, подтвердите ваш email. Если письмо не пришло, вы
-                можете{" "}
-                <Link
-                  href="/auth/resend-verification"
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
-                  запросить новое письмо
-                </Link>
-              </span>
-            }
-            type="warning"
-            showIcon
-            icon={<Mail className="h-4 w-4" />}
-            className="mb-6"
-          />
-        )}
-
-        <Form name="signin" onFinish={onFinish} layout="vertical" size="large">
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Пожалуйста, введите email" },
-              { type: "email", message: "Введите корректный email" },
-            ]}
-          >
-            <Input placeholder="your@email.com" />
-          </Form.Item>
-
-          <Form.Item
-            label="Пароль"
-            name="password"
-            rules={[{ required: true, message: "Пожалуйста, введите пароль" }]}
-          >
-            <Input.Password placeholder="Пароль" />
-          </Form.Item>
-
-          <Form.Item>
-            <div className="flex justify-end">
-              <Link
-                href="/auth/forgot-password"
-                className="text-sm text-blue-600 hover:text-blue-500"
-              >
-                Забыли пароль?
-              </Link>
-            </div>
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
-              Войти
-            </Button>
-          </Form.Item>
-        </Form>
-
-        <Divider>или</Divider>
-
-        <div className="wrap flex flex-col items-center justify-center gap-4">
-          <div
-            role="button"
-            className="block w-full cursor-pointer rounded-lg border border-stone-100 bg-stone-800 p-3 text-center font-bold text-white"
-            onClick={() => signIn("yandex", { callbackUrl: "/in" })}
-          >
-            Продолжить через <span className="text-red-500">Яндекс ID</span>
+    <Suspense>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-md">
+          <div className="mb-8 text-center">
+            <Title level={2}>Вход</Title>
           </div>
-          {/* <div
-            role="button"
-            className="block w-full cursor-pointer rounded-lg border border-sky-600 bg-[#2688eb] p-3 text-center font-bold text-white"
-            onClick={() => signIn("vk", { callbackUrl: "/in" })}
-          >
-            Продолжить через <span>Вконтакте</span>
-          </div>
-          <VK_Auth /> */}
-        </div>
 
-        <div className="mt-5 text-center">
-          <p>
-            Нет аккаунта?{" "}
-            <Link
-              href="/auth/signup"
-              className="text-blue-600 hover:text-blue-500"
+          {showUnverifiedAlert && (
+            <Alert
+              title="Email не подтверждён"
+              description={
+                <span>
+                  Пожалуйста, подтвердите ваш email. Если письмо не пришло, вы
+                  можете{" "}
+                  <Link
+                    href="/auth/resend-verification"
+                    className="font-medium text-blue-600 hover:text-blue-500"
+                  >
+                    запросить новое письмо
+                  </Link>
+                </span>
+              }
+              type="warning"
+              showIcon
+              icon={<Mail className="h-4 w-4" />}
+              className="mb-6"
+            />
+          )}
+
+          <Form
+            name="signin"
+            onFinish={onFinish}
+            layout="vertical"
+            size="large"
+          >
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Пожалуйста, введите email" },
+                { type: "email", message: "Введите корректный email" },
+              ]}
             >
-              Зарегистрироваться
-            </Link>
-          </p>
-        </div>
-      </Card>
-    </div>
+              <Input placeholder="your@email.com" />
+            </Form.Item>
+
+            <Form.Item
+              label="Пароль"
+              name="password"
+              rules={[
+                { required: true, message: "Пожалуйста, введите пароль" },
+              ]}
+            >
+              <Input.Password placeholder="Пароль" />
+            </Form.Item>
+
+            <Form.Item>
+              <div className="flex justify-end">
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-sm text-blue-600 hover:text-blue-500"
+                >
+                  Забыли пароль?
+                </Link>
+              </div>
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit" loading={loading} block>
+                Войти
+              </Button>
+            </Form.Item>
+          </Form>
+
+          <Divider>или</Divider>
+
+          <div className="wrap flex flex-col items-center justify-center gap-4">
+            <div
+              role="button"
+              className="block w-full cursor-pointer rounded-lg border border-stone-100 bg-stone-800 p-3 text-center font-bold text-white"
+              onClick={() => signIn("yandex", { callbackUrl: "/in" })}
+            >
+              Продолжить через <span className="text-red-500">Яндекс ID</span>
+            </div>
+
+            <VK_Auth />
+          </div>
+
+          <div className="mt-5 text-center">
+            <p>
+              Нет аккаунта?{" "}
+              <Link
+                href="/auth/signup"
+                className="text-blue-600 hover:text-blue-500"
+              >
+                Зарегистрироваться
+              </Link>
+            </p>
+          </div>
+        </Card>
+      </div>
+    </Suspense>
   );
 }

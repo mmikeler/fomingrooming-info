@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { getNewsPosts, type NewsPost } from "./actions/getNewsPosts";
 import { getExcerpt } from "@/app/components/ui/excerpt";
+import { formatDate } from "@/app/components/ui/date";
 
 /**
  * Скелетон для загрузки новостей
@@ -61,7 +62,7 @@ async function NewsList({
         return (
           <div className="mt-5 border-b pb-5" key={item.id}>
             <Link
-              href={`/blog/${item.slug}`}
+              href={`/in/posts/${item.slug}`}
               className="relative block pr-4 font-bold text-(--foreground)!"
             >
               {item.title}
@@ -70,8 +71,8 @@ async function NewsList({
               </div>
             </Link>
             <div className="mt-1">{excerpt}</div>
-            <div className="mt-3">
-              {new Date(item.created).toLocaleDateString("ru-RU")}
+            <div className="mt-3 italic opacity-75">
+              {formatDate(item.created)}
             </div>
           </div>
         );

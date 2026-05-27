@@ -4,12 +4,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
 import { slugify } from "@/lib/slug";
-import {
-  action,
-  ValidationError,
-  ConflictError,
-  isUniqueConstraintError,
-} from "@/lib/errors";
+import { action, ConflictError, isUniqueConstraintError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { sendVerificationEmail, generateVerificationToken } from "@/lib/email";
 import { checkPublicRateLimit } from "@/lib/rate-limit";

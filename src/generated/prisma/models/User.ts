@@ -55,6 +55,7 @@ export type UserMinAggregateOutputType = {
   verificationTokenExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  provider: $Enums.UserProvider | null
   status: $Enums.AccountStatus | null
   banReason: string | null
   bannedAt: Date | null
@@ -81,6 +82,7 @@ export type UserMaxAggregateOutputType = {
   verificationTokenExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  provider: $Enums.UserProvider | null
   status: $Enums.AccountStatus | null
   banReason: string | null
   bannedAt: Date | null
@@ -107,6 +109,7 @@ export type UserCountAggregateOutputType = {
   verificationTokenExpires: number
   createdAt: number
   updatedAt: number
+  provider: number
   status: number
   banReason: number
   bannedAt: number
@@ -147,6 +150,7 @@ export type UserMinAggregateInputType = {
   verificationTokenExpires?: true
   createdAt?: true
   updatedAt?: true
+  provider?: true
   status?: true
   banReason?: true
   bannedAt?: true
@@ -173,6 +177,7 @@ export type UserMaxAggregateInputType = {
   verificationTokenExpires?: true
   createdAt?: true
   updatedAt?: true
+  provider?: true
   status?: true
   banReason?: true
   bannedAt?: true
@@ -199,6 +204,7 @@ export type UserCountAggregateInputType = {
   verificationTokenExpires?: true
   createdAt?: true
   updatedAt?: true
+  provider?: true
   status?: true
   banReason?: true
   bannedAt?: true
@@ -312,6 +318,7 @@ export type UserGroupByOutputType = {
   verificationTokenExpires: Date | null
   createdAt: Date
   updatedAt: Date
+  provider: $Enums.UserProvider
   status: $Enums.AccountStatus
   banReason: string | null
   bannedAt: Date | null
@@ -361,6 +368,7 @@ export type UserWhereInput = {
   verificationTokenExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  provider?: Prisma.EnumUserProviderFilter<"User"> | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   bannedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -399,6 +407,7 @@ export type UserOrderByWithRelationInput = {
   verificationTokenExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   status?: Prisma.SortOrder
   banReason?: Prisma.SortOrderInput | Prisma.SortOrder
   bannedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -440,6 +449,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   verificationTokenExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  provider?: Prisma.EnumUserProviderFilter<"User"> | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   bannedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -478,6 +488,7 @@ export type UserOrderByWithAggregationInput = {
   verificationTokenExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   status?: Prisma.SortOrder
   banReason?: Prisma.SortOrderInput | Prisma.SortOrder
   bannedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -512,6 +523,7 @@ export type UserScalarWhereWithAggregatesInput = {
   verificationTokenExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  provider?: Prisma.EnumUserProviderWithAggregatesFilter<"User"> | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusWithAggregatesFilter<"User"> | $Enums.AccountStatus
   banReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bannedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -537,6 +549,7 @@ export type UserCreateInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -575,6 +588,7 @@ export type UserUncheckedCreateInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -612,6 +626,7 @@ export type UserUpdateInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -650,6 +665,7 @@ export type UserUncheckedUpdateInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -688,6 +704,7 @@ export type UserCreateManyInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -713,6 +730,7 @@ export type UserUpdateManyMutationInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -739,6 +757,7 @@ export type UserUncheckedUpdateManyInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -765,6 +784,7 @@ export type UserCountOrderByAggregateInput = {
   verificationTokenExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   status?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
   bannedAt?: Prisma.SortOrder
@@ -797,6 +817,7 @@ export type UserMaxOrderByAggregateInput = {
   verificationTokenExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   status?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
   bannedAt?: Prisma.SortOrder
@@ -823,6 +844,7 @@ export type UserMinOrderByAggregateInput = {
   verificationTokenExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   status?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
   bannedAt?: Prisma.SortOrder
@@ -870,6 +892,10 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type EnumUserProviderFieldUpdateOperationsInput = {
+  set?: $Enums.UserProvider
 }
 
 export type EnumAccountStatusFieldUpdateOperationsInput = {
@@ -1082,6 +1108,7 @@ export type UserCreateWithoutEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1119,6 +1146,7 @@ export type UserUncheckedCreateWithoutEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1160,6 +1188,7 @@ export type UserCreateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1197,6 +1226,7 @@ export type UserUncheckedCreateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1249,6 +1279,7 @@ export type UserUpdateWithoutEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1286,6 +1317,7 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1333,6 +1365,7 @@ export type UserUpdateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1370,6 +1403,7 @@ export type UserUncheckedUpdateWithoutModeratedEventsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1406,6 +1440,7 @@ export type UserCreateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1443,6 +1478,7 @@ export type UserUncheckedCreateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1495,6 +1531,7 @@ export type UserUpdateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1532,6 +1569,7 @@ export type UserUncheckedUpdateWithoutEventRegistrationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1568,6 +1606,7 @@ export type UserCreateWithoutPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1605,6 +1644,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1646,6 +1686,7 @@ export type UserCreateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1683,6 +1724,7 @@ export type UserUncheckedCreateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1735,6 +1777,7 @@ export type UserUpdateWithoutPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1772,6 +1815,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1819,6 +1863,7 @@ export type UserUpdateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1856,6 +1901,7 @@ export type UserUncheckedUpdateWithoutModeratedPostsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1892,6 +1938,7 @@ export type UserCreateWithoutNotificationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1929,6 +1976,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -1981,6 +2029,7 @@ export type UserUpdateWithoutNotificationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2018,6 +2067,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2054,6 +2104,7 @@ export type UserCreateWithoutModerationLogsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2091,6 +2142,7 @@ export type UserUncheckedCreateWithoutModerationLogsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2143,6 +2195,7 @@ export type UserUpdateWithoutModerationLogsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2180,6 +2233,7 @@ export type UserUncheckedUpdateWithoutModerationLogsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2216,6 +2270,7 @@ export type UserCreateWithoutBanLogsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2253,6 +2308,7 @@ export type UserUncheckedCreateWithoutBanLogsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2294,6 +2350,7 @@ export type UserCreateWithoutBanActionsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2331,6 +2388,7 @@ export type UserUncheckedCreateWithoutBanActionsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2383,6 +2441,7 @@ export type UserUpdateWithoutBanLogsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2420,6 +2479,7 @@ export type UserUncheckedUpdateWithoutBanLogsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2467,6 +2527,7 @@ export type UserUpdateWithoutBanActionsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2504,6 +2565,7 @@ export type UserUncheckedUpdateWithoutBanActionsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2540,6 +2602,7 @@ export type UserCreateWithoutFavoritesInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2577,6 +2640,7 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2629,6 +2693,7 @@ export type UserUpdateWithoutFavoritesInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2666,6 +2731,7 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2702,6 +2768,7 @@ export type UserCreateWithoutLikesInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2739,6 +2806,7 @@ export type UserUncheckedCreateWithoutLikesInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2791,6 +2859,7 @@ export type UserUpdateWithoutLikesInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2828,6 +2897,7 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2864,6 +2934,7 @@ export type UserCreateWithoutPostViewsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2901,6 +2972,7 @@ export type UserUncheckedCreateWithoutPostViewsInput = {
   verificationTokenExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider?: $Enums.UserProvider
   status?: $Enums.AccountStatus
   banReason?: string | null
   bannedAt?: Date | string | null
@@ -2953,6 +3025,7 @@ export type UserUpdateWithoutPostViewsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2990,6 +3063,7 @@ export type UserUncheckedUpdateWithoutPostViewsInput = {
   verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.EnumUserProviderFieldUpdateOperationsInput | $Enums.UserProvider
   status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3157,6 +3231,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  provider?: boolean
   status?: boolean
   banReason?: boolean
   bannedAt?: boolean
@@ -3196,6 +3271,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  provider?: boolean
   status?: boolean
   banReason?: boolean
   bannedAt?: boolean
@@ -3222,6 +3298,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  provider?: boolean
   status?: boolean
   banReason?: boolean
   bannedAt?: boolean
@@ -3248,6 +3325,7 @@ export type UserSelectScalar = {
   verificationTokenExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  provider?: boolean
   status?: boolean
   banReason?: boolean
   bannedAt?: boolean
@@ -3257,7 +3335,7 @@ export type UserSelectScalar = {
   restrictedBy?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "slug" | "city" | "phone" | "showContacts" | "avatar" | "description" | "role" | "emailVerified" | "verificationToken" | "verificationTokenExpires" | "createdAt" | "updatedAt" | "status" | "banReason" | "bannedAt" | "bannedBy" | "restrictedReason" | "restrictedAt" | "restrictedBy", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "slug" | "city" | "phone" | "showContacts" | "avatar" | "description" | "role" | "emailVerified" | "verificationToken" | "verificationTokenExpires" | "createdAt" | "updatedAt" | "provider" | "status" | "banReason" | "bannedAt" | "bannedBy" | "restrictedReason" | "restrictedAt" | "restrictedBy", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
@@ -3309,6 +3387,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     verificationTokenExpires: Date | null
     createdAt: Date
     updatedAt: Date
+    provider: $Enums.UserProvider
     status: $Enums.AccountStatus
     banReason: string | null
     bannedAt: Date | null
@@ -3767,6 +3846,7 @@ export interface UserFieldRefs {
   readonly verificationTokenExpires: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly provider: Prisma.FieldRef<"User", 'UserProvider'>
   readonly status: Prisma.FieldRef<"User", 'AccountStatus'>
   readonly banReason: Prisma.FieldRef<"User", 'String'>
   readonly bannedAt: Prisma.FieldRef<"User", 'DateTime'>

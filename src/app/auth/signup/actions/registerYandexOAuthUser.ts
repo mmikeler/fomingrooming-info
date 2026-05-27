@@ -23,7 +23,7 @@ interface RegisteredUser {
  * Регистрация пользователя через OAuth провайдер (Яндекс)
  * Создаёт пользователя с уникальным slug на основе email
  */
-export async function registerOAuthUser(
+export async function registerYandexOAuthUser(
   data: RegisterOAuthData,
 ): Promise<ActionResult<RegisteredUser>> {
   const { name, email } = data;
@@ -90,6 +90,7 @@ export async function registerOAuthUser(
             slug,
             password,
             emailVerified: new Date(),
+            provider: "YANDEX",
           },
           select: {
             id: true,

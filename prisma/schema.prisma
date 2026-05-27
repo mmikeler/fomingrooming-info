@@ -32,6 +32,12 @@ enum PostStatus {
   ARCHIVED
 }
 
+enum UserProvider {
+  YANDEX
+  VK
+  SELF
+}
+
 model User {
   id                       Int                 @id @default(autoincrement())
   email                    String              @unique
@@ -49,6 +55,7 @@ model User {
   verificationTokenExpires DateTime?
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
+  provider                 UserProvider        @default(SELF)
   // Статус аккаунта
   status                   AccountStatus       @default(ACTIVE)
   // Блокировка (BANNED)

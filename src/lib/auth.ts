@@ -1,6 +1,5 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-//import VkProvider from "next-auth/providers/vk";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 import { logger } from "./logger";
@@ -11,14 +10,74 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   providers: [
-    //НЕ РАБОТАЕТ НА УРОВНЕ ВК
-    // VkProvider({
-    //   clientId: process.env.VK_CLIENT_ID!,
-    //   clientSecret: process.env.VK_CLIENT_SECRET!,
-    // }),
     Yandex({
       clientId: "ac83984321d845149585437fcac09dde",
       clientSecret: "f3ac94a94c7e4e8cab2250182eb33afe",
+    }),
+    // Провайдер для входа через VK ID по slug
+    CredentialsProvider({
+      id: "vk",
+      name: "VK ID",
+      credentials: {
+        slug: { label: "Slug", type: "text" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.slug) {
+          logger.warn("VK login attempt without slug");
+          return null;
+        }
+
+        // Только для VK slug
+        if (!credentials.slug.startsWith("vk-")) {
+          logger.warn("Invalid VK slug format", {
+            slug: credentials.slug,
+          });
+          return null;
+        }
+
+        const user = await prisma.user.findUnique({
+          where: { slug: credentials.slug },
+        });
+
+        if (!user) {
+          logger.warn("VK login attempt with non-existent slug", {
+            slug: credentials.slug,
+          });
+          return null;
+        }
+
+        // Проверка статуса
+        if (user.status === "BANNED") {
+          logger.warn("VK login attempt with banned account", {
+            userId: user.id,
+            slug: user.slug,
+            banReason: user.banReason,
+          });
+          throw new Error(
+            user.banReason
+              ? `ACCOUNT_BANNED:${user.banReason}`
+              : "ACCOUNT_BANNED",
+          );
+        }
+
+        logger.info("VK user logged in successfully", {
+          userId: user.id,
+          slug: user.slug,
+          role: user.role,
+        });
+
+        return {
+          id: user.id.toString(),
+          slug: user.slug,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          status: user.status,
+          city: user.city || null,
+          phone: user.phone || null,
+          image: user.avatar || null,
+        };
+      },
     }),
     CredentialsProvider({
       name: "credentials",

@@ -1281,6 +1281,7 @@ export const UserScalarFieldEnum = {
   verificationTokenExpires: 'verificationTokenExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  provider: 'provider',
   status: 'status',
   banReason: 'banReason',
   bannedAt: 'bannedAt',
@@ -1491,6 +1492,13 @@ export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'UserProvider'
+ */
+export type EnumUserProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserProvider'>
     
 
 

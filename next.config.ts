@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { hostname: "picsum.dev" },
+      { hostname: "*.userapi.com" },
       {
         protocol: "http",
         hostname: "localhost",
