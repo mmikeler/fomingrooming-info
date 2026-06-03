@@ -37,12 +37,8 @@ const statusLabels: Record<PostStatus, string> = {
   ARCHIVED: "В архиве",
 };
 
-const categoryLabels: Record<PostCategory, string> = {
-  NEWS: "Новость",
-  ARTICLE: "Статья",
-};
-
 import { formatDateShort } from "@/app/components/ui/date";
+import { getPostCategoryLabel } from "@/lib/postCategoryLabels";
 
 export function PostsTable({ posts }: PostsTableProps) {
   const [isPending, startTransition] = useTransition();
@@ -67,7 +63,8 @@ export function PostsTable({ posts }: PostsTableProps) {
       title: "Категория",
       dataIndex: "category",
       key: "category",
-      render: (category: PostCategory) => categoryLabels[category] || category,
+      render: (category: PostCategory) =>
+        getPostCategoryLabel(category) || category,
       align: "center",
     },
     {

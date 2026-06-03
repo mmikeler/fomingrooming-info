@@ -13,7 +13,7 @@ import {
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { canPublishDirectly, canCreateContent } from "@/lib/permissions";
-import { EventStatus, EventType } from "@/generated/prisma/enums";
+import { EventFormat, EventStatus, EventType } from "@/generated/prisma/enums";
 import { validateSlug } from "@/lib/slug";
 import { generateEventUniqueSlug } from "./checkEventSlug";
 
@@ -21,7 +21,7 @@ interface UpdateEventData {
   title?: string;
   slug?: string;
   description?: string | null;
-  format?: "ONLINE" | "OFFLINE";
+  format?: EventFormat;
   type?: EventType | null;
   city?: string | null;
   location?: string | null;
@@ -30,6 +30,7 @@ interface UpdateEventData {
   startRegDate?: Date | null;
   endRegDate?: Date | null;
   coverImage?: string | null;
+  status?: EventStatus;
 }
 
 interface UpdatedEvent {
@@ -37,7 +38,7 @@ interface UpdatedEvent {
   title: string;
   slug: string;
   description: string | null;
-  format: "ONLINE" | "OFFLINE";
+  format: EventFormat;
   type: EventType | null;
   city: string | null;
   location: string | null;
@@ -64,7 +65,7 @@ export async function updateEvent(
     // Проверка статуса аккаунта
     const userCheck = await prisma.user.findUnique({
       where: { id: parseInt(session.user.id) },
-      select: { status: true },
+      select: { status: true, role: true },
     });
 
     if (!userCheck || !canCreateContent(userCheck.status)) {
@@ -88,7 +89,8 @@ export async function updateEvent(
     // Проверка: можно редактировать только черновики и отклонённые мероприятия
     if (
       existingEvent.status !== EventStatus.DRAFT &&
-      existingEvent.status !== EventStatus.REJECTED
+      existingEvent.status !== EventStatus.REJECTED &&
+      !userCheck.role.match(/ADMIN/)
     ) {
       throw new BadRequestError(
         "Нельзя редактировать мероприятие в текущем статусе",
@@ -138,6 +140,7 @@ export async function updateEvent(
         format: data.format ?? existingEvent.format,
         type: data.type !== undefined ? data.type : existingEvent.type,
         city: data.city !== undefined ? data.city : existingEvent.city,
+        status: data.status ?? existingEvent.status,
         location:
           data.location !== undefined ? data.location : existingEvent.location,
         startDate: data.startDate ?? existingEvent.startDate,

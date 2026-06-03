@@ -4,11 +4,12 @@ import type {
   EventFormat,
   EventType,
 } from "@/generated/prisma/enums";
+import { getPostCategoryLabel } from "./postCategoryLabels";
 
 /**
  * Типы контента на сайте
  */
-export type ContentType = "NEWS" | "ARTICLE" | "EVENT";
+export type ContentType = "EVENT" | "POST";
 
 /**
  * Интерфейс данных поста для генерации метаданных
@@ -49,14 +50,6 @@ export interface GenerateMetadataParams {
 }
 
 /**
- * Карта категорий постов для отображения
- */
-const CATEGORY_LABELS: Record<PostCategory, string> = {
-  NEWS: "Новость",
-  ARTICLE: "Статья",
-};
-
-/**
  * Карта типов мероприятий для отображения
  */
 const EVENT_TYPE_LABELS: Record<EventType, string> = {
@@ -83,10 +76,7 @@ export function determineContentType(data: PostMetadataInput): ContentType {
   if (data.startDate && data.endDate) {
     return "EVENT";
   }
-  if (data.category === "ARTICLE") {
-    return "ARTICLE";
-  }
-  return "NEWS";
+  return "POST";
 }
 
 /**
@@ -159,13 +149,13 @@ function buildEventDescription(
 ): string {
   const parts: string[] = [];
   if (data.startDate) {
-    parts.push(`📅 ${formatDateLocale(data.startDate)}`);
+    parts.push(`${formatDateLocale(data.startDate)}`);
   }
   if (data.city || data.location) {
-    parts.push(`📍 ${[data.city, data.location].filter(Boolean).join(", ")}`);
+    parts.push(`${[data.city, data.location].filter(Boolean).join(", ")}`);
   }
   if (data.registrationsCount !== undefined) {
-    parts.push(`👥 ${data.registrationsCount} участников`);
+    parts.push(`${data.registrationsCount} участников`);
   }
   return parts.length > 0
     ? `${baseDescription}\n\n${parts.join("\n")}`
@@ -184,10 +174,8 @@ function generateBaseMetadata(params: GenerateMetadataParams): {
 
   // Формируем заголовок с указанием типа контента
   let title = data.title;
-  if (type === "NEWS") {
-    title = `Новость: ${data.title}`;
-  } else if (type === "ARTICLE") {
-    title = `Статья: ${data.title}`;
+  if (type === "POST") {
+    title = `${getPostCategoryLabel(data.category || "ARTICLE")}: ${data.title}`;
   } else if (type === "EVENT") {
     const eventTypeLabel = data.eventType
       ? EVENT_TYPE_LABELS[data.eventType]
@@ -207,14 +195,14 @@ function generateBaseMetadata(params: GenerateMetadataParams): {
 /**
  * Генерировать метаданные для новости (NEWS)
  */
-function generateNewsMetadata(params: GenerateMetadataParams): Metadata {
+function generatePostMetadata(params: GenerateMetadataParams): Metadata {
   const {
     data,
     siteUrl = "https://fomingrooming.ru",
     siteName = "Формирование",
   } = params;
 
-  const base = generateBaseMetadata({ ...params, type: "NEWS" });
+  const base = generateBaseMetadata({ ...params, type: "POST" });
   const image = data.coverImage || extractImageFromContent(data.content);
   const publishedTime = formatDate(data.created);
   const author = data.author?.name;
@@ -243,49 +231,6 @@ function generateNewsMetadata(params: GenerateMetadataParams): Metadata {
       "article:published_time": publishedTime || "",
       "article:author": author || "",
       "article:section": "Новости",
-    },
-  };
-}
-
-/**
- * Генерировать метаданные для статьи (ARTICLE)
- */
-function generateArticleMetadata(params: GenerateMetadataParams): Metadata {
-  const {
-    data,
-    siteUrl = "https://fomingrooming.ru",
-    siteName = "Формирование",
-  } = params;
-
-  const base = generateBaseMetadata({ ...params, type: "ARTICLE" });
-  const image = data.coverImage || extractImageFromContent(data.content);
-  const publishedTime = formatDate(data.created);
-  const author = data.author?.name;
-  const url = `${siteUrl}/s/${data.slug}`;
-
-  return {
-    title: data.title,
-    description: base.description || undefined,
-    openGraph: {
-      title: data.title,
-      description: base.description || undefined,
-      type: "article",
-      publishedTime,
-      authors: author ? [author] : undefined,
-      images: image ? [{ url: image }] : [],
-      siteName,
-      url,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: data.title,
-      description: base.description || undefined,
-      images: image ? [image] : [],
-    },
-    other: {
-      "article:published_time": publishedTime || "",
-      "article:author": author || "",
-      "article:section": "Статьи",
     },
   };
 }
@@ -355,10 +300,8 @@ export function generateContentMetadata(
   const type = explicitType || determineContentType(data);
 
   switch (type) {
-    case "NEWS":
-      return generateNewsMetadata({ ...params, type: "NEWS" });
-    case "ARTICLE":
-      return generateArticleMetadata({ ...params, type: "ARTICLE" });
+    case "POST":
+      return generatePostMetadata({ ...params, type: "POST" });
     case "EVENT":
       return generateEventMetadata({ ...params, type: "EVENT" });
     default:
@@ -376,7 +319,7 @@ export function generateContentMetadata(
  */
 export function getCanonicalUrl(
   slug: string,
-  baseUrl = "https://fomingrooming.ru",
+  baseUrl = "https://fomingrooming.ru/in/posts",
 ): string {
-  return `${baseUrl}/s/${slug}`;
+  return `${baseUrl}/${slug}`;
 }

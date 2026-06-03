@@ -14,6 +14,7 @@ import Link from "next/link";
 import { PostCoverUploader } from "./PostCoverUploader";
 import { updatePost, submitPost } from "../actions/updatePost";
 import { PostCategory, PostStatus } from "@/generated/prisma/enums";
+import { postCategoryOptions } from "@/lib/postCategoryLabels";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -34,11 +35,6 @@ interface Post {
 interface PostEditFormProps {
   post: Post;
 }
-
-const categoryOptions = [
-  { value: PostCategory.NEWS, label: "Новость" },
-  { value: PostCategory.ARTICLE, label: "Статья" },
-];
 
 export function PostEditForm({ post }: PostEditFormProps) {
   const [form] = Form.useForm();
@@ -176,7 +172,7 @@ export function PostEditForm({ post }: PostEditFormProps) {
             >
               <Select
                 placeholder="Выберите категорию"
-                options={categoryOptions}
+                options={postCategoryOptions}
               />
             </Form.Item>
 

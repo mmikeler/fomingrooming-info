@@ -7,6 +7,7 @@ import PostCard from "@/app/components/post/postCard";
 import { Empty } from "antd";
 import { getFeedItem } from "../../lenta/actions/getFeedItem";
 import Recommendations from "@/app/components/recommendations";
+import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata({
   params,
@@ -15,31 +16,29 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const result = await getFeedItem({ idOrSlug: slug, type: "POST" });
+  const post = await prisma.post.findUnique({
+    where: { slug },
+    include: { author: true },
+  });
 
-  if (!result.success || !result.data) {
+  if (!post) {
     return {};
   }
-
-  const post = result.data;
 
   const metadataInput: PostMetadataInput = {
     title: post.title,
     slug: post.slug,
-    description: post.description,
+    description: post.excerpt,
     content: post.content,
     coverImage: post.coverImage,
     category: post.category,
-    created: post.date,
+    created: post.created,
     author: post.author,
   };
 
-  // Определяем тип контента на основе категории
-  const type = post.category === "ARTICLE" ? "ARTICLE" : "NEWS";
-
   return generateContentMetadata({
     data: metadataInput,
-    type,
+    type: "POST",
   });
 }
 

@@ -31,7 +31,7 @@ function PostsSkeleton() {
  * Компонент для отображения списка постов
  */
 async function PostsList() {
-  const result = await getLatestPosts();
+  const result = await getLatestPosts(4);
 
   if (!result.success || !result.data || result.data.length === 0) {
     return (

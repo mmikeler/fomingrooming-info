@@ -10,7 +10,7 @@ import {
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { prisma } from "@/lib/prisma";
-import { PostStatus } from "@/generated/prisma/enums";
+import { PostCategory, PostStatus } from "@/generated/prisma/enums";
 import { canCreateContent } from "@/lib/permissions";
 
 interface Post {
@@ -20,7 +20,7 @@ interface Post {
   content: string | null;
   coverImage: string | null;
   status: PostStatus;
-  category: "NEWS" | "ARTICLE";
+  category: PostCategory;
   rejectionReason: string | null;
   authorId: number;
 }

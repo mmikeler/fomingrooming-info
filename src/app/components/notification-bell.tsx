@@ -127,7 +127,7 @@ export function NotificationBell() {
                 }`}
                 onClick={() => !item.isRead && handleMarkAsRead(item.id)}
               >
-                <div className="w-full">
+                <div className="w-full px-2">
                   <div className="flex items-start justify-between">
                     <span
                       className={`text-sm font-medium ${
@@ -150,7 +150,7 @@ export function NotificationBell() {
                       </Button>
                     )}
                   </div>
-                  <p className="mt-1 line-clamp-2 text-xs text-gray-600">
+                  <p className="mt-1 line-clamp-3 text-xs text-gray-600">
                     {item.message}
                   </p>
                   <span className="text-xs text-gray-400">

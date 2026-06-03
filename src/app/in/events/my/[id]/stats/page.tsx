@@ -2,15 +2,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect, notFound } from "next/navigation";
-import { EventEditor } from "./components/EventEditor";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Users2 } from "lucide-react";
+import { Card, Space } from "antd";
+import { RegisteredUsersWidget } from "./components/users";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function EventEditPage({ params }: PageProps) {
+export default async function EventStatPage({ params }: PageProps) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
 
@@ -19,7 +20,6 @@ export default async function EventEditPage({ params }: PageProps) {
   }
 
   const user = session.user;
-
   const eventId = parseInt(id, 10);
 
   if (isNaN(eventId)) {
@@ -48,12 +48,30 @@ export default async function EventEditPage({ params }: PageProps) {
     notFound();
   }
 
+  if (parseInt(user.id) !== event.authorId) {
+    return "У вас нет доступа к этой информации";
+  }
+
   return (
     <div className="container mx-auto p-4">
-      <Link href="/in/events/my" className="flex w-fit items-center gap-2">
-        <ArrowLeft size={20} /> К списку мероприятий
+      <Link
+        href={`/in/events/my/${event.id}`}
+        className="flex w-fit items-center gap-2"
+      >
+        <ArrowLeft size={20} /> Назад к редактированию
       </Link>
-      <EventEditor event={event} userRole={user.role} />
+      <div className="mt-5 grid grid-cols-2 gap-4">
+        <Card
+          size="small"
+          title={
+            <Space>
+              <Users2 size={15} /> <span className="">Участники</span>
+            </Space>
+          }
+        >
+          <RegisteredUsersWidget eventId={eventId} />
+        </Card>
+      </div>
     </div>
   );
 }

@@ -19,14 +19,14 @@ import {
 } from "../actions/updateEvent";
 import { useTransition } from "react";
 import Link from "next/link";
-import { EventStatus } from "@/generated/prisma/enums";
+import { EventFormat, EventStatus } from "@/generated/prisma/enums";
 
 interface Event {
   id: number;
   title: string;
   slug: string;
   description: string | null;
-  format: "ONLINE" | "OFFLINE";
+  format: EventFormat;
   city: string | null;
   location: string | null;
   startDate: Date;
@@ -57,12 +57,6 @@ const statusLabels: Record<EventStatus, string> = {
   ARCHIVED: "В архиве",
 };
 
-const formatLabels: Record<string, string> = {
-  ONLINE: "Онлайн",
-  OFFLINE: "Оффлайн",
-};
-
-import { formatDateShort } from "@/app/components/ui/date";
 import { Archive, ArchiveRestore, Edit, ThumbsUp, Trash2 } from "lucide-react";
 
 export function EventsTable({ events }: EventsTableProps) {
@@ -144,13 +138,13 @@ export function EventsTable({ events }: EventsTableProps) {
   };
 
   const columns: TableColumnsType<Event> = [
-    // {
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   align: "center",
-    //   width: 60,
-    // },
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      align: "center",
+      width: 60,
+    },
     {
       title: "Название",
       dataIndex: "title",
@@ -159,20 +153,6 @@ export function EventsTable({ events }: EventsTableProps) {
         <Link href={`/in/events/my/${record.id}`}>{title}</Link>
       ),
     },
-    // {
-    //   title: "Формат",
-    //   dataIndex: "format",
-    //   key: "format",
-    //   render: (format: string) => formatLabels[format] || format,
-    //   align: "center",
-    // },
-    // {
-    //   title: "Дата",
-    //   dataIndex: "startDate",
-    //   key: "startDate",
-    //   render: (startDate: Date) => formatDateShort(startDate),
-    //   align: "center",
-    // },
     {
       title: "Статус",
       dataIndex: "status",
@@ -186,94 +166,6 @@ export function EventsTable({ events }: EventsTableProps) {
             </div>
           )}
         </div>
-      ),
-      align: "center",
-    },
-    // {
-    //   title: "Создано",
-    //   dataIndex: "created",
-    //   key: "created",
-    //   render: (created: Date) => formatDateShort(created),
-    //   align: "center",
-    // },
-    {
-      title: "Действия",
-      key: "actions",
-      render: (_, event) => (
-        <Space.Compact>
-          {event.status === "PUBLISHED" && (
-            <Tooltip title="Опубликовать">
-              <Button
-                href={`/in/events/${event.slug}`}
-                color="cyan"
-                variant="filled"
-              >
-                <ThumbsUp size={16} />
-              </Button>
-            </Tooltip>
-          )}
-          {(event.status === "DRAFT" || event.status === "REJECTED") && (
-            <>
-              <Tooltip title="Опубликовать">
-                <Button
-                  color="cyan"
-                  variant="filled"
-                  onClick={() => handleSubmitEvent(event.id)}
-                  loading={isPending}
-                >
-                  <ThumbsUp size={16} />
-                </Button>
-              </Tooltip>
-              <Tooltip title="Редактировать">
-                <Button
-                  color="green"
-                  href={`/in/events/my/${event.id}`}
-                  variant="filled"
-                >
-                  <Edit size={16} />
-                </Button>
-              </Tooltip>
-            </>
-          )}
-          {event.status === "ARCHIVED" && (
-            <Tooltip title="Восстановить">
-              <Button
-                color="green"
-                variant="filled"
-                onClick={() => handleRestoreEvent(event.id)}
-                loading={isPending}
-              >
-                <ArchiveRestore size={16} />
-              </Button>
-            </Tooltip>
-          )}
-          {event.status !== "ARCHIVED" && event.status !== "PENDING" && (
-            <Tooltip title="Архивировать">
-              <Button
-                color="orange"
-                variant="filled"
-                onClick={() => handleArchiveEvent(event.id)}
-                loading={isPending}
-              >
-                <Archive size={16} />
-              </Button>
-            </Tooltip>
-          )}
-          {event.status !== "PUBLISHED" && event.status !== "PENDING" && (
-            <Popconfirm
-              title="Вы уверены?"
-              okText="Да"
-              cancelText="Нет"
-              onConfirm={() => handleDeleteEvent(event.id)}
-            >
-              <Tooltip title="Удалить">
-                <Button color="danger" variant="filled">
-                  <Trash2 size={16} />
-                </Button>
-              </Tooltip>
-            </Popconfirm>
-          )}
-        </Space.Compact>
       ),
       align: "center",
     },

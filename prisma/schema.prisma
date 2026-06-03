@@ -110,8 +110,8 @@ model Event {
   title           String
   slug            String              @unique
   description     String?
-  format          EventFormat
-  type            EventType?
+  format          EventFormat         @default(ONLINE)
+  type            EventType           @default(VEBINAR)
   city            String?
   location        String?
   startDate       DateTime
@@ -152,6 +152,8 @@ model EventRegistration {
 enum PostCategory {
   NEWS
   ARTICLE
+  EXPERT
+  NOTES
 }
 
 model Post {

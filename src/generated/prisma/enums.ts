@@ -82,7 +82,9 @@ export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]
 
 export const PostCategory = {
   NEWS: 'NEWS',
-  ARTICLE: 'ARTICLE'
+  ARTICLE: 'ARTICLE',
+  EXPERT: 'EXPERT',
+  NOTES: 'NOTES'
 } as const
 
 export type PostCategory = (typeof PostCategory)[keyof typeof PostCategory]

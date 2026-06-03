@@ -27,12 +27,14 @@ export default async function PostEditPage({ params }: PostEditPageProps) {
   // Проверка статуса аккаунта
   const user = await prisma.user.findUnique({
     where: { id: parseInt(session.user.id) },
-    select: { status: true },
+    select: { status: true, role: true },
   });
 
   if (!user || !canCreateContent(user.status)) {
     notFound();
   }
+
+  const isAdmin = user.role.match(/ADMIN/);
 
   // Поиск поста с проверкой владельца
   const post = await prisma.post.findFirst({
@@ -47,7 +49,11 @@ export default async function PostEditPage({ params }: PostEditPageProps) {
   }
 
   // Проверка: можно редактировать только черновики и отклонённые посты
-  if (post.status !== PostStatus.DRAFT && post.status !== PostStatus.REJECTED) {
+  if (
+    post.status !== PostStatus.DRAFT &&
+    post.status !== PostStatus.REJECTED &&
+    !isAdmin
+  ) {
     // Редирект на страницу списка постов
     return (
       <div className="p-6">

@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { action, UnauthorizedError, ForbiddenError } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
-import { EventStatus, EventType } from "@/generated/prisma/enums";
+import { EventFormat, EventStatus, EventType } from "@/generated/prisma/enums";
 import { generateEventUniqueSlug } from "./checkEventSlug";
 import { canCreateContent } from "@/lib/permissions";
 
@@ -35,7 +35,7 @@ export async function createEvent(): Promise<ActionResult<CreatedEvent>> {
     // Проверка статуса аккаунта
     const user = await prisma.user.findUnique({
       where: { id: parseInt(session.user.id) },
-      select: { status: true },
+      select: { status: true, city: true },
     });
 
     if (!user || !canCreateContent(user.status)) {
@@ -51,19 +51,29 @@ export async function createEvent(): Promise<ActionResult<CreatedEvent>> {
     }
 
     // Создание мероприятия как черновика
+    const now = new Date();
+    const startRegDate = new Date(now.setDate(now.getDate() + 1));
+    startRegDate.setHours(0, 0, 0, 0);
+    const endRegDate = new Date(now.setDate(now.getDate() + 5));
+    endRegDate.setHours(0, 0, 0, 0);
+    const startDate = new Date(now.setDate(now.getDate() + 6));
+    startDate.setHours(10, 0, 0, 0);
+    const endDate = new Date(now.setDate(now.getDate() + 6));
+    endDate.setHours(18, 0, 0, 0);
+
     const event = await prisma.event.create({
       data: {
         title: "Новое мероприятие",
         slug: slugResult.data,
         description: null,
-        format: "OFFLINE",
+        format: EventFormat.ONLINE,
         type: EventType.VEBINAR,
-        city: null,
+        city: user.city || null,
         location: null,
-        startDate: new Date(),
-        endDate: new Date(),
-        startRegDate: new Date(),
-        endRegDate: new Date(),
+        startDate,
+        endDate,
+        startRegDate,
+        endRegDate,
         coverImage: null,
         status: EventStatus.DRAFT,
         authorId: parseInt(session.user.id),

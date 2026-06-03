@@ -46,8 +46,8 @@ export default function Home() {
           {/* Основной контент */}
           <div className="w-full min-w-0">
             <section id="events" className="flex flex-col gap-8 lg:flex-row">
-              {/* Виджет вакансий */}
-              <div
+              {/* Виджет вакансий: HIDDEN */}
+              {/* <div
                 id="vacancies"
                 className="order-2 rounded-2xl bg-[#EDF4FF80] p-2 py-5 lg:order-1 lg:p-5"
               >
@@ -55,9 +55,10 @@ export default function Home() {
                   Вакансии
                 </Title>
                 <VACANCY_BAR />
-              </div>
+              </div> */}
+
               {/* События и экспертиза */}
-              <div className="order-1 w-full min-w-0 p-2 lg:order-2 lg:max-w-175 lg:p-0">
+              <div className="order-1 mx-auto w-full min-w-0 p-2 lg:order-2 lg:max-w-175 lg:p-0">
                 <EVENT_BAR />
                 <div id="experts">
                   <Title className="mt-10 text-center lg:text-left" level={2}>
@@ -69,10 +70,13 @@ export default function Home() {
                 </div>
               </div>
             </section>
+
             <section>
               <ADS place="FP_CONTENT_ONE" className="my-8 h-40 w-full" />
             </section>
-            <section id="market" className="mt-10 p-2 lg:p-0">
+
+            {/* MARKET: HIDDEN */}
+            <section id="market" className="mt-10 hidden p-2 lg:p-0">
               <Title level={2} className="text-center lg:text-left">
                 Маркет
               </Title>
@@ -85,6 +89,7 @@ export default function Home() {
                 </div>
               </div>
             </section>
+
             <section id="reviews" className="mt-10 p-2 lg:p-0">
               <Title level={2} className="text-center lg:text-left">
                 Актуальное
@@ -93,9 +98,11 @@ export default function Home() {
                 <ACTUAL_POSTS />
               </div>
             </section>
+
             <section>
               <ADS place="FP_CONTENT_TWO" className="my-8 h-40 w-full" />
             </section>
+
             <section className="mt-10 p-2 lg:p-0">
               <Title level={2} className="text-center lg:text-left">
                 Заметки
