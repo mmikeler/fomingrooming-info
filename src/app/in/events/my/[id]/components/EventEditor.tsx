@@ -42,7 +42,7 @@ import EventStats from "./eventStats";
 // Markdown editor - динамическая загрузка
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-const statusColors: Record<EventStatus, string> = {
+export const statusColors: Record<EventStatus, string> = {
   DRAFT: "default",
   PENDING: "processing",
   PUBLISHED: "success",
@@ -50,7 +50,7 @@ const statusColors: Record<EventStatus, string> = {
   ARCHIVED: "warning",
 };
 
-const statusLabels: Record<EventStatus, string> = {
+export const statusLabels: Record<EventStatus, string> = {
   DRAFT: "Черновик",
   PENDING: "На модерации",
   PUBLISHED: "Опубликовано",
@@ -196,8 +196,8 @@ export function EventEditor({
   const datePickerFormat = "DD.MM.YYYY HH:mm";
 
   return (
-    <div className="flex gap-4">
-      <div className="w-180 max-w-full p-5">
+    <div className="flex gap-6">
+      <div className="w-full max-w-180">
         <Form
           form={form}
           layout="vertical"
@@ -218,7 +218,7 @@ export function EventEditor({
           onFinish={onFinish}
         >
           <div className="mb-10">
-            <Title level={5}>Обложка</Title>
+            <h3 className="mb-1 font-semibold">Обложка</h3>
             <EventCoverUploader
               currentCover={coverImage}
               onCoverChange={handleCoverChange}
@@ -400,10 +400,11 @@ export function EventEditor({
       </div>
 
       {/* Form controls */}
-      <div className="col-span-1">
+      <div className="relative w-55">
         <div className="sticky top-6 flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             <Tag
+              variant="solid"
               className="w-full text-center! text-lg!"
               color={statusColors[event.status]}
             >

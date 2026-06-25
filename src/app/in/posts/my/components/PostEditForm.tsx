@@ -3,40 +3,34 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Form, Input, Select, Button, Space, message, App } from "antd";
-import {
-  SaveOutlined,
-  SendOutlined,
-  ArrowLeftOutlined,
-} from "@ant-design/icons";
+import { Form, Input, Select, Button, App, Tag } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { PostCoverUploader } from "./PostCoverUploader";
-import { updatePost, submitPost } from "../actions/updatePost";
-import { PostCategory, PostStatus } from "@/generated/prisma/enums";
+import { updatePost } from "../actions/updatePost";
+import { PostCategory } from "@/generated/prisma/enums";
 import { postCategoryOptions } from "@/lib/postCategoryLabels";
+import { Post } from "@/generated/prisma/client";
+import {
+  statusColors,
+  statusLabels,
+} from "@/app/in/events/my/[id]/components/EventEditor";
+import { Management } from "./management";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
   { ssr: false },
 );
 
-interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  content: string | null;
-  coverImage: string | null;
-  status: PostStatus;
-  category: PostCategory;
-}
+export type PostWithCounts = Post & {
+  _count: {
+    favorites: number;
+    likes: number;
+  };
+};
 
-interface PostEditFormProps {
-  post: Post;
-}
-
-export function PostEditForm({ post }: PostEditFormProps) {
+export function PostEditForm({ post }: { post: PostWithCounts }) {
   const [form] = Form.useForm();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -86,36 +80,25 @@ export function PostEditForm({ post }: PostEditFormProps) {
     });
   };
 
-  const handleSubmit = async () => {
-    startTransition(async () => {
-      try {
-        const result = await submitPost(post.id);
-
-        if (result.success) {
-          appMessage.success("Пост отправлен на модерацию");
-          router.push("/in/posts/my");
-        } else {
-          appMessage.error(result.error?.message || "Ошибка при отправке");
-        }
-      } catch {
-        appMessage.error("Ошибка при отправке");
-      }
-    });
-  };
-
   const handleSubmitFailed = () => {
     appMessage.error("Пожалуйста, заполните все обязательные поля");
   };
 
   return (
     <div className="p-6">
-      <div className="mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <Link href="/in/posts/my">
           <Button icon={<ArrowLeftOutlined />}>К списку постов</Button>
         </Link>
+        {/* СТАТУС ПОСТА */}
+        <Tag
+          variant="solid"
+          className="p-1! px-2! text-[16px]!"
+          color={statusColors[post.status]}
+        >
+          {statusLabels[post.status]}
+        </Tag>
       </div>
-
-      <h1 className="mb-6 text-2xl font-bold">Редактирование поста</h1>
 
       <Form
         form={form}
@@ -126,9 +109,19 @@ export function PostEditForm({ post }: PostEditFormProps) {
           category: post.category,
         }}
       >
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="flex gap-4">
           {/* Левая колонка - основные поля */}
-          <div className="lg:col-span-2">
+          <div className="w-180 max-w-full">
+            {/* Обложка */}
+            <div className="mb-4">
+              <h3 className="mb-1 font-semibold">Обложка</h3>
+              <PostCoverUploader
+                currentCover={coverImage}
+                onCoverChange={setCoverImage}
+                disabled={isPending}
+              />
+            </div>
+
             <Form.Item
               name="title"
               label="Заголовок"
@@ -194,41 +187,9 @@ export function PostEditForm({ post }: PostEditFormProps) {
           </div>
 
           {/* Правая колонка - обложка и действия */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-6">
-              <div className="mb-4 rounded-lg border bg-white p-4">
-                <h3 className="mb-4 font-semibold">Обложка поста</h3>
-                <PostCoverUploader
-                  currentCover={coverImage}
-                  onCoverChange={setCoverImage}
-                  disabled={isPending}
-                />
-              </div>
-
-              <div className="rounded-lg border bg-white p-4">
-                <h3 className="mb-4 font-semibold">Действия</h3>
-                <Space direction="vertical" className="w-full">
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    icon={<SaveOutlined />}
-                    loading={isPending}
-                    block
-                  >
-                    Сохранить
-                  </Button>
-                  <Button
-                    type="primary"
-                    color="green"
-                    icon={<SendOutlined />}
-                    onClick={handleSubmit}
-                    loading={isPending}
-                    block
-                  >
-                    Отправить на модерацию
-                  </Button>
-                </Space>
-              </div>
+          <div className="relative mt-6 w-50">
+            <div className="sticky top-6 flex flex-col gap-5">
+              <Management post={post} />
             </div>
           </div>
         </div>

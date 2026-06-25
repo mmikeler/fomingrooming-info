@@ -56,7 +56,7 @@ export function EventCoverUploader({
       } else {
         message.error(result.error || "Ошибка при загрузке");
       }
-    } catch (error) {
+    } catch {
       message.error("Ошибка при загрузке файла");
     } finally {
       setLoading(false);
@@ -85,7 +85,7 @@ export function EventCoverUploader({
       } else {
         message.error(result.error || "Ошибка при удалении");
       }
-    } catch (error) {
+    } catch {
       message.error("Ошибка при удалении файла");
     } finally {
       setLoading(false);

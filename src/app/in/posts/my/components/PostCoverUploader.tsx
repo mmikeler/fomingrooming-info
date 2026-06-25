@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Button, message } from "antd";
+import { App, Button } from "antd";
 import {
   UploadOutlined,
   DeleteOutlined,
@@ -26,6 +26,7 @@ export function PostCoverUploader({
     currentCover || null,
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { message } = App.useApp();
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,7 +56,7 @@ export function PostCoverUploader({
       } else {
         message.error(result.error || "Ошибка при загрузке");
       }
-    } catch (error) {
+    } catch {
       message.error("Ошибка при загрузке файла");
     } finally {
       setLoading(false);
@@ -84,7 +85,7 @@ export function PostCoverUploader({
       } else {
         message.error(result.error || "Ошибка при удалении");
       }
-    } catch (error) {
+    } catch {
       message.error("Ошибка при удалении файла");
     } finally {
       setLoading(false);
@@ -96,7 +97,7 @@ export function PostCoverUploader({
   };
 
   return (
-    <div className="flex flex-col items-start gap-4">
+    <div className="">
       <div className="w-full">
         {previewUrl ? (
           <div className="relative h-50 w-full overflow-hidden rounded-lg bg-gray-100">
@@ -118,41 +119,41 @@ export function PostCoverUploader({
           </div>
         )}
       </div>
+      <div className="mt-3 flex items-center justify-between">
+        <p className="text-xs text-gray-500">
+          JPEG, PNG, GIF, WebP. Максимум 5MB.
+        </p>
+        <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/gif,image/webp"
+            onChange={handleFileSelect}
+            className="hidden!"
+          />
 
-      <div className="flex flex-col gap-2">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/gif,image/webp"
-          onChange={handleFileSelect}
-          className="hidden w-full"
-        />
-
-        <Button
-          icon={<UploadOutlined />}
-          onClick={handleClick}
-          loading={loading}
-          disabled={disabled || loading}
-        >
-          {previewUrl ? "Заменить" : "Загрузить"}
-        </Button>
-
-        {previewUrl && (
           <Button
-            icon={<DeleteOutlined />}
-            onClick={handleDelete}
+            icon={<UploadOutlined />}
+            onClick={handleClick}
             loading={loading}
             disabled={disabled || loading}
-            danger
           >
-            Удалить
+            {previewUrl ? "Заменить" : "Загрузить"}
           </Button>
-        )}
-      </div>
 
-      <p className="text-xs text-gray-500">
-        JPEG, PNG, GIF, WebP. Максимум 5MB.
-      </p>
+          {previewUrl && (
+            <Button
+              icon={<DeleteOutlined />}
+              onClick={handleDelete}
+              loading={loading}
+              disabled={disabled || loading}
+              danger
+            >
+              Удалить
+            </Button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

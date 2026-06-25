@@ -1,10 +1,13 @@
-import { notFound } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { canCreateContent } from "@/lib/permissions";
+// Post stats page
+
 import { PostStatus } from "@/generated/prisma/enums";
-import { PostEditForm } from "../components/PostEditForm";
+import { authOptions } from "@/lib/auth";
+import { canCreateContent } from "@/lib/permissions";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 interface PostEditPageProps {
   params: Promise<{ id: string }>;
@@ -75,5 +78,16 @@ export default async function PostEditPage({ params }: PostEditPageProps) {
     );
   }
 
-  return <PostEditForm post={post} />;
+  return (
+    <div className="container mx-auto p-4">
+      <Link
+        href={`/in/posts/my/${post.id}`}
+        className="flex w-fit items-center gap-2"
+      >
+        <ArrowLeft size={20} /> Назад к редактированию
+      </Link>
+
+      <div className="p-5">Недостаточно информации</div>
+    </div>
+  );
 }

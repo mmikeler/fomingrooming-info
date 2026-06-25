@@ -4,7 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { redirect, notFound } from "next/navigation";
 import { EventEditor } from "./components/EventEditor";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -49,10 +50,12 @@ export default async function EventEditPage({ params }: PageProps) {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <Link href="/in/events/my" className="flex w-fit items-center gap-2">
-        <ArrowLeft size={20} /> К списку мероприятий
-      </Link>
+    <div className="container mx-auto p-6">
+      <div className="mb-4">
+        <Link href="/in/events/my">
+          <Button icon={<ArrowLeftOutlined />}>К списку мероприятий</Button>
+        </Link>
+      </div>
       <EventEditor event={event} userRole={user.role} />
     </div>
   );

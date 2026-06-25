@@ -13,7 +13,7 @@ import {
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { canPublishDirectly, canCreateContent } from "@/lib/permissions";
-import { PostStatus } from "@/generated/prisma/enums";
+import { PostCategory, PostStatus } from "@/generated/prisma/enums";
 import { validateSlug } from "@/lib/slug";
 import { generateUniqueSlug } from "./checkSlug";
 
@@ -23,7 +23,7 @@ interface UpdatePostData {
   excerpt?: string | null;
   content?: string;
   coverImage?: string | null;
-  category?: "NEWS" | "ARTICLE";
+  category?: PostCategory;
 }
 
 interface UpdatedPost {
@@ -49,6 +49,7 @@ export async function updatePost(
     if (!session?.user?.id) {
       throw new UnauthorizedError("Необходима авторизация");
     }
+    const isAdmin = session.user.role.match(/ADMIN/);
 
     // Проверка статуса аккаунта
     const userCheck = await prisma.user.findUnique({
@@ -74,10 +75,11 @@ export async function updatePost(
       throw new NotFoundError("Пост", id);
     }
 
-    // Проверка: можно редактировать только черновики и отклонённые посты
+    // Проверка: можно редактировать только черновики и отклонённые посты, если нет прав ADMIN
     if (
       existingPost.status !== PostStatus.DRAFT &&
-      existingPost.status !== PostStatus.REJECTED
+      existingPost.status !== PostStatus.REJECTED &&
+      !isAdmin
     ) {
       throw new BadRequestError("Нельзя редактировать пост в текущем статусе");
     }
