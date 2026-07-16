@@ -13,40 +13,61 @@ import {
 } from "@/lib/errors";
 import type { ActionResult } from "@/lib/errors";
 import { canPublishDirectly, canCreateContent } from "@/lib/permissions";
-import { EventFormat, EventStatus, EventType } from "@/generated/prisma/enums";
+import { EventStatus } from "@/generated/prisma/enums";
 import { validateSlug } from "@/lib/slug";
 import { generateEventUniqueSlug } from "./checkEventSlug";
+import { Event } from "@/generated/prisma/client";
 
-interface UpdateEventData {
-  title?: string;
-  slug?: string;
-  description?: string | null;
-  format?: EventFormat;
-  type?: EventType | null;
-  city?: string | null;
-  location?: string | null;
-  startDate?: Date;
-  endDate?: Date;
-  startRegDate?: Date | null;
-  endRegDate?: Date | null;
-  coverImage?: string | null;
-  status?: EventStatus;
-}
+type EditableEventFields = Pick<
+  Event,
+  | "title"
+  | "slug"
+  | "description"
+  | "format"
+  | "type"
+  | "city"
+  | "location"
+  | "startDate"
+  | "endDate"
+  | "startRegDate"
+  | "endRegDate"
+  | "coverImage"
+>;
 
-interface UpdatedEvent {
-  id: number;
-  title: string;
-  slug: string;
-  description: string | null;
-  format: EventFormat;
-  type: EventType | null;
-  city: string | null;
-  location: string | null;
-  startDate: Date;
-  endDate: Date;
-  coverImage: string | null;
-  status: EventStatus;
-}
+type NullableEventFields = Pick<
+  Event,
+  | "description"
+  | "type"
+  | "city"
+  | "location"
+  | "startDate"
+  | "endDate"
+  | "startRegDate"
+  | "endRegDate"
+  | "coverImage"
+>;
+
+type UpdateEventData = {
+  [K in keyof EditableEventFields]?: K extends keyof NullableEventFields
+    ? EditableEventFields[K] | null
+    : EditableEventFields[K];
+} & { status?: EventStatus };
+
+type UpdatedEvent = Pick<
+  Event,
+  | "id"
+  | "title"
+  | "slug"
+  | "description"
+  | "format"
+  | "type"
+  | "city"
+  | "location"
+  | "startDate"
+  | "endDate"
+  | "coverImage"
+  | "status"
+>;
 
 /**
  * Обновление мероприятия (только для черновиков и отклонённых мероприятий)

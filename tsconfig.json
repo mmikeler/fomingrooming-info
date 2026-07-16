@@ -6,6 +6,8 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
     "esModuleInterop": true,
     //"ignoreDeprecations": "6.0",
     "module": "esnext",
@@ -29,7 +31,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "src/generated/prisma/**/*.ts",
+    "src/generated/prisma/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }
