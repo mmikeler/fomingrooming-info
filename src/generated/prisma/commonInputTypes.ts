@@ -256,11 +256,11 @@ export type EnumEventFormatFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumEventFormatFilter<$PrismaModel> | $Enums.EventFormat
 }
 
-export type EnumEventTypeNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EventType[] | null
-  notIn?: $Enums.EventType[] | null
-  not?: Prisma.NestedEnumEventTypeNullableFilter<$PrismaModel> | $Enums.EventType | null
+export type EnumEventTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EventType[]
+  notIn?: $Enums.EventType[]
+  not?: Prisma.NestedEnumEventTypeFilter<$PrismaModel> | $Enums.EventType
 }
 
 export type EnumEventStatusFilter<$PrismaModel = never> = {
@@ -280,14 +280,14 @@ export type EnumEventFormatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumEventFormatFilter<$PrismaModel>
 }
 
-export type EnumEventTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EventType[] | null
-  notIn?: $Enums.EventType[] | null
-  not?: Prisma.NestedEnumEventTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.EventType | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumEventTypeNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumEventTypeNullableFilter<$PrismaModel>
+export type EnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EventType[]
+  notIn?: $Enums.EventType[]
+  not?: Prisma.NestedEnumEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.EventType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEventTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEventTypeFilter<$PrismaModel>
 }
 
 export type EnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -644,11 +644,11 @@ export type NestedEnumEventFormatFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumEventFormatFilter<$PrismaModel> | $Enums.EventFormat
 }
 
-export type NestedEnumEventTypeNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EventType[] | null
-  notIn?: $Enums.EventType[] | null
-  not?: Prisma.NestedEnumEventTypeNullableFilter<$PrismaModel> | $Enums.EventType | null
+export type NestedEnumEventTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EventType[]
+  notIn?: $Enums.EventType[]
+  not?: Prisma.NestedEnumEventTypeFilter<$PrismaModel> | $Enums.EventType
 }
 
 export type NestedEnumEventStatusFilter<$PrismaModel = never> = {
@@ -668,14 +668,14 @@ export type NestedEnumEventFormatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumEventFormatFilter<$PrismaModel>
 }
 
-export type NestedEnumEventTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EventType[] | null
-  notIn?: $Enums.EventType[] | null
-  not?: Prisma.NestedEnumEventTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.EventType | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumEventTypeNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumEventTypeNullableFilter<$PrismaModel>
+export type NestedEnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EventType | Prisma.EnumEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EventType[]
+  notIn?: $Enums.EventType[]
+  not?: Prisma.NestedEnumEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.EventType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEventTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEventTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {

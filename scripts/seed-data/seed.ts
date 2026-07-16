@@ -211,7 +211,7 @@ async function main() {
         description: event.description || null,
         format: event.format,
         coverImage: event.coverImage || null,
-        type: event.type || null,
+        type: event.type || "VEBINAR",
         city: event.city || null,
         location: event.location || null,
         startDate: new Date(event.startDate),

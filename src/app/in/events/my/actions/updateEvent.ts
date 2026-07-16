@@ -37,7 +37,6 @@ type EditableEventFields = Pick<
 type NullableEventFields = Pick<
   Event,
   | "description"
-  | "type"
   | "city"
   | "location"
   | "startDate"

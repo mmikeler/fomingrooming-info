@@ -98,7 +98,7 @@ export function EventEditor({
     city?: string;
     location?: string;
     format: EventFormat;
-    type: EventType | null;
+    type: EventType;
     startRegDate: dayjs.Dayjs;
     endRegDate: dayjs.Dayjs;
   }) => {
