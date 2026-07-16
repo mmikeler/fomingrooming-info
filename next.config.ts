@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
         port: "3000",
         pathname: "/uploads/**",
       },
+      { hostname: "fomingrooming.info" },
     ],
   },
 };
