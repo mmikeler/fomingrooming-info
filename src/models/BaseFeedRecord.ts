@@ -1,9 +1,8 @@
 // Base class for all feed records
 
 import { FeedItemType } from "@/app/in/lenta/types";
-import { Event, Post, PostStatus } from "@/generated/prisma/client";
+import { Event, Post, PostStatus, User } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { User } from "@prisma/client";
 
 type Author = {
   id: User["id"];
