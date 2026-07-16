@@ -1,7 +1,7 @@
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../../src/generated/prisma/client";
 import { hash } from "bcryptjs";
-import { slugify } from "../src/lib/slug";
+import { slugify } from "../../src/lib/slug";
 import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
@@ -14,7 +14,7 @@ import {
   SeedEvent,
   SeedEventRegistration,
   SeedAdv,
-} from "../scripts/seed-data/types";
+} from "./types";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

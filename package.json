@@ -16,7 +16,7 @@
     "test:e2e:debug": "playwright test --debug"
   },
   "prisma": {
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed-data/seed.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^6.3.2",

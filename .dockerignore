@@ -1,0 +1,29 @@
+# Исключаем dev-инструменты
+scripts/seed.ts
+scripts/seed-data/
+
+# Исключаем dev-файлы и конфиги
+.git
+.gitignore
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE и редакторы
+.idea
+.vscode
+*.swp
+*.swo
+
+# Тесты
+__tests__
+*.test.ts
+*.spec.ts
+
+# Документация
+README.md
+docs/
+*.md
