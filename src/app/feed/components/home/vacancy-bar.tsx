@@ -1,6 +1,6 @@
 import Button from "@/app/components/ui/button";
 import { formatPrice } from "@/app/components/ui/format";
-import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
+import { Eye, Heart } from "lucide-react";
 
 export default function VACANCY_BAR() {
   const vacancy = [
@@ -76,11 +76,11 @@ export default function VACANCY_BAR() {
               <div className="text-[10px]">{v.address}</div>
               <div className="flex items-center justify-end gap-4 text-[12px] text-gray-500">
                 <span className="flex items-center gap-1">
-                  <EyeOutlined />
+                  <Eye />
                   {v.views}
                 </span>
                 <span className="flex items-center gap-1">
-                  <HeartOutlined />
+                  <Heart />
                   {v.likes}
                 </span>
               </div>

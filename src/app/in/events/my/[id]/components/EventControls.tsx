@@ -57,7 +57,7 @@ export default function EventControls(props: EventControlsProps) {
         >
           Сохранить изменения
         </Button>
-        {status !== "PUBLISHED" && status !== "REJECTED" && (
+        {!isPublished && !isRejected && (
           <Button
             color="green"
             variant="outlined"

@@ -1,10 +1,10 @@
-import { ArrowUpOutlined } from "@ant-design/icons";
 import { Skeleton } from "antd";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getNewsPosts, type NewsPost } from "./actions/getNewsPosts";
 import { getExcerpt } from "@/app/components/ui/excerpt";
 import { formatDate } from "@/app/components/ui/date";
+import { ArrowUpRight } from "lucide-react";
 
 /**
  * Скелетон для загрузки новостей
@@ -67,7 +67,7 @@ async function NewsList({
             >
               {item.title}
               <div className="absolute top-0 right-0">
-                <ArrowUpOutlined className="rotate-45" />
+                <ArrowUpRight className="rotate-45" />
               </div>
             </Link>
             <div className="mt-1">{excerpt}</div>

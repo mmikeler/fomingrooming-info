@@ -1,7 +1,6 @@
-import { ArrowRightOutlined } from "@ant-design/icons";
 import { Card, Flex, Space, Skeleton } from "antd";
 import Image from "next/image";
-import { Timer } from "lucide-react";
+import { ArrowRight, Timer } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import {
@@ -180,7 +179,7 @@ async function EventsList() {
         <Link href="/in/events">
           <Button>
             <Space>
-              Все мероприятия <ArrowRightOutlined />
+              Все мероприятия <ArrowRight />
             </Space>
           </Button>
         </Link>

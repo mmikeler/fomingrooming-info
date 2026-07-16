@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Form, Input, Select, Button, App, Tag } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Form, Input, Select, App, Tag } from "antd";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { PostCoverUploader } from "./PostCoverUploader";
 import { updatePost } from "../actions/updatePost";
 import { PostCategory } from "@/generated/prisma/enums";
@@ -17,6 +15,7 @@ import {
   statusLabels,
 } from "@/app/in/events/my/[id]/components/EventEditor";
 import { Management } from "./management";
+import BackButton from "@/app/in/components/backButton";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -87,9 +86,7 @@ export function PostEditForm({ post }: { post: PostWithCounts }) {
   return (
     <div className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <Link href="/in/posts/my">
-          <Button icon={<ArrowLeftOutlined />}>К списку постов</Button>
-        </Link>
+        <BackButton label={"К списку постов"} url="/in/posts/my" />
         {/* СТАТУС ПОСТА */}
         <Tag
           variant="solid"
@@ -189,7 +186,7 @@ export function PostEditForm({ post }: { post: PostWithCounts }) {
           {/* Правая колонка - обложка и действия */}
           <div className="relative mt-6 w-50">
             <div className="sticky top-6 flex flex-col gap-5">
-              <Management post={post} />
+              <Management post={post} isPending={isPending} />
             </div>
           </div>
         </div>

@@ -4,29 +4,22 @@
 
 import { PostStatus } from "@/generated/prisma/enums";
 import { PostWithCounts } from "./PostEditForm";
-import { Alert, Card, Button, Space, App } from "antd";
+import { Alert, Card, Button, Space } from "antd";
 import PostStats from "../[id]/components/postStats";
-import { useTransition } from "react";
-import { changePostStatus } from "../actions/changePostStatus";
+import { useSession } from "next-auth/react";
+import { ManagePostStatusWidget } from "@/app/components/post/managePostStatusWidget";
 
-export function Management({ post }: { post: PostWithCounts }) {
-  const [isPending, startTransition] = useTransition();
-  const { message } = App.useApp();
-
-  const changeStatus = (status: PostStatus) => {
-    startTransition(async () => {
-      try {
-        const result = await changePostStatus(post.id, status);
-        if ("error" in result) throw new Error(result.error);
-
-        message.success("Статус поста успешно изменён");
-      } catch {
-        message.error("Что-то пошло не так.");
-      }
-    });
-  };
-
+export function Management({
+  post,
+  isPending,
+}: {
+  post: PostWithCounts;
+  isPending: boolean;
+}) {
+  const { data: session } = useSession();
   const { status } = post;
+
+  if (!session) return null;
 
   return (
     <>
@@ -50,29 +43,7 @@ export function Management({ post }: { post: PostWithCounts }) {
             Сохранить
           </Button>
 
-          {status === PostStatus.DRAFT && (
-            <Button
-              variant="outlined"
-              color="green"
-              onClick={() => changeStatus(PostStatus.PENDING)}
-              loading={isPending}
-              block
-            >
-              На модерацию
-            </Button>
-          )}
-
-          {status === PostStatus.PUBLISHED && (
-            <Button
-              variant="outlined"
-              color="default"
-              onClick={() => changeStatus(PostStatus.DRAFT)}
-              loading={isPending}
-              block
-            >
-              Снять с публикации
-            </Button>
-          )}
+          <ManagePostStatusWidget postID={post.id} postStatus={status} />
         </Space>
       </Card>
 

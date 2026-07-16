@@ -35,7 +35,6 @@ import {
   Link,
   MapPinHouse,
 } from "lucide-react";
-import Title from "antd/es/typography/Title";
 import { EventWithCounts } from "@/types/event";
 import EventStats from "./eventStats";
 

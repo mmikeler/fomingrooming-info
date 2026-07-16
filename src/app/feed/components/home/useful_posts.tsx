@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { getLatestPosts, type LatestPost } from "./actions/getLatestPosts";
 import { getExcerpt } from "@/app/components/ui/excerpt";
-import { ArrowRightOutlined } from "@ant-design/icons";
+import { ArrowRight } from "lucide-react";
 
 /**
  * Skeleton for loading posts
@@ -76,9 +76,9 @@ function PostCard({ post }: { post: LatestPost }) {
         <p className="mt-2 min-h-20 text-sm sm:min-h-25">{excerpt}</p>
         <Link
           href={`/blog/${post.slug}`}
-          className="mt-auto pt-4 text-xs sm:pt-5"
+          className="mt-auto flex items-center gap-2 pt-4 text-xs sm:pt-5"
         >
-          Читать дальше <ArrowRightOutlined />
+          Читать дальше <ArrowRight size={14} />
         </Link>
       </div>
     </div>

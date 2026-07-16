@@ -1,17 +1,16 @@
-import { Layout } from "antd";
+import { Layout, Button } from "antd";
 import NavButtonsBlock from "./components/home/nav-buttons";
 import NEWS_BAR from "./components/home/news-bar";
 import ADS from "../components/ads/ads";
-import VACANCY_BAR from "./components/home/vacancy-bar";
 import EVENT_BAR from "./components/home/events-bar";
 import ExpertOpinion from "./components/home/expert-opinion";
-import MARKET_BAR from "./components/home/market-bar";
-import Button from "../components/ui/button";
-import { ArrowRightOutlined } from "@ant-design/icons";
 import ACTUAL_POSTS from "./components/home/actual_posts";
 import NOTES_POSTS from "./components/home/notes";
 import USEFUL_POSTS from "./components/home/useful_posts";
 import Title from "antd/es/typography/Title";
+import VACANCY_BAR from "./components/home/vacancy-bar";
+import MARKET_BAR from "./components/home/market-bar";
+import { ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +46,7 @@ export default function Home() {
           <div className="w-full min-w-0">
             <section id="events" className="flex flex-col gap-8 lg:flex-row">
               {/* Виджет вакансий: HIDDEN */}
-              {/* <div
+              <div
                 id="vacancies"
                 className="order-2 rounded-2xl bg-[#EDF4FF80] p-2 py-5 lg:order-1 lg:p-5"
               >
@@ -55,10 +54,10 @@ export default function Home() {
                   Вакансии
                 </Title>
                 <VACANCY_BAR />
-              </div> */}
+              </div>
 
               {/* События и экспертиза */}
-              <div className="order-1 mx-auto w-full min-w-0 p-2 lg:order-2 lg:max-w-175 lg:p-0">
+              <div className="order-1 mx-auto w-full min-w-0 p-2 lg:order-2 lg:max-w-185 lg:p-0">
                 <EVENT_BAR />
                 <div id="experts">
                   <Title className="mt-10 text-center lg:text-left" level={2}>
@@ -84,7 +83,7 @@ export default function Home() {
                 <MARKET_BAR />
                 <div className="ms-auto mt-6 w-fit">
                   <Button href="/">
-                    Все объявления <ArrowRightOutlined />
+                    Все объявления <ArrowRight size={16} />
                   </Button>
                 </div>
               </div>

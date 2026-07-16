@@ -3,6 +3,7 @@ import Image from "next/image";
 import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import Paragraph from "antd/es/typography/Paragraph";
 import { formatPrice } from "@/app/components/ui/format";
+import { Eye, Heart } from "lucide-react";
 
 export default function MARKET_BAR() {
   const products = [
@@ -74,11 +75,7 @@ export default function MARKET_BAR() {
                   className="h-auto w-full object-cover"
                 />
                 <div className="absolute top-2 right-2 cursor-pointer">
-                  {!p.inFavorite ? (
-                    <HeartOutlined className={`text-2xl text-white!`} />
-                  ) : (
-                    <HeartFilled className="text-2xl text-red-500!" />
-                  )}
+                  {!p.inFavorite ? <Heart /> : <Heart color="red" />}
                 </div>
               </div>
             }
@@ -87,10 +84,10 @@ export default function MARKET_BAR() {
                 {formatPrice(p.price)}
               </div>,
               <div key={2} className="text-[10px] sm:text-[12px]">
-                <EyeOutlined /> {p.vews}
+                <Eye /> {p.vews}
               </div>,
               <div key={3} className="text-[10px] sm:text-[12px]">
-                <HeartOutlined /> {p.favorites}
+                <Heart /> {p.favorites}
               </div>,
             ]}
           >

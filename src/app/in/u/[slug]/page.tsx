@@ -3,17 +3,12 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Avatar, Empty, Tooltip } from "antd";
-import {
-  UserOutlined,
-  CalendarOutlined,
-  EnvironmentOutlined,
-} from "@ant-design/icons";
 import { ContactButton } from "./components/ContactButton";
 import { ShortCard } from "./components/shortcard";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import Button from "@/app/components/ui/button";
-import { Settings } from "lucide-react";
+import { Calendar, MapPin, Settings, User } from "lucide-react";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -114,11 +109,7 @@ export default async function UserProfilePage({ params }: Props) {
                   className="border-2 border-gray-200"
                 />
               ) : (
-                <Avatar
-                  size={200}
-                  icon={<UserOutlined />}
-                  className="bg-gray-300"
-                />
+                <Avatar size={200} icon={<User />} className="bg-gray-300" />
               )}
               <div className="absolute -bottom-1 left-0 w-100">
                 <span className="rounded-full bg-sky-600 px-3 py-1 text-sm text-sky-100">
@@ -139,12 +130,12 @@ export default async function UserProfilePage({ params }: Props) {
               <div className="mt-4 flex flex-col gap-2 text-gray-600">
                 {user.city && (
                   <span className="flex items-center gap-1">
-                    <EnvironmentOutlined />
+                    <MapPin />
                     {user.city}
                   </span>
                 )}
                 <span className="flex items-center gap-1">
-                  <CalendarOutlined />
+                  <Calendar />
                   На сайте с{" "}
                   {new Date(user.createdAt).toLocaleDateString("ru-RU")}
                 </span>

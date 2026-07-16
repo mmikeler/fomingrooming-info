@@ -6,6 +6,8 @@ import { EventEditor } from "./components/EventEditor";
 import Link from "next/link";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import BackButton from "@/app/in/components/backButton";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -52,9 +54,7 @@ export default async function EventEditPage({ params }: PageProps) {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-4">
-        <Link href="/in/events/my">
-          <Button icon={<ArrowLeftOutlined />}>К списку мероприятий</Button>
-        </Link>
+        <BackButton label="К списку мероприятий" url="/in/events/my" />
       </div>
       <EventEditor event={event} userRole={user.role} />
     </div>
