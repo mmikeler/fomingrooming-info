@@ -14,7 +14,7 @@ import {
   SeedEvent,
   SeedEventRegistration,
   SeedAdv,
-} from "./seed-data/types";
+} from "../scripts/seed-data/types";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -171,11 +171,7 @@ async function main() {
         content: post.content,
         coverImage: post.coverImage || null,
         status: status as
-          | "DRAFT"
-          | "PENDING"
-          | "PUBLISHED"
-          | "REJECTED"
-          | "ARCHIVED",
+          "DRAFT" | "PENDING" | "PUBLISHED" | "REJECTED" | "ARCHIVED",
         category: post.category || "NEWS",
         authorId,
         rejectionReason: post.rejectionReason,
@@ -223,11 +219,7 @@ async function main() {
         startRegDate: new Date(event.startRegDate),
         endRegDate: new Date(event.endRegDate),
         status: status as
-          | "DRAFT"
-          | "PENDING"
-          | "PUBLISHED"
-          | "REJECTED"
-          | "ARCHIVED",
+          "DRAFT" | "PENDING" | "PUBLISHED" | "REJECTED" | "ARCHIVED",
         authorId,
         rejectionReason: event.rejectionReason || null,
         moderatedAt: event.moderatedAt
@@ -290,17 +282,9 @@ async function main() {
         postId,
         moderatorId,
         oldStatus: log.oldStatus as
-          | "DRAFT"
-          | "PENDING"
-          | "PUBLISHED"
-          | "REJECTED"
-          | "ARCHIVED",
+          "DRAFT" | "PENDING" | "PUBLISHED" | "REJECTED" | "ARCHIVED",
         newStatus: log.newStatus as
-          | "DRAFT"
-          | "PENDING"
-          | "PUBLISHED"
-          | "REJECTED"
-          | "ARCHIVED",
+          "DRAFT" | "PENDING" | "PUBLISHED" | "REJECTED" | "ARCHIVED",
         reason: log.reason,
       },
     });
