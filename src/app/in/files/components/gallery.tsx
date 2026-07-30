@@ -11,7 +11,7 @@ export default async function UserMediaGallery() {
         <p className="text-gray-600">Управляйте вашими загруженными файлами</p>
       </div>
 
-      <FileGrid files={files} />
+      <FileGrid {...files} />
     </div>
   );
 }

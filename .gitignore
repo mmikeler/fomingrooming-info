@@ -53,8 +53,10 @@ db/*.db
 # plans
 /plans
 
-#skills
+# skills
 skills-lock.json
 
-#agents
+# agents
 .agents
+.kilo
+.gigacode

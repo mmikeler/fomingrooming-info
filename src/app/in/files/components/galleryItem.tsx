@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MediaFile } from "./fileGrid";
+import { MediaFile } from "../actions/getUserMediaFiles";
 import { Tooltip } from "antd";
 import { Dispatch, SetStateAction } from "react";
 

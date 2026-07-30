@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import fs from "fs/promises";
 import path from "path";
 
-interface MediaFile {
+export interface MediaFile {
   id: string;
   name: string;
   url: string;
@@ -14,66 +14,82 @@ interface MediaFile {
   createdAt: Date;
 }
 
-export default async function GetUserMediaFiles(): Promise<MediaFile[]> {
+export interface UserMediaResponse {
+  self: MediaFile[];
+  shared?: MediaFile[];
+  userRole?: string;
+}
+
+export default async function GetUserMediaFiles(): Promise<UserMediaResponse> {
+  const files: UserMediaResponse = {
+    self: [],
+    shared: [],
+  };
+
   try {
-    // Проверяем аутентификацию
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return [];
+      return files;
     }
 
     const userId = session.user.id;
+    const isAdmin = session.user.role.includes("ADMIN");
+    files.userRole = session.user.role;
+
     const userUploadDir = path.join(process.cwd(), "public", "uploads", userId);
+    const sharedUploadDir = path.join(process.cwd(), "public", "uploads", "shared");
 
-    // Проверяем существует ли директория пользователя
-    try {
-      await fs.access(userUploadDir);
-    } catch {
-      // Если директория не существует, возвращаем пустой массив
-      console.log(`Not exist uploads directory for ${userId}`);
-
-      return [];
+    const dirsToRead = [userUploadDir];
+    if (isAdmin) {
+      dirsToRead.push(sharedUploadDir);
     }
 
-    // Читаем содержимое директории
-    const dirs = await fs.readdir(userUploadDir, { recursive: true });
-
-    // Выходим при пустой директории
-    if (dirs.length === 0) {
-      return [];
-    }
-
-    // Фильтруем только изображения
     const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
-    const imageFiles = dirs.filter((file) => {
-      const ext = path.extname(file).toLowerCase();
-      return imageExtensions.includes(ext);
-    });
 
-    // Получаем информацию о файлах
-    const mediaFiles: MediaFile[] = [];
+    for (const [index, dir] of dirsToRead.entries()) {
+      try {
+        await fs.access(dir);
+      } catch {
+        continue;
+      }
 
-    for (const filename of imageFiles) {
-      const name = filename.replaceAll("\\", "/");
-      const filePath = path.join(userUploadDir, filename);
-      const stats = await fs.stat(filePath);
+      const dirs = await fs.readdir(dir, { recursive: true });
+      if (dirs.length === 0) continue;
 
-      mediaFiles.push({
-        id: `${userId}-${filename}`,
-        name: name.split("/").pop() || name,
-        url: `/uploads/${userId}/${name}`,
-        size: stats.size,
-        type: path.extname(filename).toLowerCase(),
-        createdAt: stats.birthtime,
+      const imageFiles = dirs.filter((file) => {
+        const ext = path.extname(file).toLowerCase();
+        return imageExtensions.includes(ext);
       });
+
+      const mediaFiles: MediaFile[] = [];
+
+      for (const filename of imageFiles) {
+        const name = filename.replaceAll("\\", "/");
+        const filePath = path.join(dir, filename);
+        const stats = await fs.stat(filePath);
+
+        mediaFiles.push({
+          id: `${index === 0 ? userId : "shared"}-${filename}`,
+          name: name.split("/").pop() || name,
+          url: `/uploads/${index === 0 ? userId : "shared"}/${name}`,
+          size: stats.size,
+          type: path.extname(filename).toLowerCase(),
+          createdAt: stats.birthtime,
+        });
+      }
+
+      mediaFiles.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      if (index === 0) {
+        files.self = mediaFiles;
+      } else {
+        files.shared = mediaFiles;
+      }
     }
 
-    // Сортируем по дате создания (новые сначала)
-    mediaFiles.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-    return mediaFiles;
+    return files;
   } catch (error) {
     console.error("Error getting user media files:", error);
-    return [];
+    return files;
   }
 }

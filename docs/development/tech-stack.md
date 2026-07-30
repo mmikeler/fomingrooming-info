@@ -6,7 +6,7 @@
 
 - **Next.js 16** (App Router) — React-фреймворк с серверными компонентами и Server Actions
 - **React 19** — UI библиотека
-- **TypeScript 5** — строгая типизация
+- **TypeScript 6** — строгая типизация
 - **Prisma** — ORM для работы с базой данных (SQLite)
 - **NextAuth.js** — аутентификация и управление сессиями
 
@@ -27,11 +27,6 @@
 
 ## Инструменты разработки
 
-- **Husky** — Git hooks для автоматического линтинга
-- **lint-staged** — запуск линтера только на staged-файлах
-
-## Версии ключевых зависимостей
-
 За актуальными версиями обратитесь к [`package.json`](../../package.json).
 
 ### Production зависимости
@@ -41,10 +36,10 @@
   "next": "^16.0.0",
   "react": "^19.0.0",
   "react-dom": "^19.0.0",
-  "typescript": "^5.0.0",
-  "@prisma/client": "^5.0.0",
+  "typescript": "6.0.3",
+  "@prisma/client": "^7.8.0",
   "next-auth": "^4.24.0",
-  "antd": "^5.0.0",
+  "antd": "^6.5.1",
   "tailwindcss": "^4.0.0",
   "winston": "^3.11.0"
 }
@@ -54,11 +49,13 @@
 
 ```json
 {
-  "@playwright/test": "^1.40.0",
+  "@playwright/test": "^1.61.1",
+  "@tailwindcss/postcss": "^4",
   "eslint": "^9.0.0",
-  "prettier": "^3.0.0",
-  "prisma": "^5.0.0",
-  "husky": "^8.0.0",
-  "lint-staged": "^15.0.0"
+  "prettier": "^3.9.5",
+  "prisma": "^7.8.0",
+  "tailwindcss": "^4",
+  "tsx": "^4.23.1",
+  "typescript": "6.0.3"
 }
 ```

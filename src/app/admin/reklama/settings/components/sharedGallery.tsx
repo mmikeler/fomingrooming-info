@@ -4,7 +4,7 @@
 import { Flex, Image, Upload, Button, message, App } from "antd";
 import { useEffect, useState, useRef } from "react";
 import GetSharedFiles from "../actions/getSharedFiles";
-import { MediaFile } from "@/app/in/files/components/fileGrid";
+import { MediaFile } from "@/app/in/files/actions/getUserMediaFiles";
 import { uploadImage } from "@/app/actions/upload-image";
 import { UploadOutlined } from "@ant-design/icons";
 

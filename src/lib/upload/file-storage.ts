@@ -45,17 +45,15 @@ export function canDeleteFile(
   userRole: UserRole,
   filePath: string,
 ): boolean {
-  // Админы могут удалять любые файлы
-  if (userRole === "ADMIN" || userRole === "SUPERADMIN") {
+  if (userRole === "SUPERADMIN") {
     return true;
   }
 
-  // Извлекаем путь из URL, если это URL
   const path = extractPathFromUrl(filePath) || filePath;
   const pathParts = path.split("/");
 
   if (pathParts[1] === "shared") {
-    return false; // Пользователь не может удалять файлы из shared
+    return false;
   }
 
   const fileUserId = parseInt(pathParts[1], 10);

@@ -50,8 +50,6 @@ export default function LikeButton({ post }: LikeButtonProps) {
     }
   };
 
-  if (loading) return <Spin />;
-
   return (
     <Tooltip title={isLikedState ? "Убрать лайк" : "Поставить лайк"}>
       <Button
@@ -67,7 +65,7 @@ export default function LikeButton({ post }: LikeButtonProps) {
           )
         }
       >
-        {likesCountState > 0 ? likesCountState : ""}
+        {likesCountState > 10 ? likesCountState : " "}
       </Button>
     </Tooltip>
   );

@@ -80,8 +80,18 @@
 | role          | UserRole      | Роль пользователя                                    |
 | status        | AccountStatus | Статус аккаунта (ACTIVE, RESTRICTED, BANNED)         |
 | emailVerified | DateTime?     | Дата подтверждения email                             |
+| verificationToken | String?    | Токен верификации email                            |
+| verificationTokenExpires | DateTime? | Срок действия токена верификации             |
+| provider      | UserProvider  | Источник регистрации                                 |
+| description   | String        | Пользовательское описание (@default(""))        |
 | createdAt     | DateTime      | Дата создания                                        |
 | updatedAt     | DateTime      | Дата последнего обновления                           |
+| banReason     | String?       | Причина блокировки                                   |
+| bannedAt      | DateTime?     | Дата блокировки                                      |
+| bannedBy      | Int?          | Кто заблокировал                                     |
+| restrictedReason | String?     | Причина ограничения                                  |
+| restrictedAt  | DateTime?     | Дата ограничения                                     |
+| restrictedBy  | Int?          | Кто ограничил                                        |
 
 **Роли пользователей (UserRole):**
 
@@ -128,6 +138,8 @@
 | --------- | -------------------- |
 | NEWS      | Новости портала      |
 | ARTICLE   | Статьи и руководства |
+| EXPERT    | Пост эксперта (мнение) |
+| NOTES     | Заметки                |
 
 #### Notification (Уведомление)
 

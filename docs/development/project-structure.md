@@ -6,33 +6,44 @@
 │   ├── actions/              # Глобальные Server Actions (upload-image)
 │   ├── admin/                # Админ-панель
 │   │   ├── actions/          # Server Actions для админки
-│   │   └── components/       # Компоненты админ-панели
-│   ├── api/                  # API Routes (если нужны REST эндпоинты)
+│   │   ├── components/       # Компоненты админ-панели
+│   │   ├── moderation/       # Модерация контента
+│   │   │   ├── actions/      # Server Actions модерации
+│   │   │   └── components/   # Компоненты модерации
+│   │   ├── reklama/          # Управление рекламой
+│   │   └── users/            # Управление пользователями
+│   ├── api/                  # API Routes (NextAuth route: [...nextauth])
 │   ├── auth/                 # Страницы аутентификации
 │   │   ├── forgot-password/  # Запрос сброса пароля
+│   │   ├── resend-verification/  # Повторная отправка verification
+│   │   ├── reset-password/   # Сброс пароля
+│   │   ├── signin/           # Вход (включая VK OAuth)
 │   │   ├── signup/           # Регистрация
 │   │   ├── verify-email/     # Подтверждение email
 │   │   └── [...nextauth]/    # OAuth через NextAuth
 │   ├── components/           # Общие компоненты (共用)
 │   │   ├── ads/              # Компоненты рекламы
 │   │   ├── events/           # Компоненты мероприятий
+│   │   ├── lenta/            # Компоненты ленты
 │   │   ├── likes/            # Компоненты лайков
 │   │   ├── post/             # Компоненты постов
+│   │   ├── recommendations/  # Рекомендации
 │   │   ├── ui/               # Базовые UI компоненты (Button, Card и т.д.)
-│   │   ├── user-card/        # Карточка пользователя
 │   │   └── views/            # Компоненты просмотров
 │   ├── feed/                 # Лента новостей (главная)
 │   ├── in/                   # Личный кабинет
 │   │   ├── events/           # Управление мероприятиями пользователя
 │   │   ├── favorites/        # Избранное
+│   │   ├── files/            # Галерея файлов пользователя
 │   │   ├── lenta/            # Настраиваемая новостная лента
+│   │   ├── p/                # Публичные страницы (about, help, reklama)
 │   │   ├── posts/            # Управление постами пользователя
-│   │   └── profile/          # Профиль пользователя
-│   ├── moderation/           # Модерация контента
-│   │   ├── actions/          # Server Actions модерации
-│   │   └── components/       # Компоненты модерации
-│   ├── u/                   # Публичные профили пользователей
-│   │   └── [slug]/          # Динамический маршрут по slug
+│   │   └── u/               # Публичные профили пользователей
+│   │       └── [slug]/      # Динамический маршрут по slug
+│   ├── p/                    # Публичные страницы
+│   │   ├── about.md
+│   │   ├── help.md
+│   │   └── reklama.md
 │   ├── layout.tsx           # Корневой layout
 │   ├── page.tsx             # Главная страница
 │   └── globals.css          # Глобальные стили
@@ -54,13 +65,30 @@
 │   ├── permissions.ts       # Проверка прав доступа
 │   ├── prisma.ts            # Prisma клиент
 │   └── rate-limit/          # Ограничение частоты запросов
-├── prisma/                  # База данных
-│   ├── schema.prisma        # Схема Prisma
-│   ├── seed.ts              # Скрипт заполнения БД
-│   └── seed-data/           # JSON данные для сидов
+│   ├── markdown.ts          # Markdown-процессор
+│   ├── metadata.ts          # генерация мета-данных
+│   ├── notifications.ts     # система уведомлений
+│   ├── password-generator.ts # генератор паролей
+│   ├── postCategoryLabels.ts # метки категорий постов
+│   ├── restricted-paths.ts  # список закрытых путей
+│   ├── slug.ts              # генерация slug
+│   └── upload/              # работа с файлами и изображениями
+│       ├── file-storage.ts
+│       ├── image-processor.ts
+│       └── image-validator.ts
+├── prisma/                  # Миграции БД
+│   └── schema.prisma        # Схема Prisma
+├── scripts/
+│   └── seed-data/           # JSON-данные для сидов
+│       ├── seed.ts
 │       ├── types.ts
 │       ├── users.json
-│       └── posts.json
+│       ├── posts.json
+│       ├── events.json
+│       ├── event-registrations.json
+│       ├── notifications.json
+│       ├── moderation-logs.json
+│       └── adv.json
 ├── public/                  # Статические ассеты
 │   ├── images/
 │   └── fonts/
@@ -103,9 +131,10 @@ app/
 ├── admin/
 │   └── actions/
 │       └── manageUserStatus.ts
-├── profile/
-│   └── actions/
-│       └── createPost.ts
+├── in/
+│   └── posts/
+│       └── actions/
+│           └── createPost.ts
 ```
 
 ### Общие компоненты
@@ -127,21 +156,22 @@ app/
 ### База данных
 
 - `prisma/schema.prisma` — схема БД
-- `prisma/seed.ts` — скрипт для заполнения тестовыми данными
-- `prisma/seed-data/` — JSON файлы с данными
+- `scripts/seed-data/seed.ts` — скрипт для заполнения тестовыми данными
+- `scripts/seed-data/` — JSON файлы с данными
 
 ## Директории и их назначение
 
-| Директория      | Назначение                              | Server/Client |
-| --------------- | --------------------------------------- | ------------- |
-| app/            | Страницы, layouts, server actions       | mixed         |
-| app/components/ | Общие компоненты для App Router         | mixed         |
-| components/     | Глобальные компоненты (вне app/)        | mostly client |
-| lib/            | Серверные утилиты и конфиги             | server        |
-| e2e/            | E2E тесты                               | n/a           |
-| prisma/         | Схема БД и миграции                     | n/a           |
-| public/         | Статические файлы (изображения, шрифты) | n/a           |
-| types/          | Глобальные TypeScript типы              | n/a           |
+| Директория        | Назначение                              | Server/Client |
+| ----------------- | --------------------------------------- | ------------- |
+| app/              | Страницы, layouts, server actions       | mixed         |
+| app/components/   | Общие компоненты для App Router         | mixed         |
+| components/       | Глобальные компоненты (вне app/)        | mostly client |
+| lib/              | Серверные утилиты и конфиги             | server        |
+| e2e/              | E2E тесты                               | n/a           |
+| prisma/           | Схема БД и миграции                     | n/a           |
+| scripts/seed-data | JSON-данные для сидов                   | n/a           |
+| public/           | Статические файлы (изображения, шрифты) | n/a           |
+| types/            | Глобальные TypeScript типы              | n/a           |
 
 ## Server vs Client Components
 

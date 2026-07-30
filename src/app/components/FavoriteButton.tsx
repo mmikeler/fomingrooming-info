@@ -51,8 +51,6 @@ export function FavoriteButton({
     }
   };
 
-  if (loading) return <Spin />;
-
   return (
     <Tooltip
       title={isFavoriteState ? "Удалить из закладок" : "Добавить в закладки"}

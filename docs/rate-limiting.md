@@ -21,10 +21,10 @@
 
 | Endpoint          | Файл                                                                                         | Описание                   |
 | ----------------- | -------------------------------------------------------------------------------------------- | -------------------------- |
-| Создание поста    | [`src/app/profile/posts/actions/createPost.ts`](src/app/profile/posts/actions/createPost.ts) | Публикация нового контента |
-| Обновление поста  | [`src/app/profile/posts/actions/updatePost.ts`](src/app/profile/posts/actions/updatePost.ts) | Редактирование контента    |
-| Изменение пароля  | [`src/app/profile/actions/changePassword.ts`](src/app/profile/actions/changePassword.ts)     | Смена пароля пользователя  |
-| Изменение профиля | [`src/app/profile/actions/updateProfile.ts`](src/app/profile/actions/updateProfile.ts)       | Обновление данных профиля  |
+| Создание поста    | [`src/app/in/posts/actions/createPost.ts`](src/app/in/posts/actions/createPost.ts) | Публикация нового контента |
+| Обновление поста  | [`src/app/in/posts/actions/updatePost.ts`](src/app/in/posts/actions/updatePost.ts) | Редактирование контента    |
+| Изменение пароля  | [`src/app/in/u/[slug]/settings/actions/changePassword.ts`](src/app/in/u/[slug]/settings/actions/changePassword.ts)     | Смена пароля пользователя  |
+| Изменение профиля | [`src/app/in/u/[slug]/settings/actions/updateProfile.ts`](src/app/in/u/[slug]/settings/actions/updateProfile.ts)       | Обновление данных профиля  |
 
 ### 1.3 Средний приоритет (Medium)
 
@@ -32,16 +32,16 @@
 | ----------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | Верификация email | [`src/app/auth/verify-email/actions/verify-email.ts`](src/app/auth/verify-email/actions/verify-email.ts)         | Подтверждение email       |
 | Сброс пароля      | [`src/app/auth/reset-password/actions/reset-password.ts`](src/app/auth/reset-password/actions/reset-password.ts) | Установка нового пароля   |
-| Проверка slug     | [`src/app/profile/posts/actions/checkSlug.ts`](src/app/profile/posts/actions/checkSlug.ts)                       | Проверка уникальности URL |
-| Удаление поста    | [`src/app/profile/posts/actions/deletePost.ts`](src/app/profile/posts/actions/deletePost.ts)                     | Удаление контента         |
+| Проверка slug     | [`src/app/in/posts/actions/checkSlug.ts`](src/app/in/posts/actions/checkSlug.ts)                       | Проверка уникальности URL |
+| Удаление поста    | [`src/app/in/posts/actions/deletePost.ts`](src/app/in/posts/actions/deletePost.ts)                     | Удаление контента         |
 
 ### 1.4 Низкий приоритет (Low)
 
 | Endpoint                | Файл                                                                                             | Описание                 |
 | ----------------------- | ------------------------------------------------------------------------------------------------ | ------------------------ |
-| Получение списка постов | [`src/app/profile/posts/actions/getUserPosts.ts`](src/app/profile/posts/actions/getUserPosts.ts) | Чтение данных            |
-| Получение профиля       | [`src/app/profile/actions/getUser.ts`](src/app/profile/actions/getUser.ts)                       | Чтение данных            |
-| Модерация               | [`src/app/moderation/actions/moderatePost.ts`](src/app/moderation/actions/moderatePost.ts)       | Административные функции |
+| Получение списка постов | [`src/app/in/posts/actions/getUserPosts.ts`](src/app/in/posts/actions/getUserPosts.ts) | Чтение данных            |
+| Получение профиля       | [`src/app/in/u/[slug]/settings/actions/getUser.ts`](src/app/in/u/[slug]/settings/actions/getUser.ts)                       | Чтение данных            |
+| Модерация               | [`src/app/admin/moderation/actions/moderatePost.ts`](src/app/admin/moderation/actions/moderatePost.ts)       | Административные функции |
 | Admin функции           | [`src/app/admin/actions/updateUserRole.ts`](src/app/admin/actions/updateUserRole.ts)             | Административные функции |
 
 ---

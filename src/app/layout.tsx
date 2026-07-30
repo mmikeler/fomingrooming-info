@@ -32,9 +32,6 @@ export default function RootLayout({
           colorText: "var(--foreground)",
         },
         components: {
-          Button: {
-            defaultColor: "var(--background)",
-          },
           Typography: {
             colorText: "var(--foreground)",
             colorTextHeading: "var(--foreground)",

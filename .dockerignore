@@ -27,3 +27,7 @@ __tests__
 README.md
 docs/
 *.md
+
+# Агенты
+.kilo
+.gigacode
