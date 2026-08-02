@@ -9,6 +9,8 @@ import {
 } from "@ant-design/icons";
 import { uploadImage, deleteImageAction } from "@/app/actions/upload-image";
 import Image from "next/image";
+import ChangeImageFromUserGalleryButton from "@/app/in/components/changeImageFromUserGallery";
+import { updatePost } from "../actions/updatePost";
 
 interface PostCoverUploaderProps {
   currentCover?: string | null;
@@ -71,29 +73,26 @@ export function PostCoverUploader({
     if (!previewUrl) return;
 
     setLoading(true);
-    try {
-      const result = await deleteImageAction(previewUrl);
 
-      if (result.success) {
-        setPreviewUrl(null);
-        message.success("Обложка удалена");
-
-        // Уведомляем родительский компонент
-        if (onCoverChange) {
-          onCoverChange(null);
-        }
-      } else {
-        message.error(result.error || "Ошибка при удалении");
-      }
-    } catch {
-      message.error("Ошибка при удалении файла");
-    } finally {
-      setLoading(false);
+    setPreviewUrl(null);
+    // Уведомляем родительский компонент
+    if (onCoverChange) {
+      onCoverChange(null);
     }
+
+    setLoading(false);
   };
 
   const handleClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const changeImageFromGallery = (url: string) => {
+    setPreviewUrl(url);
+    // Уведомляем родительский компонент
+    if (onCoverChange) {
+      onCoverChange(url);
+    }
   };
 
   return (
@@ -132,13 +131,19 @@ export function PostCoverUploader({
             className="hidden!"
           />
 
+          <div className="">
+            <ChangeImageFromUserGalleryButton
+              callback={(url: string) => changeImageFromGallery(url)}
+            />
+          </div>
+
           <Button
             icon={<UploadOutlined />}
             onClick={handleClick}
             loading={loading}
             disabled={disabled || loading}
           >
-            {previewUrl ? "Заменить" : "Загрузить"}
+            {"Загрузить"}
           </Button>
 
           {previewUrl && (

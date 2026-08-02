@@ -60,3 +60,8 @@ skills-lock.json
 .agents
 .kilo
 .gigacode
+
+# images
+/public/uploads/*
+/public/uploads/shared/*
+!/public/uploads/shared

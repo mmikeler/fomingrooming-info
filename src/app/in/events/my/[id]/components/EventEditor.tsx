@@ -133,9 +133,9 @@ export function EventEditor({
     }
   };
 
-  const handleCoverChange = (newCover: string | null) => {
-    setCoverImage(newCover);
-    updateEvent(event.id, { coverImage: newCover });
+  const handleCoverChange = (newCoverUrl: string | null) => {
+    setCoverImage(newCoverUrl);
+    updateEvent(event.id, { coverImage: newCoverUrl });
   };
 
   const handlePublished = async () => {

@@ -87,14 +87,6 @@ export function PostEditForm({ post }: { post: PostWithCounts }) {
     <div className="p-6">
       <div className="mb-4 flex items-center justify-between">
         <BackButton label={"К списку постов"} url="/in/posts/my" />
-        {/* СТАТУС ПОСТА */}
-        <Tag
-          variant="solid"
-          className="p-1! px-2! text-[16px]!"
-          color={statusColors[post.status]}
-        >
-          {statusLabels[post.status]}
-        </Tag>
       </div>
 
       <Form
@@ -186,6 +178,14 @@ export function PostEditForm({ post }: { post: PostWithCounts }) {
           {/* Правая колонка - обложка и действия */}
           <div className="relative mt-6 w-50">
             <div className="sticky top-6 flex flex-col gap-5">
+              {/* СТАТУС ПОСТА */}
+              <Tag
+                variant="solid"
+                className="p-1! px-2! text-center! text-[16px]!"
+                color={statusColors[post.status]}
+              >
+                {statusLabels[post.status]}
+              </Tag>
               <Management post={post} isPending={isPending} />
             </div>
           </div>
