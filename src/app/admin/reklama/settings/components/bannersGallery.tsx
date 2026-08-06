@@ -1,9 +1,9 @@
 "use client";
 // Компонент, который позволяет загрузить, просмотреть и выбрать изображение из указанной папки
 
-import { Flex, Image, Upload, Button, message, App } from "antd";
+import { Flex, Image, Upload, Button, App } from "antd";
 import { useEffect, useState, useRef } from "react";
-import GetSharedFiles from "../actions/getSharedFiles";
+import GetSharedFiles from "../actions/getBannerFiles";
 import { MediaFile } from "@/app/in/files/actions/getUserMediaFiles";
 import { uploadImage } from "@/app/actions/upload-image";
 import { UploadOutlined } from "@ant-design/icons";
@@ -32,7 +32,7 @@ export default function SharedGallery({ onClick }: SharedGalleryProps) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const result = await uploadImage(formData, "shared");
+      const result = await uploadImage(formData, "banners");
 
       if (result.success && result.url) {
         message.success("Изображение успешно загружено");
@@ -81,6 +81,7 @@ export default function SharedGallery({ onClick }: SharedGalleryProps) {
                   width={100}
                   height={100}
                   alt={file.name}
+                  preview={false}
                 />
               </div>
             );

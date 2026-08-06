@@ -23,7 +23,7 @@ export default async function GetSharedFiles(): Promise<MediaFile[]> {
     }
 
     // Проверяем существует ли директория
-    const DIR = path.join(process.cwd(), "public", "uploads", "shared");
+    const DIR = path.join(process.cwd(), "public", "uploads", "banners");
     try {
       await fs.access(DIR);
     } catch {
@@ -57,9 +57,9 @@ export default async function GetSharedFiles(): Promise<MediaFile[]> {
       const stats = await fs.stat(filePath);
 
       mediaFiles.push({
-        id: `shared-${filename}`,
+        id: `banner-${filename}`,
         name: name.split("/").pop() || name,
-        url: `/uploads/shared/${name}`,
+        url: `/uploads/banners/${name}`,
         size: stats.size,
         type: path.extname(filename).toLowerCase(),
         createdAt: stats.birthtime,

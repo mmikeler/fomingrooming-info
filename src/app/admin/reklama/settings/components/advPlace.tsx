@@ -38,6 +38,7 @@ export default function ADV_PLACE({
 
   return (
     <Card
+      id={place}
       className="mt-5 rounded border p-5"
       title={
         <>

@@ -65,3 +65,5 @@ skills-lock.json
 /public/uploads/*
 /public/uploads/shared/*
 !/public/uploads/shared
+/public/uploads/banners/*
+!/public/uploads/banners

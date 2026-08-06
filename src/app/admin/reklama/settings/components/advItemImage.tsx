@@ -5,7 +5,7 @@ import { App, Drawer, Image, Tooltip } from "antd";
 import { useState } from "react";
 import { updateADV } from "../actions/adv";
 import { ImagePlus } from "lucide-react";
-import SharedGallery from "./sharedGallery";
+import SharedGallery from "./bannersGallery";
 
 //
 
