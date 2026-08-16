@@ -1,10 +1,15 @@
+// DEPRECATED
+
 "use server";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { promises as fs } from "fs";
 import path from "path";
-import { validateImageFile, sanitizeFilename } from "@/lib/upload/image-validator";
+import {
+  validateImageFile,
+  sanitizeFilename,
+} from "@/lib/upload/image-validator";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
 
 export interface UploadMediaFileResult {
@@ -47,13 +52,16 @@ export async function uploadMediaFile(
 
   const uploadDir =
     target === "shared"
-      ? path.join(process.cwd(), "public", "uploads", "shared")
-      : path.join(process.cwd(), "public", "uploads", userId);
+      ? path.join(process.cwd(), "uploads", "shared")
+      : path.join(process.cwd(), "uploads", userId.toString());
 
   try {
     await fs.mkdir(uploadDir, { recursive: true });
   } catch {
-    return { success: false, error: "Не удалось создать директорию для загрузки" };
+    return {
+      success: false,
+      error: "Не удалось создать директорию для загрузки",
+    };
   }
 
   const sanitizedName = sanitizeFilename(file.name);
@@ -65,7 +73,7 @@ export async function uploadMediaFile(
     const buffer = Buffer.from(arrayBuffer);
     await fs.writeFile(filePath, buffer);
 
-    const fileUrl = `/uploads/${target === "shared" ? "shared" : userId}/${uniqueName}`;
+    const fileUrl = `/api/files/${target === "shared" ? "shared" : userId}/${uniqueName}`;
 
     return {
       success: true,
@@ -76,12 +84,16 @@ export async function uploadMediaFile(
     console.error("Error saving media file:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Ошибка при сохранении файла",
+      error:
+        error instanceof Error ? error.message : "Ошибка при сохранении файла",
     };
   }
 }
 
-async function getUniqueFilename(uploadDir: string, filename: string): Promise<string> {
+async function getUniqueFilename(
+  uploadDir: string,
+  filename: string,
+): Promise<string> {
   const ext = path.extname(filename);
   const baseName = path.basename(filename, ext);
   let uniqueName = filename;

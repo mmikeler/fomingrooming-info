@@ -22,7 +22,7 @@ export function ADV_ITEM_IMAGE({
 
   const handleChangeImage = async (newSrc: string) => {
     // Basic URL validation for image source
-    if (!newSrc || !newSrc.startsWith("/uploads")) {
+    if (!newSrc || !(newSrc.startsWith("/uploads") || newSrc.startsWith("/api/files/"))) {
       message.error({
         content: "Выберите корректное изображение",
       });

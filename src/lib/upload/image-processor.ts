@@ -56,7 +56,7 @@ export async function saveImage(
   try {
     // Определяем путь для сохранения
     const relativePath = getUploadPath({ userId, type, userRole });
-    const uploadDir = path.join(process.cwd(), "public", relativePath);
+    const uploadDir = path.join(process.cwd(), relativePath);
 
     // Создаём директорию если не существует
     await fs.mkdir(uploadDir, { recursive: true });
@@ -79,7 +79,8 @@ export async function saveImage(
 
     // Формируем URL для доступа к файлу
     // Используем относительный путь для URL
-    const fileUrl = `/${relativePath}/${uniqueName}`;
+    const pathWithoutRoot = relativePath.replace(/^uploads[\/\\]/, "");
+    const fileUrl = `/api/files/${pathWithoutRoot}/${uniqueName}`;
 
     return {
       success: true,
@@ -105,7 +106,7 @@ export async function deleteImage(
   try {
     // Убираем начальный слэш если есть
     const cleanPath = filePath.replace(/^\//, "");
-    const fullPath = path.join(process.cwd(), "public", cleanPath);
+    const fullPath = path.join(process.cwd(), cleanPath);
 
     // Проверяем что файл существует
     await fs.access(fullPath);

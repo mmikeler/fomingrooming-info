@@ -7,10 +7,9 @@ import {
   DeleteOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { uploadImage, deleteImageAction } from "@/app/actions/upload-image";
+import { uploadImage } from "@/app/actions/upload-image";
 import Image from "next/image";
 import ChangeImageFromUserGalleryButton from "@/app/in/components/changeImageFromUserGallery";
-import { updatePost } from "../actions/updatePost";
 
 interface PostCoverUploaderProps {
   currentCover?: string | null;
@@ -45,7 +44,7 @@ export function PostCoverUploader({
       const formData = new FormData();
       formData.append("file", file);
 
-      const result = await uploadImage(formData, "post-cover");
+      const result = await uploadImage(formData, "own");
 
       if (result.success && result.url) {
         setPreviewUrl(result.url);
@@ -104,6 +103,7 @@ export function PostCoverUploader({
               src={previewUrl}
               alt="Обложка поста"
               fill
+              unoptimized
               className="object-cover"
             />
             {loading && (

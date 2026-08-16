@@ -10,6 +10,7 @@ import {
 import { uploadImage, deleteImageAction } from "@/app/actions/upload-image";
 import Image from "next/image";
 import Title from "antd/es/typography/Title";
+import ChangeImageFromUserGalleryButton from "@/app/in/components/changeImageFromUserGallery";
 
 interface AvatarUploaderProps {
   currentAvatar?: string | null;
@@ -43,7 +44,7 @@ export function AvatarUploader({
       const formData = new FormData();
       formData.append("file", file);
 
-      const result = await uploadImage(formData, "avatar");
+      const result = await uploadImage(formData, "avatars");
 
       if (result.success && result.url) {
         setPreviewUrl(result.url);
@@ -96,6 +97,11 @@ export function AvatarUploader({
     fileInputRef.current?.click();
   };
 
+  const changeImageFromGalleryCallback = (fileURL: string) => {
+    setPreviewUrl(fileURL);
+    if (onAvatarChange) onAvatarChange(fileURL);
+  };
+
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="relative">
@@ -111,6 +117,7 @@ export function AvatarUploader({
               src={previewUrl}
               alt="Аватар"
               fill
+              unoptimized
               className="object-cover"
             />
           </div>
@@ -136,6 +143,10 @@ export function AvatarUploader({
           accept="image/jpeg,image/png,image/gif,image/webp"
           onChange={handleFileSelect}
           className="hidden"
+        />
+
+        <ChangeImageFromUserGalleryButton
+          callback={changeImageFromGalleryCallback}
         />
 
         <Button

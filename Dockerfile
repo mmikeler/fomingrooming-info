@@ -50,6 +50,9 @@ RUN mkdir .next
 RUN mkdir logs
 RUN chown -R nextjs:nodejs .next logs
 
+RUN mkdir -p uploads
+RUN chown -R nextjs:nodejs uploads
+
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
@@ -58,5 +61,7 @@ USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+
+VOLUME ["/app/uploads"]
 
 CMD ["node", "server.js"]

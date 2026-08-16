@@ -44,7 +44,7 @@ export function EventCoverUploader({
       const formData = new FormData();
       formData.append("file", file);
 
-      const result = await uploadImage(formData, "event-cover");
+      const result = await uploadImage(formData, "own");
 
       if (result.success && result.url) {
         setPreviewUrl(result.url);
@@ -103,6 +103,7 @@ export function EventCoverUploader({
               src={previewUrl}
               alt="Обложка мероприятия"
               fill
+              unoptimized
               className="object-cover"
             />
             {loading && (

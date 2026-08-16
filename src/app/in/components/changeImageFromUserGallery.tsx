@@ -5,8 +5,10 @@ import { App, Button, Drawer, Spin, Tabs } from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
 import GetUserMediaFiles, {
   MediaFile,
+  UserMediaResponse,
 } from "@/app/in/files/actions/getUserMediaFiles";
 import GalleryItem from "@/app/in/files/components/galleryItem";
+import { FileGrid } from "../files/components/fileGrid";
 
 /**
  * @description Компонент выводит кнопку, при нажатии открывается галлерея пользователя, где можно выбрать изображение. При выборе, url изображения передаётся в колбэк из пропсов.
@@ -19,9 +21,7 @@ export default function ChangeImageFromUserGalleryButton({
   callback: (imageURL: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [selfFiles, setSelfFiles] = useState<MediaFile[]>([]);
-  const [sharedFiles, setSharedFiles] = useState<MediaFile[]>([]);
-  const [selectedFile, setSelectedFile] = useState<MediaFile | null>(null);
+  const [files, setFiles] = useState<UserMediaResponse>({ own: [] });
   const [loading, setLoading] = useState(false);
   const { message } = App.useApp();
 
@@ -29,8 +29,7 @@ export default function ChangeImageFromUserGalleryButton({
     setLoading(true);
     try {
       const data = await GetUserMediaFiles();
-      setSelfFiles(data.self);
-      setSharedFiles(data.shared ?? []);
+      setFiles(data);
     } catch {
       message.error("Не удалось загрузить файлы");
     } finally {
@@ -43,28 +42,12 @@ export default function ChangeImageFromUserGalleryButton({
     loadFiles();
   };
 
-  const handleFileSelect: Dispatch<SetStateAction<MediaFile | null>> = (
-    value,
-  ) => {
-    const file = typeof value === "function" ? value(selectedFile) : value;
-    setSelectedFile(file);
-    if (file) {
-      callback(file.url);
+  const handleFileSelect = (value: MediaFile) => {
+    if (value) {
+      callback(value.url);
       setOpen(false);
     }
   };
-
-  const renderGrid = (gridFiles: MediaFile[]) => (
-    <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4">
-      {gridFiles.map((file) => (
-        <GalleryItem
-          key={file.id}
-          file={file}
-          action={handleFileSelect}
-        />
-      ))}
-    </div>
-  );
 
   return (
     <>
@@ -90,31 +73,9 @@ export default function ChangeImageFromUserGalleryButton({
         }
       >
         {loading ? (
-          <div className="flex justify-center py-8">
-            <Spin />
-          </div>
-        ) : selfFiles.length === 0 && sharedFiles.length === 0 ? (
-          <div className="py-8 text-center text-gray-500">Нет файлов</div>
+          <Spin />
         ) : (
-          <Tabs
-            items={[
-              {
-                key: "self",
-                label: "Мои файлы",
-                children: renderGrid(selfFiles),
-              },
-              ...(sharedFiles.length > 0
-                ? [
-                    {
-                      key: "shared",
-                      label: "Общие файлы",
-                      children: renderGrid(sharedFiles),
-                    },
-                  ]
-                : []),
-            ]}
-            defaultValue="self"
-          />
+          <FileGrid {...files} changedAction={handleFileSelect} />
         )}
       </Drawer>
     </>

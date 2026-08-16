@@ -12,15 +12,18 @@ import FileUpload from "./fileUpload";
 import { deleteImageAction } from "@/app/actions/upload-image";
 
 export function FileGrid({
-  self: initialSelf,
+  own: initialOwn = [],
   shared: initialShared = [],
+  banners: initialBanners = [],
   userRole,
-}: UserMediaResponse) {
+  changedAction,
+}: UserMediaResponse & { changedAction?: (files: MediaFile) => void }) {
   const [changedFile, setChangedFile] = useState<MediaFile | null>(null);
-  const [self, setSelf] = useState<MediaFile[]>(initialSelf);
+  const [self, setSelf] = useState<MediaFile[]>(initialOwn);
   const [shared, setShared] = useState<MediaFile[]>(initialShared);
+  const [banners, setBanners] = useState<MediaFile[]>(initialBanners);
   const [activeTab, setActiveTab] = useState<string>(
-    initialSelf.length > 0 ? "self" : "shared",
+    initialOwn.length > 0 ? "own" : "shared",
   );
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -37,8 +40,9 @@ export function FileGrid({
     setLoading(true);
     try {
       const data = await GetUserMediaFiles();
-      setSelf(data.self);
+      setSelf(data.own);
       setShared(data.shared ?? []);
+      setBanners(data.banners ?? []);
     } catch {
       // ignore
     } finally {
@@ -46,23 +50,29 @@ export function FileGrid({
     }
   };
 
-  if (self.length === 0 && shared.length === 0) {
+  const renderGrid = (
+    files: MediaFile[],
+    target: "own" | "shared" | "banners",
+  ) => {
+    if (files.length === 0) {
+      return (
+        <div className="flex h-40 items-center justify-center rounded-lg border border-dashed border-gray-300">
+          <p className="text-gray-500">Нет файлов</p>
+        </div>
+      );
+    }
     return (
-      <div className="flex h-64 items-center justify-center rounded-lg border border-dashed border-gray-300">
-        <p className="text-gray-500">Нет файлов</p>
+      <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+        {files.map((file) => (
+          <GalleryItem
+            key={file.id}
+            file={file}
+            action={changedAction || setChangedFile}
+          />
+        ))}
       </div>
     );
-  }
-
-  const showTabs = shared.length > 0;
-
-  const renderGrid = (files: MediaFile[]) => (
-    <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-      {files.map((file) => (
-        <GalleryItem key={file.id} file={file} action={setChangedFile} />
-      ))}
-    </div>
-  );
+  };
 
   const handleDelete = async () => {
     if (!changedFile) return;
@@ -115,6 +125,7 @@ export function FileGrid({
               <Image
                 fill
                 src={changedFile.url}
+                unoptimized
                 style={{ objectFit: "contain" }}
                 alt=""
               />
@@ -168,24 +179,14 @@ export function FileGrid({
     </Modal>
   );
 
-  if (!showTabs) {
-    return (
-      <>
-        <FileUpload target="self" onSuccess={refreshFiles} />
-        <div className="mt-4">{renderGrid(self)}</div>
-        {previewModal}
-      </>
-    );
-  }
-
   const tabItems = [
     {
-      key: "self",
+      key: "own",
       label: "Мои файлы",
       children: (
         <>
-          <FileUpload target="self" onSuccess={refreshFiles} />
-          <div className="mt-4">{renderGrid(self)}</div>
+          <FileUpload target="own" onSuccess={refreshFiles} />
+          <div className="mt-4">{renderGrid(self, "own")}</div>
         </>
       ),
     },
@@ -195,7 +196,17 @@ export function FileGrid({
       children: (
         <>
           <FileUpload target="shared" onSuccess={refreshFiles} />
-          <div className="mt-4">{renderGrid(shared)}</div>
+          <div className="mt-4">{renderGrid(shared, "shared")}</div>
+        </>
+      ),
+    },
+    {
+      key: "banners",
+      label: "Баннеры",
+      children: (
+        <>
+          <FileUpload target="banners" onSuccess={refreshFiles} />
+          <div className="mt-4">{renderGrid(banners, "banners")}</div>
         </>
       ),
     },

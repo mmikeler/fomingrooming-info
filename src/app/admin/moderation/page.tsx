@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { canModerate } from "@/lib/permissions";
 import { ModerationQueue } from "./components/ModerationQueue";
 import { EventsModerationQueue } from "./components/EventsModerationQueue";
+import { Divider } from "antd";
 
 export default async function ModerationPage() {
   const session = await getServerSession(authOptions);
@@ -62,8 +63,12 @@ export default async function ModerationPage() {
   const totalItems = pendingPosts.length + pendingEvents.length;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-6 text-3xl font-bold">Модерация</h1>
+    <div className="container mx-auto px-4 pb-8">
+      <Divider titlePlacement="left">
+        <span className="rounded-full bg-sky-600 px-4 py-1 text-white">
+          Модерация {totalItems && `(${totalItems})`}
+        </span>
+      </Divider>
 
       {totalItems === 0 ? (
         <div className="py-12 text-center">
@@ -75,7 +80,7 @@ export default async function ModerationPage() {
         <>
           {pendingPosts.length > 0 && (
             <div className="mb-8">
-              <h2 className="mb-4 text-2xl font-semibold">
+              <h2 className="mb-4 font-semibold">
                 Посты на модерации ({pendingPosts.length})
               </h2>
               <ModerationQueue posts={pendingPosts} />
@@ -84,7 +89,7 @@ export default async function ModerationPage() {
 
           {pendingEvents.length > 0 && (
             <div>
-              <h2 className="mb-4 text-2xl font-semibold">
+              <h2 className="mb-4 font-semibold">
                 Мероприятия на модерации ({pendingEvents.length})
               </h2>
               <EventsModerationQueue events={pendingEvents} />

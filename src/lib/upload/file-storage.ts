@@ -1,46 +1,37 @@
 import { UserRole } from "@/generated/prisma/enums";
 
-export type UploadType =
-  "avatar" | "post-cover" | "event-cover" | "shared" | "banners";
+export type UploadType = "avatars" | "own" | "shared" | "banners";
 
 export interface UploadPathOptions {
   userId: number;
   type: UploadType;
-  userRole: UserRole;
+  userRole?: UserRole;
 }
 
 /**
  * Возвращает путь для сохранения файла на основе типа загрузки и роли пользователя
  *
  * Структура директорий:
- * - uploads/{userId}/avatars/ - аватарки пользователей
- * - uploads/{userId}/posts/{MM-YYYY}/ - изображения постов пользователей
- * - uploads/{userId}/events/{MM-YYYY}/ - обложки мероприятий пользователей
- * - uploads/shared/{MM-YYYY}/ - общее хранилище для админов
+ * - uploads/{userId}/avatar/ - аватарки пользователей
+ * - uploads/{userId}/own/{MM-YYYY}/ - личные изображения пользователей
+ * - uploads/shared/{MM-YYYY}/ - общее хранилище (для админов)
+ * - uploads/banners/{MM-YYYY}/ - общее хранилище баннеров (для админов)
  */
 export function getUploadPath(options: UploadPathOptions): string {
-  const { userId, type, userRole } = options;
+  const { userId, type } = options;
   const now = new Date();
   const monthYear = `${String(now.getMonth() + 1).padStart(2, "0")}-${now.getFullYear()}`;
 
-  // Админы используют общее хранилище
-  if (
-    userRole === "ADMIN" ||
-    userRole === "SUPERADMIN" ||
-    type === "shared" ||
-    type === "banners"
-  ) {
+  // Использовать общее хранилище
+  if (type === "shared" || type === "banners") {
     return `uploads/${type}/${monthYear}`;
   }
 
   // Обычные пользователи - персональная папка
-  if (type === "avatar") {
+  if (type === "avatars") {
     return `uploads/${userId}/avatars`;
   }
-  if (type === "event-cover") {
-    return `uploads/${userId}/events/${monthYear}`;
-  }
-  return `uploads/${userId}/posts/${monthYear}`;
+  return `uploads/${userId}/own/${monthYear}`;
 }
 
 /**
@@ -58,7 +49,7 @@ export function canDeleteFile(
   const path = extractPathFromUrl(filePath) || filePath;
   const pathParts = path.split("/");
 
-  if (pathParts[1] === "shared") {
+  if (pathParts[1].match(/shared|banners/)) {
     return false;
   }
 

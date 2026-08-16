@@ -48,7 +48,7 @@ export default async function Page() {
   return (
     <>
       <Divider titlePlacement="left">
-        <span className="rounded-full bg-sky-600 px-4 py-1 text-lg text-white">
+        <span className="rounded-full bg-sky-600 px-4 py-1 text-white">
           Управление пользователями
         </span>
       </Divider>

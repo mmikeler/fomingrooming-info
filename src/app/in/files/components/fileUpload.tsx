@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { Upload, Button, App } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import { uploadMediaFile } from "../actions/uploadMediaFile";
+import { uploadImage } from "@/app/actions/upload-image";
+import { UploadType } from "@/lib/upload/file-storage";
 
-type UploadTarget = "self" | "shared";
+type UploadTarget = Exclude<UploadType, "avatars">;
 
 type FileUploadProps = {
   target: UploadTarget;
@@ -13,8 +14,9 @@ type FileUploadProps = {
 };
 
 const targetLabels: Record<UploadTarget, string> = {
-  self: "Загрузить в личные",
+  own: "Загрузить в личные",
   shared: "Загрузить в общие",
+  banners: "Добавить к баннерам",
 };
 
 export default function FileUpload({ target, onSuccess }: FileUploadProps) {
@@ -27,7 +29,7 @@ export default function FileUpload({ target, onSuccess }: FileUploadProps) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const result = await uploadMediaFile(formData, target);
+      const result = await uploadImage(formData, target);
 
       if (result.success) {
         message.success("Файл успешно загружен");

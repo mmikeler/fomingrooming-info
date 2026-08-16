@@ -15,15 +15,17 @@ export interface MediaFile {
 }
 
 export interface UserMediaResponse {
-  self: MediaFile[];
+  own: MediaFile[];
   shared?: MediaFile[];
+  banners?: MediaFile[];
   userRole?: string;
 }
 
 export default async function GetUserMediaFiles(): Promise<UserMediaResponse> {
   const files: UserMediaResponse = {
-    self: [],
+    own: [],
     shared: [],
+    banners: [],
   };
 
   try {
@@ -36,12 +38,18 @@ export default async function GetUserMediaFiles(): Promise<UserMediaResponse> {
     const isAdmin = session.user.role.includes("ADMIN");
     files.userRole = session.user.role;
 
-    const userUploadDir = path.join(process.cwd(), "public", "uploads", userId);
-    const sharedUploadDir = path.join(process.cwd(), "public", "uploads", "shared");
+    const userUploadDir = path.join(
+      process.cwd(),
+      "uploads",
+      userId.toString(),
+    );
+    const sharedUploadDir = path.join(process.cwd(), "uploads/shared");
+    const bannersDir = path.join(process.cwd(), "uploads/banners");
 
     const dirsToRead = [userUploadDir];
     if (isAdmin) {
       dirsToRead.push(sharedUploadDir);
+      dirsToRead.push(bannersDir);
     }
 
     const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
@@ -71,7 +79,7 @@ export default async function GetUserMediaFiles(): Promise<UserMediaResponse> {
         mediaFiles.push({
           id: `${index === 0 ? userId : "shared"}-${filename}`,
           name: name.split("/").pop() || name,
-          url: `/uploads/${index === 0 ? userId : "shared"}/${name}`,
+          url: `/api/files/${index === 0 ? userId : index === 1 ? "shared" : "banners"}/${name}`,
           size: stats.size,
           type: path.extname(filename).toLowerCase(),
           createdAt: stats.birthtime,
@@ -80,11 +88,8 @@ export default async function GetUserMediaFiles(): Promise<UserMediaResponse> {
 
       mediaFiles.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
-      if (index === 0) {
-        files.self = mediaFiles;
-      } else {
-        files.shared = mediaFiles;
-      }
+      files[index === 0 ? "own" : index === 1 ? "shared" : "banners"] =
+        mediaFiles;
     }
 
     return files;

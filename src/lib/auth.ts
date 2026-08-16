@@ -199,7 +199,17 @@ export const authOptions: NextAuthOptions = {
 
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && session?.user) {
+        const updatedUser = session.user as Record<string, unknown>;
+        if (updatedUser.id !== undefined) token.id = updatedUser.id as string;
+        if (updatedUser.slug !== undefined) token.slug = updatedUser.slug as string;
+        if (updatedUser.role !== undefined) token.role = updatedUser.role as string;
+        if (updatedUser.status !== undefined) token.status = updatedUser.status as string;
+        if (updatedUser.city !== undefined) token.city = updatedUser.city as string | null;
+        if (updatedUser.phone !== undefined) token.phone = updatedUser.phone as string | null;
+        if (updatedUser.image !== undefined) token.image = updatedUser.image as string | null;
+      }
       if (user) {
         token.id = user.id;
         token.slug = user.slug;

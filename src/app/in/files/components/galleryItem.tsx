@@ -8,7 +8,8 @@ export default function GalleryItem({
   action,
 }: {
   file: MediaFile;
-  action: Dispatch<SetStateAction<MediaFile | null>>;
+  action:
+    Dispatch<SetStateAction<MediaFile | null>> | ((file: MediaFile) => void);
 }) {
   return (
     <Tooltip
@@ -32,6 +33,7 @@ export default function GalleryItem({
             alt={file.name}
             width={150}
             height={150}
+            unoptimized
             className="h-full w-full object-cover transition-transform group-hover:scale-105"
           />
         </div>
