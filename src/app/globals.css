@@ -21,6 +21,11 @@ body .w-md-editor-text-input {
 /* Post Editor Display Config */
 body .wmde-markdown {
   font-size: 18px !important;
+  ul{
+    li{
+      list-style-type: disc;
+    }
+  }
 }
 /* Button */
 .btn {

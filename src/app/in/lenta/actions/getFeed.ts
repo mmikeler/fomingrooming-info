@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import type { ActionResult } from "@/lib/errors/result";
-import type { PostCategory } from "@/generated/prisma/enums";
+import { PostCategory, AccountStatus } from "@/generated/prisma/enums";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import type {
@@ -74,6 +74,7 @@ export async function getFeed(
       posts = await prisma.post.findMany({
         where: {
           status: "PUBLISHED",
+          author: { status: { not: AccountStatus.BANNED } },
           ...query.post,
         },
         include: {
@@ -96,7 +97,11 @@ export async function getFeed(
     let events: PrepareEvent[] = [];
     if (filter === "EVENT" || (filter === "ALL" && query.event)) {
       events = await prisma.event.findMany({
-        where: { status: "PUBLISHED", ...query.event },
+        where: {
+          status: "PUBLISHED",
+          author: { status: { not: AccountStatus.BANNED } },
+          ...query.event,
+        },
         include: {
           author: {
             select: {
@@ -281,8 +286,18 @@ export async function getFeed(
 
     // Подсчитываем общее количество
     const [postsCount, eventsCount] = await Promise.all([
-      prisma.post.count({ where: { status: "PUBLISHED" } }),
-      prisma.event.count({ where: { status: "PUBLISHED" } }),
+      prisma.post.count({
+        where: {
+          status: "PUBLISHED",
+          author: { status: { not: AccountStatus.BANNED } },
+        },
+      }),
+      prisma.event.count({
+        where: {
+          status: "PUBLISHED",
+          author: { status: { not: AccountStatus.BANNED } },
+        },
+      }),
     ]);
     const totalCount = postsCount + eventsCount;
 

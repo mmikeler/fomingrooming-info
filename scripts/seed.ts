@@ -1,7 +1,7 @@
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { PrismaClient } from "../../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma/client";
 import { hash } from "bcryptjs";
-import { slugify } from "../../src/lib/slug";
+import { slugify } from "../src/lib/slug";
 import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
