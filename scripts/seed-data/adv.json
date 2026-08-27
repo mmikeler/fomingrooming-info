@@ -1,0 +1,100 @@
+[
+  {
+    "place": "FP_SIDER_ONE",
+    "src": "https://picsum.dev/200/300?seed=200",
+    "mobileSrc": "https://picsum.dev/200/300?seed=200",
+    "url": "/",
+    "comment": "Первый баннер в ленте новостей"
+  },
+  {
+    "place": "FP_SIDER_ONE",
+    "src": "https://picsum.dev/200/300?seed=201",
+    "mobileSrc": "https://picsum.dev/200/300?seed=201",
+    "url": "/",
+    "comment": "Первый баннер в ленте новостей"
+  },
+  {
+    "place": "FP_SIDER_TWO",
+    "src": "https://picsum.dev/200/300?seed=202",
+    "mobileSrc": "https://picsum.dev/200/300?seed=202",
+    "url": "/",
+    "comment": "Второй баннер в ленте новостей"
+  },
+  {
+    "place": "FP_SIDER_TWO",
+    "src": "https://picsum.dev/200/300?seed=206",
+    "mobileSrc": "https://picsum.dev/200/300?seed=206",
+    "url": "/",
+    "comment": "Второй баннер в ленте новостей"
+  },
+  {
+    "place": "FP_SIDER_THREE",
+    "src": "https://picsum.dev/200/300?seed=204",
+    "mobileSrc": "https://picsum.dev/200/300?seed=204",
+    "url": "/",
+    "comment": "Третий баннер в ленте новостей"
+  },
+  {
+    "place": "FP_SIDER_THREE",
+    "src": "https://picsum.dev/200/300?seed=205",
+    "mobileSrc": "https://picsum.dev/200/300?seed=205",
+    "url": "/",
+    "comment": "Третий баннер в ленте новостей"
+  },
+  {
+    "place": "FP_CONTENT_ONE",
+    "src": "https://picsum.dev/1160/200?seed=206",
+    "mobileSrc": "https://picsum.dev/200/300?seed=206",
+    "url": "/",
+    "comment": "Первый баннер в контенте промо страницы"
+  },
+  {
+    "place": "FP_CONTENT_TWO",
+    "src": "https://picsum.dev/1160/200?seed=208",
+    "mobileSrc": "https://picsum.dev/200/300?seed=208",
+    "url": "/",
+    "comment": "Второй баннер в контенте промо страницы"
+  },
+  {
+    "place": "FP_CONTENT_THREE",
+    "src": "https://picsum.dev/1160/200?seed=210",
+    "mobileSrc": "https://picsum.dev/200/300?seed=210",
+    "url": "/",
+    "comment": "Второй баннер в контенте промо страницы"
+  },
+  {
+    "place": "SIDER",
+    "src": "https://picsum.dev/180/250?seed=212",
+    "mobileSrc": "https://picsum.dev/200/300?seed=212",
+    "url": "/",
+    "comment": "Баннер в сайдбаре"
+  },
+  {
+    "place": "SIDER",
+    "src": "https://picsum.dev/180/250?seed=214",
+    "mobileSrc": "https://picsum.dev/200/300?seed=214",
+    "url": "/",
+    "comment": "Баннер в сайдбаре"
+  },
+  {
+    "place": "ALL",
+    "src": "https://picsum.dev/640/200?seed=214",
+    "mobileSrc": "https://picsum.dev/200/300?seed=214",
+    "url": "/",
+    "comment": "Баннер в общей ленте"
+  },
+  {
+    "place": "EVENTS",
+    "src": "https://picsum.dev/640/200?seed=215",
+    "mobileSrc": "https://picsum.dev/200/300?seed=215",
+    "url": "/",
+    "comment": "Баннер в ленте мероприятий"
+  },
+  {
+    "place": "POSTS",
+    "src": "https://picsum.dev/640/200?seed=216",
+    "mobileSrc": "https://picsum.dev/200/300?seed=216",
+    "url": "/",
+    "comment": "Баннер в ленте постов"
+  }
+]

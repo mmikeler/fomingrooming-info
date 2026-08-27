@@ -1,0 +1,177 @@
+"use client";
+
+import { useState } from "react";
+import { approvePost, rejectPost } from "../actions/moderatePost";
+
+interface Author {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface Post {
+  id: number;
+  title: string;
+  content: string | null;
+  created: Date;
+  author: Author;
+}
+
+interface ModerationQueueProps {
+  posts: Post[];
+}
+
+export function ModerationQueue({ posts: initialPosts }: ModerationQueueProps) {
+  const [posts, setPosts] = useState(initialPosts);
+  const [rejectingId, setRejectingId] = useState<number | null>(null);
+  const [reason, setReason] = useState("");
+  const [loading, setLoading] = useState<number | null>(null);
+
+  const handleApprove = async (postId: number) => {
+    setLoading(postId);
+    try {
+      const result = await approvePost(postId);
+      if (result.success) {
+        setPosts(posts.filter((p) => p.id !== postId));
+      } else {
+        alert(result.error?.message || "Ошибка при одобрении поста");
+      }
+    } catch (error) {
+      alert("Ошибка при одобрении поста");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleReject = async (postId: number) => {
+    if (!reason.trim()) {
+      alert("Укажите причину отклонения");
+      return;
+    }
+
+    setLoading(postId);
+    try {
+      const result = await rejectPost(postId, reason);
+      if (result.success) {
+        setPosts(posts.filter((p) => p.id !== postId));
+        setRejectingId(null);
+        setReason("");
+      } else {
+        alert(result.error?.message || "Ошибка при отклонении поста");
+      }
+    } catch (error) {
+      alert("Ошибка при отклонении поста");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  if (posts.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-6">
+      {posts.map((post) => (
+        <div
+          key={post.id}
+          className="rounded-lg border border-gray-200 bg-white p-6 shadow-md"
+        >
+          <div className="mb-4 flex items-start justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                {post.title}
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Автор: {post.author.name} ({post.author.email})
+              </p>
+              <p className="text-sm text-gray-500">
+                Создан: {formatDate(post.created)}
+              </p>
+            </div>
+          </div>
+
+          {post.content && (
+            <div className="prose prose-sm mb-6 max-w-none rounded-lg bg-gray-50 p-4">
+              <div className="whitespace-pre-wrap text-gray-700">
+                {post.content.length > 500
+                  ? `${post.content.substring(0, 500)}...`
+                  : post.content}
+              </div>
+            </div>
+          )}
+
+          {rejectingId === post.id ? (
+            <div className="space-y-4">
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Причина отклонения
+                </label>
+                <textarea
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  rows={3}
+                  placeholder="Укажите причину отклонения поста..."
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleReject(post.id)}
+                  disabled={loading === post.id}
+                  className="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700 disabled:opacity-50"
+                >
+                  {loading === post.id
+                    ? "Отклонение..."
+                    : "Подтвердить отклонение"}
+                </button>
+                <button
+                  onClick={() => {
+                    setRejectingId(null);
+                    setReason("");
+                  }}
+                  className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
+                >
+                  Отмена
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleApprove(post.id)}
+                disabled={loading === post.id}
+                className="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700 disabled:opacity-50"
+              >
+                {loading === post.id ? "Одобрение..." : "Одобрить"}
+              </button>
+              <button
+                onClick={() => setRejectingId(post.id)}
+                disabled={loading === post.id}
+                className="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700 disabled:opacity-50"
+              >
+                Отклонить
+              </button>
+              <a
+                href={`/moderation/${post.id}`}
+                className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+              >
+                Подробнее
+              </a>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
